@@ -9,10 +9,10 @@
     position: absolute;
     left: 50%;
     top: 0%;
-    margin-top: 500px;
+    margin-top: 400px;
     transform: translate(-50%, -50%);
-    width: 500px;
-    height: 500px;
+    width: 350px;
+    height: 400px;
     background-color: #000000b4;
     flex-direction: column;
     justify-content: center; /* center horizontally */
@@ -20,21 +20,22 @@
   }
 .email {
     position: absolute;
-    left: 5%;
+    left: 8%;
     top: 22%;
-    width: 90%;
-    height: 2.5rem;
+    width: 84%;
+    height: 2rem;
     border-color: rgb(255, 255, 255);
     background-color: transparent;
     font-size: 20px;
     text-align: center;
     transition: 0.5s;
     outline: none;
+    color: white;
 }
 .em{
     position: absolute;
     left: 43%;
-    top: 24.5%;
+    top: 23%;
     font-size: 20px;
     transition: 0.5s;
     color: white;
@@ -53,21 +54,22 @@
 }
 .pass {
     position: absolute;
-    left: 5%;
-    top: 41%;
-    width: 90%;
-    height: 2.5rem;
+    left: 8%;
+    top: 40%;
+    width: 84%;
+    height: 2rem;
     border-color: rgb(255, 255, 255);
     background-color: transparent;
     font-size: 30px;
     text-align: center;
     transition: 0.5s;
     outline: none;
+    color: white;
 }
 .password{
     position: absolute;
     left: 41%;
-    top: 42.5%;
+    top: 41%;
     font-size: 20px;
     transition: 0.5s;
     color: white;
@@ -78,7 +80,7 @@
     color: white;
     border: 1.2px solid #fff;
     background: #4B8DF8;
-    transform: translate(-15px,-17px) scale(0.88);
+    transform: translate(-9px,-17px) scale(0.88);
     border-radius: 6px;
     font-size: 1em;
     padding: 0 8px ;
@@ -162,7 +164,21 @@ Headed {
     text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
     font-size: 17px;
     position: absolute;
-    top: 60.4%;
+    top: 55%;
+    left: 10%
 }
+
+.bghehe{
+    position: absolute;
+    width: 100% ;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
 
 

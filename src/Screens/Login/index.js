@@ -84,10 +84,10 @@ const Login = () => {
     return( 
       <div style={{ backgroundColor: "lightgray", height:'100%'}}>
         <div className='container'>
-        <img src={bg} style={{position:'absolute', width: "100%", top:'10px', justifyContent: 'center', alignItems: 'center'}} alt='logo'/>
+        <img src={bg} className='bghehe' alt='logo'/>
           <div className='second'>
-            <img src={USTP} alt="USTP logo" style={{ width: '170px', height: '170px', marginTop: '-700px', position: 'absolute' }}/>
-            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-380px', fontWeight: 'normal', marginLeft: '-120px',fontSize: '35px '}}>Login to your account</h1>
+            <img src={USTP} alt="USTP logo" style={{ width: '150px', height: '150px', marginTop: '-600px', position: 'absolute' }}/>
+            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-300px', fontWeight: 'normal', marginLeft: '-50px',fontSize: '25px '}}>Login to your account</h1>
            
             <input 
             className="email"
@@ -98,7 +98,7 @@ const Login = () => {
             onChange={handleInputChange}
             required = 'required'/>
             <span className="em">Email</span>
-            <img src={USER} style={{position:'absolute', marginTop:'-235px', marginLeft: '-400px'}}/>
+            <img src={USER} style={{position:'absolute', marginTop:'-185px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
 
             
 
@@ -111,22 +111,22 @@ const Login = () => {
             onChange={handleInputChange}
             required = 'required'/>
             <span className="password">Password</span>
-            <img src={LOCK} style={{position:'absolute', marginTop:'-47px', marginLeft: '-400px',height: '40px'}}/>
+            <img src={LOCK} style={{position:'absolute', marginTop:'-37px', marginLeft: '-260px',height: '20px', width: '20px'}}/>
             
-                <h4 style={{position:'absolute', marginTop: '300px',marginLeft: '-350px', color: 'white',fontWeight: 'normal',fontSize:'18px'}}>No worries,</h4>
-            <a href style= {{position:'absolute', cursor: 'pointer'}}>
-                <Link to = 'forgotpass' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'18px',position:'absolute', marginTop: '125px',marginLeft: '-130px'}}>pleace click here </Link>
+                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '-235px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>No worries,</h4>
+            <a href style= {{position:'absolute', cursor: 'pointer', width: '200px'}}>
+                <Link to = 'forgotpass' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>pleace click here </Link>
             </a>
-                <h4 style={{position:'absolute', marginTop: '300px',marginLeft: '200px', color: 'white',fontWeight: 'normal',fontSize:'18px'}}>to reset your password</h4>
+                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '180px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>to reset your password</h4>
 
-            <div style={{display: 'flex', flexDirection: 'row', backgroundColor: '#4B8DF8' , height: '40px', width: '150px', justifyContent: 'space-evenly', marginTop: '100px', position: "absolute", marginLeft: '310px'}} onClick={submit}>
+            <div style={{display: 'flex', flexDirection: 'row', backgroundColor: '#4B8DF8' , height: '40px', width: '100px', justifyContent: 'space-evenly', marginTop: '100px', position: "absolute", marginLeft: '210px', cursor: "pointer"}} onClick={submit}>
                 <h4 style={{marginTop: '8px', color: 'white'}}>Login</h4>
               <img src={USTP2} alt="USTP logo" style={{ width: '25px', height: '25px', marginTop: '7px', marginLeft: '10px', }}/>
             </div>
             <p className="signuperror">{errormsg}</p>
-            <h4 style={{position:'absolute', marginTop: '250px',marginLeft: '-185px', color: 'white',fontWeight: 'normal',fontSize:'25px'}}>Forgot your password?</h4>
-            <h4 style={{position:'absolute', marginTop: '370px',marginLeft: '-20px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '2.5px'}}>...............................................................</h4>
-            <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '450px',left: '30px',textDecorationColor: 'white'}}>
+            <h4 style={{position:'absolute', marginTop: '200px',marginLeft: '-125px', color: 'white',fontWeight: 'normal',fontSize:'17px'}}>Forgot your password?</h4>
+            <h4 style={{position:'absolute', marginTop: '310px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
+            <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '360px',left: '30px',textDecorationColor: 'white'}}>
                 <Link to = 'registration' style={{color: 'white', fontWeight: 'normal'}}>Doesn’t have an account? Sign Up Here.</Link>
             </a>
           </div>

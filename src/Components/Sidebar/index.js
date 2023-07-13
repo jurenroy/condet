@@ -9,6 +9,9 @@ import AddRooms from '../Popup/Rooms/Add';
 function Sidebar() {
   const [courseData, setCourseData] = useState([]);
   const [show , setShow] = useState(false)
+  const handleNoClick = () => {
+    setShow(false);
+  }
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/get_course_json/')
@@ -23,7 +26,7 @@ function Sidebar() {
         <img src={list} alt="list icon" style={{ width: '25px', height: '25px' }} />
         <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '10px' }}>Courses</h3>
         <img src={add} alt="add icon" style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '10px', borderRadius: '50%', border: '2px solid white' }} onClick={() => setShow(true)}/>
-        {show && <AddCourse/>}
+        {show && <AddCourse setShow={setShow} handleNoClick={handleNoClick}/>}
       </div>
       <ul>
         {courseData.map(course => (

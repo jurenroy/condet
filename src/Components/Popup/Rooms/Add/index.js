@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const AddRooms = () => {
+const AddRooms = (props) => {
     const [data, setData] = useState({
         coursename: '',
         abbreviation: ''
@@ -14,7 +14,7 @@ const AddRooms = () => {
 
     <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
     <button style = {{height:'35px', width:'30%', borderRadius:'10%'}}>Add</button>
-    <button style = {{height:'35px', width:'30%', borderRadius:'10%'}}>Cancel</button>
+    <button style = {{height:'35px', width:'30%', borderRadius:'10%'}} onClick={() => props.setShow(false)}>Cancel</button>
     </div>
     
     

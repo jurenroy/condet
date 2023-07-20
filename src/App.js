@@ -5,6 +5,8 @@ import { store, persistor } from './Components/Redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Home from './Screens/Home';
 import Login from './Screens/Login';
+import UpdateCourse from './Components/Popup/Course/Update';
+import Course from './Screens/Course';
 
 function App() {
   return (
@@ -13,8 +15,9 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/home" element={<Home/>} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/:course" element={<Course/>} /> // Define the parameter in the route path
+            <Route path="/update_course/:courseId" element={<UpdateCourse />} />
           </Routes>
         </Router>
     </PersistGate>

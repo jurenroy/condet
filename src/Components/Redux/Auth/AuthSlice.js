@@ -5,6 +5,8 @@ const AuthSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     username: '',
+    course: '', // New state for the selected course
+    
   },
   reducers: {
     login: (state, action) => {
@@ -15,9 +17,12 @@ const AuthSlice = createSlice({
       state.isLoggedIn = false;
       state.username = '';
     },
+    selectCourse: (state, action) => {
+      state.course = action.payload;
+    },
   },
 });
 
-export const { login, logout } = AuthSlice.actions;
+export const { login, logout, selectCourse } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

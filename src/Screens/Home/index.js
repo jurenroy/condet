@@ -3,8 +3,17 @@ import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
 import USTP from '../../Assets/USTP logo.png';
+import { useLocation } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { selectCourse } from '../../Components/Redux/Auth/AuthSlice';
 
 function Home() {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  
+  if (location.pathname === "/") {
+    dispatch(selectCourse(''));
+  }
 
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

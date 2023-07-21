@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import list from '../../Assets/listicon.png';
 import add from '../../Assets/addicon.png';
+import edit from '../../Assets/edit1.png';
 import AddCourse from '../Popup/Course/Add';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -58,11 +59,11 @@ function Sidebar() {
       <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
         {courseData.map(course => (
           <li key={course.courseID} style={{ backgroundColor: 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px' }} >
-            <span style={{cursor: 'pointer'}} onClick={() => navigateToRooms(course)}>{course.abbreviation}</span>
+            <span style={{cursor: 'pointer', fontSize: '20px', fontWeight: 'bold'}} onClick={() => navigateToRooms(course)}>{course.abbreviation}</span>
 
             <img 
-            src={list} 
-            alt="list icon" 
+            src={edit} 
+            alt="edit icon" 
             style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
             onClick={() => {handleCancelClick(); dispatch(selectCourse(course.abbreviation));}}/>
             {show2 ? <UpdateCourse setShow2={setShow2} handleNoClick={handleCancelClick}/>: null}

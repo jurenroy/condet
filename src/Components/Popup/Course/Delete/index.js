@@ -16,6 +16,24 @@ const DeleteCourse = (props) => {
       .catch(error => console.log(error));
   }, [selectedCourseAbbreviation]);
 
+  const handleDelete = () => {
+    if (selectedCourse) {
+      axios.delete(`http://127.0.0.1:8000/delete_course/${selectedCourse.abbreviation}/`)
+        .then((response) => {
+          console.log(response.data);
+          // Handle the response or perform any additional actions after successful deletion
+          // For example, you can show a success message or update the UI to reflect the deletion.
+          // You may also redirect the user to another page or update the course list.
+          props.setShow3(false); // Close the delete modal after successful deletion
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error(error);
+          // Handle the error
+        });
+    }
+  };
+
   return (
     <div style={{
       backgroundColor: 'red',
@@ -23,62 +41,34 @@ const DeleteCourse = (props) => {
       left: '50%',
       top: '50%',
       transform: 'translate(-50%, -50%)',
-      height: '130px',
-      width: '300px',
+      height: '200px',
+      width: '350px',
       padding: '20px',
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
       borderRadius: '10%'
     }}>
-
-      <h2>DeleteCourse</h2>
+      <h2 style={{marginBottom: '-10px'}}>Delete Course</h2>
       {selectedCourse ? (
-        <div>
-          <h3>Are you sure you want to delete {selectedCourse.coursename} ({selectedCourse.abbreviation}) ?</h3>
+        <div style={{marginTop: '10px', textAlign: 'center'}}>
+          <h3>Are you sure you want to delete?</h3>
+          <span style={{fontSize: '15px'}}>{selectedCourse.coursename}</span>
+          <br/>
+          <span style={{fontSize: '25px', fontWeight: 'bold', textAlign: 'center'}}>{selectedCourse.abbreviation}</span>
         </div>
       ) : (
         <div>
           <h3>Loading course data...</h3>
         </div>
       )}
-    
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%' }}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%' }} onClick={() => props.setShow3(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShow3(false)}>No</button>
       </div>
-    
     </div>
   );
 };
 
 export default DeleteCourse;
-
-
-
-// import React from 'react';
-// import axios from 'axios';
-
-// const DeleteCourse = ({ courseId, onDelete }) => {
-//   const handleDelete = () => {
-//     axios
-//       .delete('http://127.0.0.1:8000/delete_course/${courseId}')
-//       .then(response => {
-//         console.log(response.data);
-//         onDelete();
-//       })
-//       .catch(error => {
-//         console.error('Error:', error);
-//       });
-//   };
-
-//   return (
-//     <div>
-//       <h1>Delete Course</h1>
-//       <p>Are you sure you want to delete this course?</p>
-//       <button onClick={handleDelete}>Delete</button>
-//     </div>
-//   );
-// };
-
-// export default DeleteCourse;

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { selectCourse } from '../../../Redux/Auth/AuthSlice';
 import axios from 'axios';
 
 const DeleteCourse = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/get_course_json/')
@@ -25,7 +29,9 @@ const DeleteCourse = (props) => {
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the course list.
           props.setShow3(false); // Close the delete modal after successful deletion
-          window.location.reload();
+          dispatch(selectCourse(''));
+          navigate('/');
+
         })
         .catch((error) => {
           console.error(error);

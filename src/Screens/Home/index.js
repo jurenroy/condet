@@ -5,7 +5,7 @@ import Sidebar from '../../Components/Sidebar';
 import USTP from '../../Assets/USTP logo.png';
 import { useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { selectCourse } from '../../Components/Redux/Auth/AuthSlice';
+import { selectCourse, selectYear } from '../../Components/Redux/Auth/AuthSlice';
 
 function Home() {
   const location = useLocation();
@@ -13,6 +13,7 @@ function Home() {
   
   if (location.pathname === "/") {
     dispatch(selectCourse(''));
+    dispatch(selectYear(''));
   }
 
   return (

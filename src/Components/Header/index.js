@@ -1,16 +1,18 @@
 import React from 'react';
 import USTP from '../../Assets/USTP logo.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectCourse, logout } from '../Redux/Auth/AuthSlice';
+import { selectCourse,selectYear ,logout } from '../Redux/Auth/AuthSlice';
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const selectedYear = useSelector ((state) =>  state.auth.year)
 
   const handleNavigateToHome = () => {
     navigate('/');
     dispatch(selectCourse(''));
+    dispatch(selectYear(''));
   };
 
   const handleLogout = () => {
@@ -26,7 +28,7 @@ function Header() {
         </h1>
       </div>
       <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={handleLogout}>
-        Logout
+        Logout {selectedYear}
       </span>
     </div>
   );

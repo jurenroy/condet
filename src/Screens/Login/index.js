@@ -8,8 +8,8 @@ import USTP from '../..//Assets/logo3.png';
 import USTP2 from '../..//Assets/arrow.png';
 import USER from '../..//Assets/user.png';
 import LOCK from '../..//Assets/lock.png';
+// eslint-disable-next-line
 import styles from '../../Components/Styles/styles.css'
-
 
 const Login = () => {
     const navigate = useNavigate()
@@ -87,7 +87,7 @@ const Login = () => {
         <img src={bg} className='bghehe' alt='logo'/>
           <div className='second'>
             <img src={USTP} alt="USTP logo" style={{ width: '150px', height: '150px', marginTop: '-600px', position: 'absolute' }}/>
-            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-300px', fontWeight: 'normal', marginLeft: '-50px',fontSize: '25px '}}>Login to your account</h1>
+            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-300px', fontWeight: 'normal', marginLeft: '-50px'}}>Login to your account</h1>
            
             <input 
             className="email"
@@ -98,7 +98,7 @@ const Login = () => {
             onChange={handleInputChange}
             required = 'required'/>
             <span className="em">Email</span>
-            <img src={USER} style={{position:'absolute', marginTop:'-185px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
+            <img src={USER} alt='user' style={{position:'absolute', marginTop:'-185px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
 
             
 
@@ -111,7 +111,7 @@ const Login = () => {
             onChange={handleInputChange}
             required = 'required'/>
             <span className="password">Password</span>
-            <img src={LOCK} style={{position:'absolute', marginTop:'-37px', marginLeft: '-260px',height: '20px', width: '20px'}}/>
+            <img src={LOCK} alt='lock'style={{position:'absolute', marginTop:'-37px', marginLeft: '-260px',height: '20px', width: '20px'}}/>
             
                 <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '-235px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>No worries,</h4>
             <a href style= {{position:'absolute', cursor: 'pointer', width: '200px'}}>

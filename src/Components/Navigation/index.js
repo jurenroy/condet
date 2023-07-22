@@ -2,16 +2,18 @@ import React from 'react';
 import home from '../../Assets/homeicon2.png'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectCourse } from '../Redux/Auth/AuthSlice';
+import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
 
 function Navbar() {
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedYear = useSelector(state => state.auth.year);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleNavigateToHome = () => {
     navigate('/');
     dispatch(selectCourse(''));
+    dispatch(selectYear(''));
   };
 
   return (
@@ -22,6 +24,12 @@ function Navbar() {
         <>
           <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> > </h3>
           <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedCourse}</h3>
+          {selectedYear && (
+            <>
+              <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> > </h3>
+              <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedYear}</h3>
+            </>
+          )}
         </>
       )}
     </div>

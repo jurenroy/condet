@@ -5,10 +5,9 @@ import edit from '../../Assets/edit1.png';
 import AddCourse from '../Popup/Course/Add';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCourse } from '../Redux/Auth/AuthSlice';
+import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
 import UpdateCourse from '../Popup/Course/Update';
 import DeleteCourse from '../Popup/Course/Delete';
-import AddRooms from '../Popup/Rooms/Add';
 
 function Sidebar() {
   const [courseData, setCourseData] = useState([]);
@@ -17,8 +16,17 @@ function Sidebar() {
   const [show3 , setShow3] = useState(false)
   const years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedYear = useSelector(state => state.auth.year);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const handleYearClick = (year) => {
+    dispatch(selectYear(year));
+    const formattedYear = year.replace(/\s+/g, '-'); // Replace spaces with hyphens
+    if (selectedCourse && selectedCourse !== '') {
+      navigate(`/${selectedCourse}/${formattedYear}`);
+  }
+  };
 
   const handleNoClick = () => {
     setShow(prevShow => !prevShow);
@@ -42,7 +50,7 @@ function Sidebar() {
 
   const navigateToRooms = (course) => {
     dispatch(selectCourse(course.abbreviation));
-    navigate(`/${course.abbreviation}`); // Use the course abbreviation as a parameter in the URL
+    navigate(`/${course.abbreviation}`);
   };  
 
   return (
@@ -62,7 +70,7 @@ function Sidebar() {
         {courseData.map(course => (
           <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
             <div style={{ backgroundColor: 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px' }}>
-              <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => navigateToRooms(course)}>{course.abbreviation}</span>
+              <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
 
               <img 
                 src={edit} 
@@ -85,7 +93,7 @@ function Sidebar() {
             {selectedCourse === course.abbreviation && (
               <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px' }}>
                 {years.map((year, index) => (
-                  <div key={index} style={{ backgroundColor: 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
                     {year}
                   </div>
                 ))}

@@ -5,7 +5,7 @@ import { store, persistor } from './Components/Redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Index from './Components/Index';
 import Course from './Screens/Course';
-import Subjects from './Screens/Subjects';
+import Year from './Screens/Year';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index/>} />
             <Route path="/:course/" element={<Course/>} /> 
-            <Route path="/:course/:year" element={<Subjects/>} />
+            <Route path="/:course/:year" element={<Year/>} />
 
           </Routes>
         </Router>

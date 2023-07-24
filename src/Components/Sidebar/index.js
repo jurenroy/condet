@@ -69,7 +69,7 @@ function Sidebar() {
       <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
         {courseData.map(course => (
           <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-            <div style={{ backgroundColor: 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px' }}>
+            <div style={{ backgroundColor: selectedCourse === course.abbreviation ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
               <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
 
               <img 

@@ -22,11 +22,11 @@ function Navbar() {
       <h3 style={{color: '#AAAAAA', marginLeft: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToHome}>Home</h3>
       {selectedCourse && (
         <>
-          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> > </h3>
+          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> {'>'} </h3>
           <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedCourse}</h3>
           {selectedYear && (
             <>
-              <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> > </h3>
+              <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> {'>'} </h3>
               <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedYear}</h3>
             </>
           )}

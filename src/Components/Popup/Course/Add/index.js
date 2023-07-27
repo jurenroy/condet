@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 
 const AddCourse = (props) => {
     const [coursename, setCoursename] = useState('');
     const [abbreviation, setAbbreviation] = useState('');
+    // eslint-disable-next-line
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const college = useSelector(state => state.auth.college);
+
     const handleAddCourse = () => {
-      if (coursename.trim() === '' || abbreviation.trim() === '') {
-        setErrorMessage('Please provide a valid coursename and abbreviation');
+      if (coursename.trim() === '' || abbreviation.trim() === ''|| college.trim() === '') {
+        setErrorMessage('Please provide a valid coursename, abbreviation, and college');
         return;
       }
 
       const formData = new FormData();
       formData.append('coursename', coursename);
       formData.append('abbreviation', abbreviation);
+      formData.append('college', college);
   
       axios
         .post('http://127.0.0.1:8000/add_course/', formData)

@@ -17,6 +17,7 @@ function Sidebar() {
   const years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
+  const selectedCollege = useSelector(state => state.auth.college);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -67,41 +68,50 @@ function Sidebar() {
         {show ? <AddCourse setShow={setShow} handleNoClick={handleNoClick} /> : null}
       </div>
       <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
-        {courseData.map(course => (
-          <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-            <div style={{ backgroundColor: selectedCourse === course.abbreviation ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
-              <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
+        {courseData.map(course => {
+          // Check if the college of the course matches the college in the Redux state
+          const isMatchingCollege = course.college === selectedCollege;
 
-              <img 
-                src={edit} 
-                alt="edit icon" 
-                style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
-                onClick={() => { handleCancelClick(); dispatch(selectCourse(course.abbreviation)); }}
-              />
-              {show2 ? <UpdateCourse setShow2={setShow2} handleNoClick={handleCancelClick} /> : null}
-
-              <img 
-                src={add} 
-                alt="add icon" 
-                style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '8.2%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)' }}
-                onClick={() => handleNoDeleteClick(course)}
-              />
-              {show3 ? <DeleteCourse setShow3={setShow3} handleNoClick={handleNoDeleteClick} /> : null}
-            </div>
-
-            {/* Show years only if the course is selected */}
-            {selectedCourse === course.abbreviation && (
-              <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px' }}>
-                {years.map((year, index) => (
-                  <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
-                    {year}
+          if (isMatchingCollege) {
+            return (
+              <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <div style={{ backgroundColor: selectedCourse === course.abbreviation ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
+                  <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
+  
+                  <img 
+                    src={edit} 
+                    alt="edit icon" 
+                    style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
+                    onClick={() => { handleCancelClick(); dispatch(selectCourse(course.abbreviation)); }}
+                  />
+                  {show2 ? <UpdateCourse setShow2={setShow2} handleNoClick={handleCancelClick} /> : null}
+  
+                  <img 
+                    src={add} 
+                    alt="add icon" 
+                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '8.2%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)' }}
+                    onClick={() => handleNoDeleteClick(course)}
+                  />
+                  {show3 ? <DeleteCourse setShow3={setShow3} handleNoClick={handleNoDeleteClick} /> : null}
+                </div>
+  
+                {/* Show years only if the course is selected */}
+                {selectedCourse === course.abbreviation && (
+                  <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px' }}>
+                    {years.map((year, index) => (
+                      <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
+                        {year}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
-
-          </li>
-        ))}
+                )}
+  
+              </li>
+            );
+          } else {
+            return null; // Skip rendering this course if the college doesn't match
+          }
+        })}
       </ul>
     </div>
   );

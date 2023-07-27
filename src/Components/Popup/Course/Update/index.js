@@ -6,6 +6,7 @@ import { selectCourse } from '../../../Redux/Auth/AuthSlice';
 
 const UpdateCourse = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const college = useSelector(state => state.auth.college); // Get the college from Redux store
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [coursename, setCoursename] = useState('');
@@ -30,6 +31,7 @@ const UpdateCourse = (props) => {
     const formData = new FormData();
     formData.append('coursename', coursename);
     formData.append('new_abbreviation', abbreviation);
+    formData.append('college', college); // Include the college in the form data
   
     axios.post(`http://localhost:8000/update_course/${selectedCourseAbbreviation}/`, formData)
       .then((response) => {
@@ -78,7 +80,7 @@ const UpdateCourse = (props) => {
         value={abbreviation}
         onChange={(e) => setAbbreviation(e.target.value)}
       />
-
+  
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShow2(false)}>Cancel</button>

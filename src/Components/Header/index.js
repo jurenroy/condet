@@ -1,12 +1,16 @@
 import React from 'react';
 import USTP from '../../Assets/USTP logo.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCourse,selectYear ,logout } from '../Redux/Auth/AuthSlice';
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const username = useSelector(state => state.auth.username);
+  const isAdmin = useSelector(state => state.auth.isAdmin);
+  const college = useSelector(state => state.auth.college);
 
   const handleNavigateToHome = () => {
     navigate('/');
@@ -25,6 +29,7 @@ function Header() {
         <h1 style={{ color: 'white', fontSize: '20px', marginLeft: '10px', cursor: 'pointer' }} onClick={handleNavigateToHome}>
           UNIVERSITY OF SCIENCE AND TECHNOLOGY OF SOUTHERN PHILIPPINES
         </h1>
+        {username!=='' ?  <p>{username}-{college}</p> : <p>wa diha</p>}
       </div>
       <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={handleLogout}>
         Logout

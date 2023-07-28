@@ -10,6 +10,7 @@ function Subjects() {
   const selectedYear = useSelector(state => state.auth.year);
   const [filteredSubjects, setFilteredSubjects] = useState([]);
   const [isSubjectSelected, setIsSubjectSelected] = useState(false);
+  const isAdmin = useSelector(state => state.auth.isAdmin);
 
   const handleSubjectCheckboxChange = (event) => {
     setIsSubjectSelected(event.target.checked);
@@ -30,13 +31,17 @@ function Subjects() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: '30px' }}>
+      {isAdmin && (
         <input
           type="checkbox"
           checked={isSubjectSelected}
           onChange={handleSubjectCheckboxChange}
         />
+      )}
         <h2 style={{ textAlign: 'center', margin: '0 10px' }}>Subjects</h2>
+        {isAdmin && (
         <img src={add} alt="add icon" style={{ width: '15px', height: '15px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer' }} />
+        )}
         {isSubjectSelected ?
           <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '10px', cursor: 'pointer' }} />
           :
@@ -45,10 +50,16 @@ function Subjects() {
       </div>
       {filteredSubjects.map((subject) => (
         <div key={subject.subjectcode}>
+          {isAdmin && (
           <input type='checkbox'></input>
+          )}
           <span style={{ fontSize: '17px', fontWeight: 'bold' }}>{subject.subjectcode} - {subject.subjectname}</span>
+          {isAdmin && (
           <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} />
+          )}
+          {isAdmin && (
           <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} />
+          )}
         </div>
       ))}
     </div>

@@ -10,6 +10,7 @@ function Rooms() {
   const [isLaboratoryChecked, setIsLaboratoryChecked] = useState(false);
   const [roomsData, setRoomsData] = useState([]);
   const selectedCourse = useSelector(state => state.auth.course);
+  const isAdmin = useSelector(state => state.auth.isAdmin);
 
   const handleLectureCheckboxChange = (event) => {
     setIsLectureChecked(event.target.checked);
@@ -40,13 +41,17 @@ function Rooms() {
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            {isAdmin && (
               <input
                 type="checkbox"
                 checked={isLectureChecked}
                 onChange={handleLectureCheckboxChange}
               />
+            )}
               <h3>Lecture</h3>
+              {isAdmin && (
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}/>
+              )}
               {isLectureChecked ? 
                 <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '10px', cursor: 'pointer'}}/> 
                 :
@@ -56,22 +61,32 @@ function Rooms() {
             </div>
             {lectureRooms.map((room) => (
                 <div key={room.roomID}>
+                  {isAdmin && (
                     <input type='checkbox'></input>
+                  )}
                     <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
+                    {isAdmin && (
                     <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}/>
+                    )}
+                    {isAdmin && (
                     <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}/>
+                    )}
                  </div>
             ))}
         </div>
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            {isAdmin && (
               <input
                 type="checkbox"
                 checked={isLaboratoryChecked}
                 onChange={handleLaboratoryCheckboxChange}
               />
+            )}
               <h3>Laboratory</h3>
+              {isAdmin && (
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}/>
+              )}
               {isLaboratoryChecked ? 
                 <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '10px', cursor: 'pointer'}}/> 
                 :
@@ -80,10 +95,16 @@ function Rooms() {
             </div>
             {laboratoryRooms.map((room) => (
               <div key={room.roomID}>
+                {isAdmin && (
                 <input type='checkbox'></input>
+                )}
                 <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
+                {isAdmin && (
                 <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}/>
+                )}
+                {isAdmin && (
                 <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}/>
+                )}
               </div>
             ))}
         </div>

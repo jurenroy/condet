@@ -9,7 +9,7 @@ function Header(props) {
   const [showLogout, setShowLogout] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const selectedYear = useSelector ((state) =>  state.auth.year)
+  const selectedRoom = useSelector ((state) =>  state.auth.room)
 
   const handleNavigateToHome = () => {
     navigate('/');
@@ -32,7 +32,7 @@ function Header(props) {
       </div>
       <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={()=> {handleLogout();}}>
 
-        Logout {selectedYear}
+        Logout {selectedRoom}
       </span>
       {showLogout ? <Logout setShowLogout={setShowLogout} handleLogout={handleLogout}  /> : null}
     </div>

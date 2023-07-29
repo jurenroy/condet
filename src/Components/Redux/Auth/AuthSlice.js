@@ -7,6 +7,8 @@ const AuthSlice = createSlice({
     username: '',
     course: '', // New state for the selected course
     year: '', // New state for the selected year
+    type: '',
+    room: ''
     
   },
   reducers: {
@@ -24,9 +26,15 @@ const AuthSlice = createSlice({
     selectYear: (state, action) => {
       state.year = action.payload;
     },
+    selectType: (state, action) => {
+      state.type = action.payload;
+    },
+    selectRoom: (state, action) => {
+      state.room = action.payload;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, selectType, selectRoom } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

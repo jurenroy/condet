@@ -6,7 +6,7 @@ import USTP from '../../Assets/USTP logo.png';
 import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCourse, selectYear, setAdmin, setCollege } from '../../Components/Redux/Auth/AuthSlice';
+import { selectCourse, selectYear, setAdmin, setCollege, selectType } from '../../Components/Redux/Auth/AuthSlice';
 import axios from 'axios';
 
 function Home() {
@@ -33,6 +33,11 @@ function Home() {
   })
   .catch(error => console.log('Error fetching data:', error));
   }, [dispatch, location.pathname, storedUsername]);
+  if (location.pathname === "/") {
+    dispatch(selectCourse(''));
+    dispatch(selectYear(''));
+    dispatch(selectType(''));
+  }
 
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

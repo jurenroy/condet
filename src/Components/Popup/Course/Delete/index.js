@@ -28,7 +28,7 @@ const DeleteCourse = (props) => {
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the course list.
-          props.setShow3(false); // Close the delete modal after successful deletion
+          props.setShowDelete(false); // Close the delete modal after successful deletion
           dispatch(selectCourse(''));
           navigate('/');
 
@@ -53,7 +53,7 @@ const DeleteCourse = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10%'
+      borderRadius: '10px'
     }}>
       <h2 style={{marginBottom: '-10px'}}>Delete Course</h2>
       {selectedCourse ? (
@@ -71,7 +71,7 @@ const DeleteCourse = (props) => {
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShow3(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDelete(false)}>No</button>
       </div>
     </div>
   );

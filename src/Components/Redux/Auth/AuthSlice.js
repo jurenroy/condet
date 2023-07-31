@@ -9,6 +9,9 @@ const AuthSlice = createSlice({
     year: '', // New state for the selected year
     isAdmin: false, // New state for isAdmin
     college: '', // New state for college
+    type: '',
+    room: ''
+    
   },
   reducers: {
     login: (state, action) => {
@@ -31,9 +34,15 @@ const AuthSlice = createSlice({
     setCollege: (state, action) => {
       state.college = action.payload;
     },
+    selectType: (state, action) => {
+      state.type = action.payload;
+    },
+    selectRoom: (state, action) => {
+      state.room = action.payload;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear, setAdmin, setCollege } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

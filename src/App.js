@@ -16,7 +16,6 @@ function App() {
             <Route path="/" element={<Index/>} />
             <Route path="/:course/" element={<Course/>} /> 
             <Route path="/:course/:year" element={<Year/>} />
-
           </Routes>
         </Router>
     </PersistGate>

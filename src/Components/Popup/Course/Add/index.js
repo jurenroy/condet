@@ -50,7 +50,7 @@ const AddCourse = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10%'
+      borderRadius: '10px'
     }}>
       <h2 style={{marginTop:'12px'}}>Add Course</h2>
       <h3 style={{marginTop:'12px'}}>Course Name:</h3>
@@ -74,7 +74,7 @@ const AddCourse = (props) => {
       
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddCourse}>Add</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShow(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAdd(false)}>Cancel</button>
       </div>
     </div>
   )

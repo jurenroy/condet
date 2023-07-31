@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import USTP from '../../Assets/USTP logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectCourse,selectYear ,logout } from '../Redux/Auth/AuthSlice';
+import { selectCourse,selectYear} from '../Redux/Auth/AuthSlice';
+import Logout from '../Popup/Logout';
 
-function Header() {
+function Header(props) {
+  const [showLogout, setShowLogout] = useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const username = useSelector(state => state.auth.username);
-  const isAdmin = useSelector(state => state.auth.isAdmin);
+  const selectedRoom = useSelector ((state) =>  state.auth.room)
 
   const handleNavigateToHome = () => {
     navigate('/');
@@ -18,7 +18,8 @@ function Header() {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    setShowLogout(prevShow => !prevShow);
+    
   };
 
   return (
@@ -29,9 +30,11 @@ function Header() {
           UNIVERSITY OF SCIENCE AND TECHNOLOGY OF SOUTHERN PHILIPPINES
         </h1>
       </div>
-      <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={handleLogout}>
-        Logout
+      <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={()=> {handleLogout();}}>
+
+        Logout {selectedRoom}
       </span>
+      {showLogout ? <Logout setShowLogout={setShowLogout} handleLogout={handleLogout}  /> : null}
     </div>
   );
 }

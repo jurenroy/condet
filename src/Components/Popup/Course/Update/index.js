@@ -62,7 +62,7 @@ const UpdateCourse = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10%'
+      borderRadius: '10px'
     }}>
       <h2 style={{ marginTop: '12px' }}>Update Course</h2>
       <h3 style={{ marginTop: '12px' }}>Course Name:</h3>
@@ -83,7 +83,7 @@ const UpdateCourse = (props) => {
   
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShow2(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdate(false)}>Cancel</button>
       </div>
     </div>
   );

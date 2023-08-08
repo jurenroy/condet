@@ -90,7 +90,7 @@ function Timeslots() {
     <div style={{width: '100%', textAlign: 'center'}}>
       <h2>Timeslots</h2>
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
               <h3>Lecture</h3>
               {isAdmin && (
@@ -123,8 +123,8 @@ function Timeslots() {
             {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
             {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms} /> : null}
         </div>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <h3>Laboratory</h3>
             {isAdmin && ( 
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}

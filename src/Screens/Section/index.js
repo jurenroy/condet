@@ -44,7 +44,7 @@ function Sections() {
           .then(response => response.json())
           .then(data => {
             const filteredSections = data.filter(subject => subject.course === selectedCourse && subject.year === selectedYear);
-            setFilteredSections(filteredSections);
+            setFilteredSections(filteredSections);              
           })
           .catch(error => console.error('Error fetching sections:', error));
       })

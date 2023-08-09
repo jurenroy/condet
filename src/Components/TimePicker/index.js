@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const TimePicker = ({ onMilitaryTimeChange }) => {
+const TimePicker = ({ onMilitaryTimeChange, militaryTimeProp }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
-  const [hour, setHour] = useState('01');
-  const [minute, setMinute] = useState('00');
-  const [ampm, setAmPm] = useState('AM');
+  const [hour, setHour] = useState(militaryTimeProp ? militaryTimeProp.split(':')[0].padStart(2, '0') : '01');
+  const [minute, setMinute] = useState(militaryTimeProp ? militaryTimeProp.split(':')[1].split(' ')[0] : '00');
+  const [ampm, setAmPm] = useState(militaryTimeProp ? militaryTimeProp.split(' ')[1] : 'AM');
+  // eslint-disable-next-line
   const [militaryTime, setMilitaryTime] = useState('');
 
   const togglePicker = () => {
@@ -52,6 +53,7 @@ const TimePicker = ({ onMilitaryTimeChange }) => {
   return (
     <div className="time-picker">
       <input
+        style={{ height: '20px', borderRadius: '5px', fontSize: '20px', width: '30%', textAlign: 'center'}}
         type="text"
         value={`${hour}:${minute} ${ampm}`}
         readOnly

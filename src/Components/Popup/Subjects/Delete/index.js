@@ -2,45 +2,45 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const DeleteRoom = (props) => {
+const DeleteSubject = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
-  const selectedRoom = useSelector(state => state.auth.room);
-  const selectedType = useSelector(state => state.auth.type);
-  const [roomData, setRoomData] = useState(null);
+  const selectedYear = useSelector(state => state.auth.year);
+  const selectedSubject = useSelector(state => state.auth.subject);
+  const [subjectData, setSubjectData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_room_json/')
+    axios.get('http://127.0.0.1:8000/get_subject_json/')
       .then(response => {
-        const roomData = response.data;
-        if (roomData) {
+        const subjectData = response.data;
+        if (subjectData) {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
-          const foundRoom = roomData.find(room => 
-            room.course === selectedCourseAbbreviation &&
-            room.roomtype === selectedType &&
-            room.roomname === selectedRoom
+          const foundSubject = subjectData.find(subject => 
+            subject.course === selectedCourseAbbreviation &&
+            subject.year === selectedYear &&
+            subject.subjectcode === selectedSubject
           );
 
-          if (foundRoom) {
-            setRoomData(foundRoom);
+          if (foundSubject) {
+            setSubjectData(foundSubject);
           }
         }
       })
       .catch(error => console.log(error));
-  }, [selectedCourseAbbreviation, selectedRoom, selectedType]);
+  }, [selectedCourseAbbreviation, selectedYear, selectedSubject]);
 
   const handleDelete = () => {
     // Check if roomData is available before proceeding with the delete request
-    if (!roomData) {
+    if (!subjectData) {
       console.error('Room data not available.');
       return;
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${roomData.roomname}/`)
+    axios.delete(`http://127.0.0.1:8000/delete_subject/${selectedCourseAbbreviation}/${selectedSubject}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions
-        props.setShowDeleteRooms(false); // Close the delete room form
+        props.setShowDeleteSubject(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room
       })
       .catch((error) => {
@@ -65,13 +65,13 @@ const DeleteRoom = (props) => {
       flexDirection: 'column',
       borderRadius: '10px'
     }}>
-      <h2 style={{marginBottom: '-10px'}}>Delete Room</h2>
-      {roomData ? (
+      <h2 style={{marginBottom: '-10px'}}>Delete Subject</h2>
+      {subjectData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>
-          <span style={{fontSize: '15px'}}>Building Number : {roomData.building_number}</span>
+          <span style={{fontSize: '15px'}}>Subject Code : {subjectData.subjectcode}</span>
           <br />
-          <span style={{fontSize: '15px'}}>Room Name: {roomData.roomname}</span>
+          <span style={{fontSize: '15px'}}>Subject Name: {subjectData.subjectname}</span>
           {/* Display other room details as needed */}
         </div>
       ) : (
@@ -82,10 +82,10 @@ const DeleteRoom = (props) => {
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteSubject(false)}>No</button>
       </div>
     </div>
   );
 }
 
-export default DeleteRoom;
+export default DeleteSubject;

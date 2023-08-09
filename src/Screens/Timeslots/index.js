@@ -3,52 +3,52 @@ import { useSelector, useDispatch } from 'react-redux';
 import add from '../../Assets/addicon2.png'
 import editicon from '../../Assets/edit1.png'
 import deleteicon from '../../Assets/delete.png';
-import AddRooms from '../../Components/Popup/Rooms/Add';
-import DeleteRooms from '../../Components/Popup/Rooms/Delete';
-import UpdateRooms from '../../Components/Popup/Rooms/Update';
-import { selectType, selectRoom} from '../../Components/Redux/Auth/AuthSlice';
+import { selectType, selectTime} from '../../Components/Redux/Auth/AuthSlice';
+import AddTimeslot from '../../Components/Popup/Timeslots/Add';
+import DeleteTimeslot from '../../Components/Popup/Timeslots/Delete';
+import UpdateTimeslot from '../../Components/Popup/Timeslots/Update';
 
 function Timeslots() {
   const dispatch = useDispatch();
-  const [showAddRooms , setShowAddRooms] = useState(false)
-  const [showUpdateRooms , setShowUpdateRooms] = useState(false)
-  const [showDeleteRooms , setShowDeleteRooms] = useState(false)
+  const [showAddTimeslot , setShowAddTimeslot] = useState(false)
+  const [showUpdateTimeslot , setShowUpdateTimeslot] = useState(false)
+  const [showDeleteTimeslot , setShowDeleteTimeslot] = useState(false)
   const [timeslotData, setTimeslotData] = useState([]);
   const selectedCourse = useSelector(state => state.auth.course);
   const isAdmin = useSelector(state => state.auth.isAdmin);
 
-  const handleNoClickRooms = () => {
-    setShowAddRooms(prevShow => !prevShow);
+  const handleNoClickTimeslot = () => {
+    setShowAddTimeslot(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
   };
 
-  const handleCancelClickRooms = (room) => {
-    setShowUpdateRooms(prevShow => !prevShow);
+  const handleCancelClickTimeslot = (timeslot) => {
+    setShowUpdateTimeslot(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }
 
-  const handleNoDeleteClickRooms = (room) => {
-    setShowDeleteRooms(prevShow => !prevShow);
+  const handleNoDeleteClickTimeslot = (timeslot) => {
+    setShowDeleteTimeslot(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }  
 
-  const handleNoClickRooms2 = () => {
-    setShowAddRooms(prevShow => !prevShow);
+  const handleNoClickTimeslot2 = () => {
+    setShowAddTimeslot(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
   };
 
-  const handleCancelClickRooms2 = (room) => {
-    setShowUpdateRooms(prevShow => !prevShow);
+  const handleCancelClickTimeslot2 = (timeslot) => {
+    setShowUpdateTimeslot(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }
 
-  const handleNoDeleteClickRooms2 = (room) => {
-    setShowDeleteRooms(prevShow => !prevShow);
+  const handleNoDeleteClickTimeslot2 = (timeslot) => {
+    setShowDeleteTimeslot(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }  
 
 
@@ -95,12 +95,12 @@ function Timeslots() {
               <h3>Lecture</h3>
               {isAdmin && (
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
-              onClick={() => {handleNoClickRooms();
-                setShowUpdateRooms(false);
-                setShowDeleteRooms(false)}}/>
+              onClick={() => {handleNoClickTimeslot();
+                setShowUpdateTimeslot(false);
+                setShowDeleteTimeslot(false)}}/>
                 )}
-              {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms} /> : null}
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
+              {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot={handleNoClickTimeslot} /> : null}
+              {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
 
             </div>
             {lectureTimeslots.map((timeslot) => (
@@ -108,53 +108,53 @@ function Timeslots() {
                     <span style={{fontSize: '17px', fontWeight: 'bold'}}>{formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}</span>
                   {isAdmin && ( 
                     <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                     onClick={() => {handleCancelClickRooms(timeslot);
-                      setShowAddRooms(false);
-                      setShowDeleteRooms(false)}}/>
+                     onClick={() => {handleCancelClickTimeslot(timeslot);
+                      setShowAddTimeslot(false);
+                      setShowDeleteTimeslot(false)}}/>
                   )}
                   {isAdmin && (
                     <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                    onClick={() => {handleNoDeleteClickRooms(timeslot);
-                      setShowUpdateRooms(false);
-                      setShowAddRooms(false)}}/> 
+                    onClick={() => {handleNoDeleteClickTimeslot(timeslot);
+                      setShowUpdateTimeslot(false);
+                      setShowAddTimeslot(false)}}/> 
                   )}
                  </div>
             ))}
-            {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
-            {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms} /> : null}
+            {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
+            {showUpdateTimeslot ? <UpdateTimeslot setShowUpdateTimeslot={setShowUpdateTimeslot} handleCancelClickTimeslot={handleCancelClickTimeslot} /> : null}
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <h3>Laboratory</h3>
             {isAdmin && ( 
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
-                 onClick={() => {handleNoClickRooms2();
-                  setShowUpdateRooms(false);
-                  setShowDeleteRooms(false)}}/>
+                 onClick={() => {handleNoClickTimeslot2();
+                  setShowUpdateTimeslot(false);
+                  setShowDeleteTimeslot(false)}}/>
             )}
-                {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms2} /> : null}
+                {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot2={handleNoClickTimeslot2} /> : null}
 
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
+              {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot2={handleNoDeleteClickTimeslot2} /> : null}
             </div>
             {laboratoryTimeslots.map((timeslot) => (
               <div key={timeslot.timeslotID}>
                 <span style={{fontSize: '17px', fontWeight: 'bold'}}>{formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}</span>
               {isAdmin && (  
                 <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                 onClick={() => {handleCancelClickRooms2(timeslot);
-                  setShowAddRooms(false);
-                  setShowDeleteRooms(false)}}/>
+                 onClick={() => {handleCancelClickTimeslot2(timeslot);
+                  setShowAddTimeslot(false);
+                  setShowDeleteTimeslot(false)}}/>
               )}
               {isAdmin && (
                 <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                  onClick={() => {handleNoDeleteClickRooms2(timeslot);
-                  setShowUpdateRooms(false);
-                  setShowAddRooms(false)}}/> 
+                  onClick={() => {handleNoDeleteClickTimeslot2(timeslot);
+                  setShowUpdateTimeslot(false);
+                  setShowAddTimeslot(false)}}/> 
               )}
               </div>
             ))}
-            {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
-            {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms2} /> : null}
+            {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot2={handleNoDeleteClickTimeslot2} /> : null}
+            {showUpdateTimeslot ? <UpdateTimeslot setShowUpdateTimeslot={setShowUpdateTimeslot} handleCancelClickTimeslot2={handleCancelClickTimeslot2} /> : null}
         </div>
       </div>
       <div>

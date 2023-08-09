@@ -10,7 +10,7 @@ function Course() {
   const selectedCourse = useSelector(state => state.auth.course);
 
   return (
-    <div style={{ flex: '1',display:'flex',backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
       <Header />
       <Navbar />
       <div style={{ display: 'flex', flexGrow: 1 }}>

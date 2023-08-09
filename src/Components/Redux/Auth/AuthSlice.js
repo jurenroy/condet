@@ -13,6 +13,7 @@ const AuthSlice = createSlice({
     room: '',
     starttime: '',
     endtime: '',
+    subject: '',
     
   },
   reducers: {
@@ -47,9 +48,12 @@ const AuthSlice = createSlice({
       state.starttime = starttime;
       state.endtime = endtime;
     }, //dispatch(selectTime({ starttime: 'timeslot.starttime', endtime: 'timeslot.endtime' })); just like how we get rooms hehehe
+    selectSubject: (state, action) => {
+      state.subject = action.payload;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import add from '../../Assets/addicon2.png';
-import editicon from '../../Assets/edit1.png';
-import deleteicon from '../../Assets/delete.png';
-import deleteicon2 from '../../Assets/delete2.png';
 
 function Sections() {
   const selectedCourse = useSelector(state => state.auth.course);

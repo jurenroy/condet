@@ -5,6 +5,7 @@ import Sidebar from '../../Components/Sidebar';
 import { useSelector} from 'react-redux';
 import Rooms from '../Rooms';
 import Timeslots from '../Timeslots';
+import Roomslots from '../Roomslots';
 
 function Course() {
   const selectedCourse = useSelector(state => state.auth.course);
@@ -21,7 +22,8 @@ function Course() {
             <Rooms />             
             <Timeslots />
           </div>
-          <button style={{ position: 'absolute', bottom: '40px'}}>Generate Schedule</button>
+          <Roomslots/>
+          {/* <button style={{ position: 'absolute', bottom: '40px'}}>Generate Schedule</button> */}
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>

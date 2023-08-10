@@ -5,7 +5,7 @@ import Sidebar from '../../Components/Sidebar';
 import { useSelector} from 'react-redux';
 import Subjects from '../Subjects';
 import Sections from '../Section';
-
+import Schedule from '../Schedule';
 
 function Year() {
   const selectedCourse = useSelector(state => state.auth.course);
@@ -20,6 +20,7 @@ function Year() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{selectedCourse} - {selectedYear}</h1>
           <Sections/>
+          <Schedule/>
           <Subjects/>
         </div>
       </div>

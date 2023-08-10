@@ -176,6 +176,21 @@ Headed {
     justify-content: center;
     align-items: center;
 }
-
+.schedule-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ccc;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .schedule-table th {
+    background-color: #f2f2f2;
+  }
 
 

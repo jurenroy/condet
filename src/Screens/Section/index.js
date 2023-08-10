@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import add from '../../Assets/addicon2.png';
+import { selectSection } from '../../Components/Redux/Auth/AuthSlice';
 
 function Sections() {
+  const dispatch = useDispatch();
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
+  const selectedSection = useSelector(state => state.auth.sectionnumber);
   const [filteredSections, setFilteredSections] = useState([]);
+
+  const handleClick = (section) => {
+    if (section.sectionnumber === selectedSection) {
+      // Dispatch an empty value to deselect the section
+      dispatch(selectSection(''));
+    } else {
+      // Dispatch the action when a different section is clicked
+      dispatch(selectSection(section.sectionnumber));
+    }
+  };
 
   useEffect(() => {
     // Fetch data from the API
@@ -70,8 +83,10 @@ function Sections() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '30px' }}>
       {filteredSections.map((section, index) => (
-        <div key={section.sectionnumber} style={{ background: 'gold', marginRight: '1px', padding: '5px', width: '100px', borderRadius: '10px', display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontSize: '17px', fontWeight: 'bold', marginRight: '5px' }}>{courseAbbreviation}{yearValue}S{section.sectionnumber}</span>
+        <div key={section.sectionnumber} style={{ background: section.sectionnumber === selectedSection ? 'gold' : 'yellow', marginRight: '1px', padding: '5px', width: '100px', borderRadius: '10px', display: 'flex', alignItems: 'center' }} >
+          <span onClick={() =>{handleClick(section)}} style={{ fontSize: '17px', fontWeight: 'bold', marginRight: '5px', cursor: 'pointer' }}>
+            {courseAbbreviation}{yearValue}S{section.sectionnumber}
+          </span>
           {index === filteredSections.length - 1 && filteredSections.length !== 1 && (
             <img src={add} alt="add icon" onClick={deleteSection} style={{ width: '10px', height: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginLeft: 'auto', transform: 'rotate(45deg)' }} />
           )}

@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Rooms from '../Rooms';
 import Timeslots from '../Timeslots';
 import Roomslots from '../Roomslots';

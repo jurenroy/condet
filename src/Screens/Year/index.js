@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Subjects from '../Subjects';
 import Sections from '../Section';
 import Schedule from '../Schedule';
@@ -10,6 +10,7 @@ import Schedule from '../Schedule';
 function Year() {
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
+  const selectedSection = useSelector(state => state.auth.sectionnumber);
 
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -20,8 +21,7 @@ function Year() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{selectedCourse} - {selectedYear}</h1>
           <Sections/>
-          <Schedule/>
-          <Subjects/>
+          {selectedSection ? <Schedule /> : <Subjects />}
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>

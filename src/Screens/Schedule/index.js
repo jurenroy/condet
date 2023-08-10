@@ -1,25 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
+  const selectedCourse = useSelector(state => state.auth.course);
+  const selectedYear = useSelector(state => state.auth.year);
+  const selectedSection = useSelector(state => state.auth.sectionnumber);
 
   useEffect(() => {
     async function fetchScheduleData() {
       try {
         const response = await fetch('http://localhost:8000/get_schedule_json/');
         const data = await response.json();
-        setScheduleData(data);
+
+        // Filter data based on selectedCourse, selectedYear, and selectedSection
+        const filteredData = data.filter(schedule =>
+          schedule.course === selectedCourse &&
+          schedule.section_year === selectedYear &&
+          schedule.section_number === selectedSection
+        );
+
+        setScheduleData(filteredData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
 
     fetchScheduleData();
-  }, []);
+  }, [selectedCourse, selectedYear, selectedSection]);
+
+  let yearvalue = '1';
+  if (selectedYear === 'Second Year') {
+    yearvalue = '2';
+  } else if (selectedYear === 'Third Year') {
+    yearvalue = '3';
+  } else if (selectedYear === 'Fourth Year') {
+    yearvalue = '4';
+  }
 
   return (
     <div>
-      <h2>Schedule for yawa</h2>
+      <h2 style={{textAlign: 'center'}}>Schedule for {selectedCourse.substring(2)}{yearvalue}S{selectedSection}</h2>
       <table className="schedule-table">
         <thead>
           <tr>

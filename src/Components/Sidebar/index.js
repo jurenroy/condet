@@ -5,7 +5,7 @@ import edit from '../../Assets/edit1.png';
 import AddCourse from '../Popup/Course/Add';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
+import { selectCourse, selectYear, selectRoom, selectSection, selectSubject, selectTime, selectType } from '../Redux/Auth/AuthSlice';
 import UpdateCourse from '../Popup/Course/Update';
 import DeleteCourse from '../Popup/Course/Delete';
 
@@ -27,6 +27,11 @@ function Sidebar() {
     const formattedYear = year.replace(/\s+/g, '-'); // Replace spaces with hyphens
     if (selectedCourse && selectedCourse !== '') {
       navigate(`/${selectedCourse}/${formattedYear}`);
+      dispatch(selectRoom(''));
+      dispatch(selectSection(''));
+      dispatch(selectTime(''));
+      dispatch(selectSubject(''));
+      dispatch(selectType(''));
   }
   };
 
@@ -53,6 +58,11 @@ function Sidebar() {
   const navigateToRooms = (course) => {
     dispatch(selectCourse(course.abbreviation));
     navigate(`/${course.abbreviation}`);
+    dispatch(selectRoom(''));
+    dispatch(selectSection(''));
+    dispatch(selectTime(''));
+    dispatch(selectSubject(''));
+    dispatch(selectType(''));
   };  
 
   return (

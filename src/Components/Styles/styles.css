@@ -180,6 +180,7 @@ Headed {
     border-collapse: collapse;
     width: 100%;
     border: 1px solid #ccc;
+    margin-bottom: 20px;
   }
   
   .schedule-table th,

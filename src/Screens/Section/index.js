@@ -83,7 +83,7 @@ function Sections() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '30px' }}>
       {filteredSections.map((section, index) => (
-        <div key={section.sectionnumber} style={{ background: section.sectionnumber === selectedSection ? 'gold' : 'yellow', marginRight: '1px', padding: '5px', width: '100px', borderRadius: '10px', display: 'flex', alignItems: 'center' }} >
+        <div key={section.sectionnumber} style={{ background: section.sectionnumber === selectedSection ? 'yellow' : 'gold', marginRight: '1px', padding: '5px', width: '100px', borderRadius: '10px', display: 'flex', alignItems: 'center' }} >
           <span onClick={() =>{handleClick(section)}} style={{ fontSize: '17px', fontWeight: 'bold', marginRight: '5px', cursor: 'pointer' }}>
             {courseAbbreviation}{yearValue}S{section.sectionnumber}
           </span>

@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Roomslots() {
   const [roomslotsData, setRoomslotsData] = useState([]);
+  const [selectedRoomslotType, setSelectedRoomslotType] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState('');
+  const [selectedDay, setSelectedDay] = useState('');
+  
+  const selectedCourse = useSelector(state => state.auth.course);
+
 
   useEffect(() => {
     async function fetchRoomslotsData() {
@@ -17,9 +24,65 @@ function Roomslots() {
     fetchRoomslotsData();
   }, []);
 
+  // Filtered data based on selected roomslot type and room
+  const filteredRoomslots = roomslotsData.filter(roomslot =>
+    roomslot.course === selectedCourse && 
+    (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) &&
+    (!selectedDay || roomslot.day === selectedDay) &&
+    (!selectedRoom || `${roomslot.building_number} - ${roomslot.roomname}` === selectedRoom)
+  );
+
+  const uniqueRooms = Array.from(new Set(
+    roomslotsData
+      .filter(roomslot => roomslot.course === selectedCourse)
+      .map(roomslot => `${roomslot.building_number} - ${roomslot.roomname}`)
+  ));
+
   return (
     <div>
-      <h2>Roomslot for yawa</h2>
+      <h2>Roomslot for {selectedCourse}</h2>
+      <div style={{display: 'flex', flexDirection: 'row', marginBottom: '20px'}}>
+        <div>
+          <label>Roomslot Type:</label>
+          <select
+            value={selectedRoomslotType}
+            onChange={e => setSelectedRoomslotType(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Lecture">Lecture</option>
+            <option value="Laboratory">Laboratory</option>
+          </select>
+        </div>
+        <div>
+          <label>Room:</label>
+          <select
+            value={selectedRoom}
+            onChange={e => setSelectedRoom(e.target.value)}
+          >
+            <option value="">All</option>
+            {uniqueRooms.map((roomOption, index) => (
+              <option key={index} value={roomOption}>
+                {roomOption}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Day:</label>
+          <select
+            value={selectedDay}
+            onChange={e => setSelectedDay(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+      </div>
       <table className="schedule-table">
         <thead>
           <tr>
@@ -33,7 +96,7 @@ function Roomslots() {
           </tr>
         </thead>
         <tbody>
-          {roomslotsData.map(roomslot => (
+          {filteredRoomslots.map(roomslot => (
             <tr key={roomslot.roomslotID}>
               <td>{roomslot.course}</td>
               <td>{roomslot.roomslottype}</td>

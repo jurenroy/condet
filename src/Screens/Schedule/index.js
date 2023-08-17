@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import editicon from '../../Assets/edit1.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
+import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
+  const dispatch = useDispatch();
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
+  const isAdmin = useSelector(state => state.auth.isAdmin);
+
+  const [showUpdateSchedule , setShowUpdateSchedule] = useState(false)
+
+  const handleCancelClickSchedule = (schedule) => {
+    setShowUpdateSchedule(prevShow => !prevShow);
+    dispatch(selectSchedule(schedule.scheduleID)); 
+  }
 
   useEffect(() => {
     async function fetchScheduleData() {
@@ -44,7 +56,6 @@ function Schedule() {
       <table className="schedule-table">
         <thead>
           <tr>
-            {/* <th>Section</th> */}
             <th>Subject Code</th>
             <th>Subject Name</th>
             <th>Instructor</th>
@@ -67,18 +78,21 @@ function Schedule() {
             return (
                 
               <tr key={schedule.scheduleID}>
-                {/* <td>{schedule.course.substring(2)}{yearValue}S{schedule.section_number}</td> */}
                 <td>{schedule.subject_code}</td>
                 <td>{schedule.subject_name}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{schedule.instructor}</td>
+                <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
+                <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
+                <td>{isAdmin && (
+                    <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    onClick={() => {handleCancelClickSchedule(schedule);}}/>
+                    )}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      {showUpdateSchedule ? <UpdateSchedule setShowUpdateSchedule={setShowUpdateSchedule} handleCancelClickSchedule={handleCancelClickSchedule} /> : null}
     </div>
   );
 }

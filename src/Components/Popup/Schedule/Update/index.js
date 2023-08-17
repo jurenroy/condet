@@ -1,0 +1,402 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+const UpdateSchedule = (props) => {
+  const selectedSchedule = useSelector(state => state.auth.schedule);
+  const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+
+  const navigate = useNavigate();
+
+  const [course, setCourse]=useState('');
+  const [section_year, setSection_year]=useState('');
+  const [section_number, setSection_number]=useState('');
+  const [subject_code, setSubject_code]=useState('');
+  const [subject_name, setSubject_name]=useState('');
+  const [instructor, setInstructor]=useState('');
+  const [lectureRoomslotNumber, setLectureRoomslotNumber] = useState('');
+  const [lectureDay, setLectureDay] = useState('');
+  const [lectureStartTime, setLectureStartTime] = useState('');
+  const [lectureEndTime, setLectureEndTime] = useState('');
+  const [lectureBuildingNumber, setLectureBuildingNumber] = useState('');
+  const [lectureRoomName, setLectureRoomName] = useState('');
+  const [labRoomslotNumber, setLabRoomslotNumber] = useState('');
+  const [labDay, setLabDay] = useState('');
+  const [labStartTime, setLabStartTime] = useState('');
+  const [labEndTime, setLabEndTime] = useState('');
+  const [labBuildingNumber, setLabBuildingNumber] = useState('');
+  const [labRoomName, setLabRoomName] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Fetch all schedule data
+    axios.get('http://127.0.0.1:8000/get_schedule_json/')
+      .then(response => {
+        const scheduleData = response.data;
+        if (scheduleData) {
+          // Find the selected schedule
+          const foundSchedule = scheduleData.find(schedule => schedule.scheduleID === selectedSchedule);
+          if (foundSchedule) {
+            console.log("Found Schedule:", foundSchedule); // Log the found schedule
+            setCourse(foundSchedule.course);
+            setSection_year(foundSchedule.section_year);
+            setSection_number(foundSchedule.section_number)
+            setSubject_code(foundSchedule.subject_code);
+            setSubject_name(foundSchedule.subject_name);
+            setInstructor(foundSchedule.instructor);
+            setLectureRoomslotNumber(foundSchedule.lecture_roomslotnumber);
+            setLectureDay(foundSchedule.lecture_day);
+            setLectureStartTime(foundSchedule.lecture_starttime);
+            setLectureEndTime(foundSchedule.lecture_endtime);
+            setLectureBuildingNumber(foundSchedule.lecture_building_number);
+            setLectureRoomName(foundSchedule.lecture_roomname);
+            setLabRoomslotNumber(foundSchedule.lab_roomslotnumber);
+            setLabDay(foundSchedule.lab_day);
+            setLabStartTime(foundSchedule.lab_starttime);
+            setLabEndTime(foundSchedule.lab_endtime);
+            setLabBuildingNumber(foundSchedule.lab_building_number);
+            setLabRoomName(foundSchedule.lab_roomname);
+            // ... populate other state variables ...
+          }
+        }
+      })
+      .catch(error => console.log(error));
+  }, [selectedSchedule]);
+
+  const handleFormSubmit = () => {
+    setError(''); // Clear any previous errors
+
+    
+  
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('course', course);
+    formData.append('section_year', section_year);
+    formData.append('section_number', section_number);
+    formData.append('subject_code', subject_code);
+    formData.append('subject_name', subject_name);
+    formData.append('instructor', instructor);
+    formData.append('lecture_roomslotnumber', lectureRoomslotNumber);
+    formData.append('lecture_day', lectureDay);
+    formData.append('lecture_starttime', lectureStartTime);
+    formData.append('lecture_endtime', lectureEndTime);
+    formData.append('lecture_building_number', lectureBuildingNumber);
+    formData.append('lecture_roomname', lectureRoomName);
+    formData.append('lab_roomslotnumber', labRoomslotNumber);
+    formData.append('lab_day', labDay);
+    formData.append('lab_starttime', labStartTime);
+    formData.append('lab_endtime', labEndTime);
+    formData.append('lab_building_number', labBuildingNumber);
+    formData.append('lab_roomname', labRoomName);
+  
+    // Send the updated schedule data to the Django backend using POST method
+    axios
+      .post(`http://127.0.0.1:8000/update_schedule/${selectedSchedule}/`, formData)
+      .then((response) => {
+        console.log(response.data);
+        window.location.reload();
+        // Handle the response or perform any additional actions
+        // props.setShowUpdateSubject(false); // Close the update room form
+        // navigate(`/${selectedCourseAbbreviation}`);
+      })
+      .catch((error) => {
+        // Handle error response
+        console.error(error);
+      });
+  };
+  
+
+  let yearvalue = '1';
+  if (section_year === 'Second Year') {
+    yearvalue = '2';
+  } else if (section_year === 'Third Year') {
+    yearvalue = '3';
+  } else if (section_year === 'Fourth Year') {
+    yearvalue = '4';
+  }
+
+  const [lectureDays, setLectureDays] = useState([]);
+  const [lectureRooms, setLectureRooms] = useState([]);
+  const [lectureTimes, setLectureTimes] = useState([]);
+  const [labDays, setLabDays] = useState([]);
+  const [labRooms, setLabRooms] = useState([]);
+  const [labTimes, setLabTimes] = useState([]);
+
+  useEffect(() => {
+    // Fetch roomslot data
+    axios.get('http://127.0.0.1:8000/get_roomslot_json/')
+      .then(response => {
+        const roomslotData = response.data;
+        if (roomslotData) {
+          const lectureRoomslots = roomslotData.filter(slot => slot.course === course && slot.roomslottype === 'Lecture');
+          const labRoomslots = roomslotData.filter(slot => slot.course === course && slot.roomslottype === 'Laboratory');
+          
+          // Populate dropdown options for lecture days
+          const lectureDayOptions = [...new Set(lectureRoomslots.map(slot => slot.day))];
+          setLectureDays(lectureDayOptions);
+
+          // Populate dropdown options for lecture rooms
+          const lectureRoomOptions = [...new Set(lectureRoomslots.map(slot => `${slot.building_number} - ${slot.roomname}`))];
+          setLectureRooms(lectureRoomOptions);
+
+          // Populate dropdown options for lecture times
+          const lectureTimeOptions = [...new Set(lectureRoomslots.map(slot => `${slot.starttime} - ${slot.endtime}`))];
+          setLectureTimes(lectureTimeOptions);
+
+          // Populate dropdown options for lab days
+          const labDayOptions = [...new Set(labRoomslots.map(slot => slot.day))];
+          setLabDays(labDayOptions);
+
+          // Populate dropdown options for lab rooms
+          const labRoomOptions = [...new Set(labRoomslots.map(slot => `${slot.building_number} - ${slot.roomname}`))];
+          setLabRooms(labRoomOptions);
+
+          // Populate dropdown options for lab times
+          const labTimeOptions = [...new Set(labRoomslots.map(slot => `${slot.starttime} - ${slot.endtime}`))];
+          setLabTimes(labTimeOptions);
+        }
+      })
+      .catch(error => console.log(error));
+  }, [course]);
+
+  const [lectureDetailsFilled, setLectureDetailsFilled] = useState(false);
+  const [lectureRoomslotAvailability, setLectureRoomslotAvailability] = useState(false); // State to track availability of lecture roomslot
+
+  useEffect(() => {
+    // Check if all lecture dropdowns are filled
+    if (lectureDay && lectureStartTime && lectureEndTime && lectureBuildingNumber && lectureRoomName) {
+      // Fetch roomslot data to check availability
+      axios.get('http://127.0.0.1:8000/get_roomslot_json/')
+        .then(response => {
+          const roomslotData = response.data;
+          if (roomslotData) {
+            const matchingRoomslot = roomslotData.find(slot =>
+              slot.course === course &&
+              slot.roomslottype === 'Lecture' &&
+              slot.day === lectureDay &&
+              slot.starttime === lectureStartTime &&
+              slot.endtime === lectureEndTime &&
+              slot.building_number === lectureBuildingNumber &&
+              slot.roomname === lectureRoomName
+            );
+
+            if (matchingRoomslot) {
+              setLectureRoomslotAvailability(matchingRoomslot.availability);
+              setLectureRoomslotNumber(matchingRoomslot.roomslotnumber);
+              if (matchingRoomslot.availability) {
+                setLectureDetailsFilled(true);
+              } else {
+                setLectureRoomslotAvailability(matchingRoomslot.availability);
+              }
+            }
+          }
+        })
+        .catch(error => console.log(error));
+    } else {
+      setLectureDetailsFilled(false);
+    }
+  }, [lectureDay, lectureStartTime, lectureEndTime, lectureBuildingNumber, lectureRoomName]);
+
+
+  const [labDetailsFilled, setLabDetailsFilled] = useState(false);
+  const [labRoomslotAvailability, setLabRoomslotAvailability] = useState(false); // State to track availability of lab roomslot
+
+  useEffect(() => {
+    // Check if all lab dropdowns are filled
+    if (labDay && labStartTime && labEndTime && labBuildingNumber && labRoomName) {
+      // Fetch roomslot data to check availability
+      axios.get('http://127.0.0.1:8000/get_roomslot_json/')
+        .then(response => {
+          const roomslotData = response.data;
+          if (roomslotData) {
+            const matchingRoomslot = roomslotData.find(slot =>
+              slot.course === course &&
+              slot.roomslottype === 'Laboratory' &&
+              slot.day === labDay &&
+              slot.starttime === labStartTime &&
+              slot.endtime === labEndTime &&
+              slot.building_number === labBuildingNumber &&
+              slot.roomname === labRoomName
+            );
+
+            if (matchingRoomslot) {
+              setLabRoomslotAvailability(matchingRoomslot.availability);
+              setLabRoomslotNumber(matchingRoomslot.roomslotnumber);
+              if (matchingRoomslot.availability) {
+                setLabDetailsFilled(true);
+              } else {
+                setLabRoomslotAvailability(matchingRoomslot.availability);
+              }
+            }
+          }
+        })
+        .catch(error => console.log(error));
+    } else {
+      setLabDetailsFilled(false);
+    }
+  }, [labDay, labStartTime, labEndTime, labBuildingNumber, labRoomName]);
+
+
+  return (
+    <div style={{
+      backgroundColor: 'red',
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      height: '500px',
+      width: '600px',
+      padding: '20px',
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      borderRadius: '10px'
+    }}>
+      <h2 style={{ marginTop: '12px' }}>Update Schedule for</h2>
+      <h3 style={{ marginTop: '12px' }}>{course.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
+      <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
+      <input
+        style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}
+        type="text"
+        value={instructor}
+        onChange={(e) => setInstructor(e.target.value)}
+      />
+      <h3>Lecture: {lectureRoomslotNumber}</h3>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
+      <select
+        value={lectureDay}
+        onChange={(e) => setLectureDay(e.target.value)}
+      >
+        <option value="">Select Day</option>
+        {lectureDays.map(day => (
+          <option key={day} value={day}>{day}</option>
+        ))}
+      </select>
+      <select
+          value={`${lectureBuildingNumber} - ${lectureRoomName}`} 
+          onChange={(e) => {
+            const combinedValue = e.target.value;
+            if (combinedValue) {
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  {/* Decode the value */}
+            setLectureBuildingNumber(selectedBuildingNumber.trim());
+            setLectureRoomName(selectedRoomName.trim());
+            }else{
+                setLectureBuildingNumber('');
+                setLectureRoomName('');
+            }
+          }}
+        >
+          <option value=" - ">Select Room</option>
+          {lectureRooms.map(room => (
+            <option key={room} value={room}>
+              {room}
+            </option>
+          ))}
+        </select>
+        <select
+          value={`${lectureStartTime} - ${lectureEndTime}`} 
+          onChange={(e) => {
+            const selectedTimeslot = e.target.value;
+            if (selectedTimeslot) {
+                const [selectedStart, selectedEnd] = selectedTimeslot.split('-');
+                setLectureStartTime(selectedStart.trim());
+                setLectureEndTime(selectedEnd.trim());
+              } else {
+                // Handle the case when the selected timeslot is empty
+                setLectureStartTime('');
+                setLectureEndTime('');
+              }
+          }}
+        >
+          <option value=" - ">Select Timeslot</option>
+          {lectureTimes.map(timeslot => (
+            <option key={timeslot} value={timeslot}>
+              {timeslot}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+      {lectureDetailsFilled === false && <p style={{marginRight: '50px'}}>Please input lecture details</p>}
+      {lectureRoomslotNumber && lectureRoomslotAvailability === false && (
+        (lectureDay || lectureBuildingNumber || lectureRoomName || lectureStartTime || lectureEndTime) &&
+        <p>Room slot is not available</p>
+      )}
+      </div>
+
+      <h3 style={{ marginTop: '12px' }}>Laboratory: {labRoomslotNumber}</h3>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
+      <select
+        value={labDay}
+        onChange={(e) => setLabDay(e.target.value)}
+      >
+        <option value="">Select Day</option>
+        {labDays.map(day => (
+          <option key={day} value={day}>{day}</option>
+        ))}
+      </select>
+      <select
+          value={`${labBuildingNumber} - ${labRoomName}`} 
+          onChange={(e) => {
+            const combinedValue = e.target.value;
+            if (combinedValue) {
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  {/* Decode the value */}
+            setLabBuildingNumber(selectedBuildingNumber.trim());
+            setLabRoomName(selectedRoomName.trim());
+            }else{
+                setLabBuildingNumber('');
+                setLabRoomName('');
+            }
+          }}
+        >
+          <option value=" - ">Select Room</option>
+          {labRooms.map(room => (
+            <option key={room} value={room}>
+              {room}
+            </option>
+          ))}
+        </select>
+        <select
+          value={`${labStartTime} - ${labEndTime}`} 
+          onChange={(e) => {
+            const selectedTimeslot = e.target.value;
+            if (selectedTimeslot) {
+              const [selectedStart, selectedEnd] = selectedTimeslot.split('-');
+              setLabStartTime(selectedStart.trim());
+              setLabEndTime(selectedEnd.trim());
+            } else {
+              // Handle the case when the selected timeslot is empty
+              setLabStartTime('');
+              setLabEndTime('');
+            }
+          }}
+        >
+          <option value=" - ">Select Timeslot</option>
+          {labTimes.map(timeslot => (
+            <option key={timeslot} value={timeslot}>
+              {timeslot}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+      {labDetailsFilled === false && <p style={{marginRight: '50px'}}>Please input laboratory details</p>}
+      {labRoomslotNumber && labRoomslotAvailability === false && (
+        (labDay || labBuildingNumber || labRoomName || labStartTime || labEndTime) &&
+        <p>Room slot is not available</p>
+      )}
+      </div>
+
+      {error && <p style={{ color: 'white' }}>{error}</p>}
+
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: (lectureDetailsFilled && lectureRoomslotAvailability ) || (labDetailsFilled && labRoomslotAvailability)? 'pointer' : 'not-allowed',}} onClick={handleFormSubmit} disabled={(!lectureDetailsFilled && !lectureRoomslotAvailability ) || (!labDetailsFilled && !labRoomslotAvailability)}>Update</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdateSchedule(false)}>Cancel</button>
+      </div>
+    </div>
+  );
+};
+
+export default UpdateSchedule;

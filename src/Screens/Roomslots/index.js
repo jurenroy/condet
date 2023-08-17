@@ -6,6 +6,8 @@ function Roomslots() {
   const [selectedRoomslotType, setSelectedRoomslotType] = useState('');
   const [selectedRoom, setSelectedRoom] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
+  const [availability, setAvailability] = useState('');
+  const availabilityValue = availability === "true";
   
   const selectedCourse = useSelector(state => state.auth.course);
 
@@ -29,12 +31,13 @@ function Roomslots() {
     roomslot.course === selectedCourse && 
     (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) &&
     (!selectedDay || roomslot.day === selectedDay) &&
-    (!selectedRoom || `${roomslot.building_number} - ${roomslot.roomname}` === selectedRoom)
+    (!selectedRoom || `${roomslot.building_number} - ${roomslot.roomname}` === selectedRoom)&&
+    (!availability || roomslot.availability === availabilityValue)
   );
 
   const uniqueRooms = Array.from(new Set(
     roomslotsData
-      .filter(roomslot => roomslot.course === selectedCourse)
+    .filter(roomslot => roomslot.course === selectedCourse && (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) )
       .map(roomslot => `${roomslot.building_number} - ${roomslot.roomname}`)
   ));
 
@@ -80,6 +83,17 @@ function Roomslots() {
             <option value="Thursday">Thursday</option>
             <option value="Friday">Friday</option>
             <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+        <div>
+          <label>Availability:</label>
+          <select
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
           </select>
         </div>
       </div>

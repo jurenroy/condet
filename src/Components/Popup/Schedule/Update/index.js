@@ -38,13 +38,11 @@ const UpdateSchedule = (props) => {
           // Find the selected schedule
           const foundSchedule = scheduleData.find(schedule => schedule.scheduleID === selectedSchedule);
           if (foundSchedule) {
-            console.log("Found Schedule:", foundSchedule); // Log the found schedule
             setCourse(foundSchedule.course);
             setSection_year(foundSchedule.section_year);
             setSection_number(foundSchedule.section_number)
             setSubject_code(foundSchedule.subject_code);
             setSubject_name(foundSchedule.subject_name);
-            setInstructor(foundSchedule.instructor);
             setLectureRoomslotNumber(foundSchedule.lecture_roomslotnumber);
             setLectureDay(foundSchedule.lecture_day);
             setLectureStartTime(foundSchedule.lecture_starttime);
@@ -57,6 +55,12 @@ const UpdateSchedule = (props) => {
             setLabEndTime(foundSchedule.lab_endtime);
             setLabBuildingNumber(foundSchedule.lab_building_number);
             setLabRoomName(foundSchedule.lab_roomname);
+
+            if (foundSchedule.instructor === null){
+                setInstructor('');
+            }else{
+                setInstructor(foundSchedule.instructor);
+            }
             // ... populate other state variables ...
           }
         }

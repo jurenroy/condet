@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import editicon from '../../Assets/edit1.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
+import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 
 function Schedule() {
@@ -54,6 +54,9 @@ function Schedule() {
   const handleCancelClickSchedule = (schedule) => {
     setShowUpdateSchedule(prevShow => !prevShow);
     dispatch(selectSchedule(schedule.scheduleID)); 
+    dispatch(selectLectureRoomslot(schedule.lecture_roomslotnumber))
+    dispatch(selectLabRoomslot(schedule.lab_roomslotnumber))
+
   }
 
   useEffect(() => {
@@ -70,6 +73,7 @@ function Schedule() {
         );
 
         setScheduleData(filteredData);
+        console.log(filteredData)
       } catch (error) {
         console.error('Error fetching data:', error);
       }

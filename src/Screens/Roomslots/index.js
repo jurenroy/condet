@@ -11,6 +11,43 @@ function Roomslots() {
   
   const selectedCourse = useSelector(state => state.auth.course);
 
+  const [courseAbbreviation, setCourseAbbreviation] = useState('');
+
+    // Assuming you have a function to fetch data from an API
+    async function fetchCourseData() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        return [];
+      }
+    }
+  
+    // Inside your component
+    const getCourseAbbreviation = async (courseId) => {
+      const courseData = await fetchCourseData();
+  
+      // Find the course with the matching course ID
+      const matchingCourse = courseData.find(course => course.courseID === courseId);
+  
+      if (matchingCourse) {
+        return matchingCourse.abbreviation;
+      } else {
+        return null; // Course not found
+      }
+    };
+  
+    useEffect(() => {
+      if (selectedCourse) {
+        getCourseAbbreviation(selectedCourse)
+          .then(abbreviation => setCourseAbbreviation(abbreviation))
+          .catch(error => console.error('Error fetching course abbreviation:', error));
+      }
+    // eslint-disable-next-line
+    }, [selectedCourse]);
+
 
   useEffect(() => {
     async function fetchRoomslotsData() {
@@ -43,7 +80,7 @@ function Roomslots() {
 
   return (
     <div>
-      <h2>Roomslot for {selectedCourse}</h2>
+      <h2>Roomslot for {courseAbbreviation}</h2>
       <div style={{display: 'flex', flexDirection: 'row', marginBottom: '20px'}}>
         <div>
           <label>Roomslot Type:</label>

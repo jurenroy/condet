@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 const TimePicker = ({ onMilitaryTimeChange, militaryTimeProp }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
-  const [hour, setHour] = useState(militaryTimeProp ? militaryTimeProp.split(':')[0].padStart(2, '0') : '01');
-  const [minute, setMinute] = useState(militaryTimeProp ? militaryTimeProp.split(':')[1].split(' ')[0] : '00');
-  const [ampm, setAmPm] = useState(militaryTimeProp ? militaryTimeProp.split(' ')[1] : 'AM');
+  console.log('militaryTimeProp:', militaryTimeProp);
+
+  const militaryTimePropValid = /^(\d{1,2}:\d{2} (AM|PM))$/.test(militaryTimeProp);
+
+  const [hour, setHour] = useState(militaryTimePropValid ? militaryTimeProp.split(':')[0].padStart(2, '0') : '01');
+  const [minute, setMinute] = useState(militaryTimePropValid ? militaryTimeProp.split(':')[1].split(' ')[0] : '00');
+  const [ampm, setAmPm] = useState(militaryTimePropValid ? militaryTimeProp.split(' ')[1] : 'AM');
+  
+
   // eslint-disable-next-line
   const [militaryTime, setMilitaryTime] = useState('');
 

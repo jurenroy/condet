@@ -10,6 +10,43 @@ function Sections() {
   const selectedSection = useSelector(state => state.auth.sectionnumber);
   const [filteredSections, setFilteredSections] = useState([]);
 
+  const [courseabbreviation, setCourseabbreviation] = useState('');
+
+    // Assuming you have a function to fetch data from an API
+    async function fetchCourseData() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        return [];
+      }
+    }
+  
+    // Inside your component
+    const getCourseAbbreviation = async (courseId) => {
+      const courseData = await fetchCourseData();
+  
+      // Find the course with the matching course ID
+      const matchingCourse = courseData.find(course => course.courseID === courseId);
+  
+      if (matchingCourse) {
+        return matchingCourse.abbreviation;
+      } else {
+        return null; // Course not found
+      }
+    };
+  
+    useEffect(() => {
+      if (selectedCourse) {
+        getCourseAbbreviation(selectedCourse)
+          .then(abbreviation => setCourseabbreviation(abbreviation))
+          .catch(error => console.error('Error fetching course abbreviation:', error));
+      }
+    // eslint-disable-next-line
+    }, [selectedCourse]);
+
   const handleClick = (section) => {
     if (section.sectionnumber === selectedSection) {
       // Dispatch an empty value to deselect the section
@@ -32,7 +69,7 @@ function Sections() {
       .catch(error => console.error('Error fetching sections:', error));
   }, [selectedCourse, selectedYear]);
 
-  const courseAbbreviation = selectedCourse.substring(2); // Removing the first 2 characters
+  const courseAbbreviation = courseabbreviation.substring(2); // Removing the first 2 characters
   let yearValue = '1';
   if (selectedYear === 'Second Year') {
     yearValue = '2';

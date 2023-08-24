@@ -10,12 +10,14 @@ const AuthSlice = createSlice({
     isAdmin: false, // New state for isAdmin
     college: '', // New state for college
     type: '',
+    building: '',
     room: '',
-    starttime: '',
-    endtime: '',
+    time: '',
     subject: '',
     sectionnumber: '',
     schedule: '',
+    starttime: '',
+    endtime: ''
     
   },
   reducers: {
@@ -46,10 +48,8 @@ const AuthSlice = createSlice({
       state.room = action.payload;
     },
     selectTime: (state, action) => {
-      const { starttime, endtime } = action.payload;
-      state.starttime = starttime;
-      state.endtime = endtime;
-    }, //dispatch(selectTime({ starttime: 'timeslot.starttime', endtime: 'timeslot.endtime' })); just like how we get rooms hehehe
+      state.time = action.payload;
+    }, 
     selectSubject: (state, action) => {
       state.subject = action.payload;
     },
@@ -59,9 +59,14 @@ const AuthSlice = createSlice({
     selectSchedule: (state, action) => {
       state.schedule = action.payload;
     },
+    selectTimeslots: (state, action) => {
+      const { starttime, endtime } = action.payload;
+      state.starttime = starttime;
+      state.endtime = endtime;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject, selectSection, selectSchedule } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject, selectSection, selectSchedule, selectTimeslots } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

@@ -100,7 +100,6 @@ function Roomslots() {
       <table className="schedule-table">
         <thead>
           <tr>
-            <th>Course</th>
             <th>Roomslot Type</th>
             <th>Room</th>
             <th>Day</th>
@@ -112,7 +111,6 @@ function Roomslots() {
         <tbody>
           {filteredRoomslots.map(roomslot => (
             <tr key={roomslot.roomslotID}>
-              <td>{roomslot.course}</td>
               <td>{roomslot.roomslottype}</td>
               <td>{roomslot.building_number} - {roomslot.roomname}</td>
               <td>{roomslot.day}</td>

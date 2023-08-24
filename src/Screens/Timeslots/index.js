@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import add from '../../Assets/addicon2.png'
 import editicon from '../../Assets/edit1.png'
 import deleteicon from '../../Assets/delete.png';
-import { selectType, selectTime} from '../../Components/Redux/Auth/AuthSlice';
+import { selectType, selectTime, selectTimeslots} from '../../Components/Redux/Auth/AuthSlice';
 import AddTimeslot from '../../Components/Popup/Timeslots/Add';
 import DeleteTimeslot from '../../Components/Popup/Timeslots/Delete';
 import UpdateTimeslot from '../../Components/Popup/Timeslots/Update';
@@ -25,13 +25,14 @@ function Timeslots() {
   const handleCancelClickTimeslot = (timeslot) => {
     setShowUpdateTimeslot(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
+    dispatch(selectTime(timeslot.timeslotID));
+    dispatch(selectTimeslots({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }
 
   const handleNoDeleteClickTimeslot = (timeslot) => {
     setShowDeleteTimeslot(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
+    dispatch(selectTime(timeslot.timeslotID));
   }  
 
   const handleNoClickTimeslot2 = () => {
@@ -42,13 +43,14 @@ function Timeslots() {
   const handleCancelClickTimeslot2 = (timeslot) => {
     setShowUpdateTimeslot(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
+    dispatch(selectTime(timeslot.timeslotID));
+    dispatch(selectTimeslots({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
   }
 
   const handleNoDeleteClickTimeslot2 = (timeslot) => {
     setShowDeleteTimeslot(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectTime({ starttime: timeslot.starttime, endtime: timeslot.endtime }));
+    dispatch(selectTime(timeslot.timeslotID));
   }  
 
 

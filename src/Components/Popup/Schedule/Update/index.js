@@ -5,7 +5,44 @@ import { useNavigate } from 'react-router-dom';
 
 const UpdateSchedule = (props) => {
   const selectedSchedule = useSelector(state => state.auth.schedule);
-  const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const selectedCourse = useSelector(state => state.auth.course);
+  const [courseAbbreviation, setCourseAbbreviation] = useState('');
+
+    // Assuming you have a function to fetch data from an API
+    async function fetchCourseData() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        return [];
+      }
+    }
+  
+    // Inside your component
+    const getCourseAbbreviation = async (courseId) => {
+      const courseData = await fetchCourseData();
+  
+      // Find the course with the matching course ID
+      const matchingCourse = courseData.find(course => course.courseID === courseId);
+  
+      if (matchingCourse) {
+        return matchingCourse.abbreviation;
+      } else {
+        return null; // Course not found
+      }
+    };
+  
+    useEffect(() => {
+      if (selectedCourse) {
+        getCourseAbbreviation(selectedCourse)
+          .then(abbreviation => setCourseAbbreviation(abbreviation))
+          .catch(error => console.error('Error fetching course abbreviation:', error));
+      }
+    // eslint-disable-next-line
+    }, [selectedCourse]);
+  // eslint-disable-next-line
 
   const navigate = useNavigate();
 
@@ -258,7 +295,7 @@ const UpdateSchedule = (props) => {
       borderRadius: '10px'
     }}>
       <h2 style={{ marginTop: '12px' }}>Update Schedule for</h2>
-      <h3 style={{ marginTop: '12px' }}>{course.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
+      <h3 style={{ marginTop: '12px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
       <input
         style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}

@@ -25,13 +25,13 @@ function Rooms() {
   const handleCancelClickRooms = (room) => {
     setShowUpdateRooms(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectRoom(room.roomID)); 
   }
 
   const handleNoDeleteClickRooms = (room) => {
     setShowDeleteRooms(prevShow => !prevShow);
     dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectRoom(room.roomID)); 
   }  
 
   const handleNoClickRooms2 = () => {
@@ -42,13 +42,13 @@ function Rooms() {
   const handleCancelClickRooms2 = (room) => {
     setShowUpdateRooms(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectRoom(room.roomID)); 
   }
 
   const handleNoDeleteClickRooms2 = (room) => {
     setShowDeleteRooms(prevShow => !prevShow);
     dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomname)); 
+    dispatch(selectRoom(room.roomID)); 
   }  
 
 

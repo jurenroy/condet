@@ -22,7 +22,7 @@ const UpdateSubject = (props) => {
           const foundSubject = subjectData.find(subject => 
             subject.course === selectedCourseAbbreviation &&
             subject.year === selectedYear &&
-            subject.subjectcode === selectedSubject
+            subject.subjectID=== selectedSubject
           );
 
           if (foundSubject) {

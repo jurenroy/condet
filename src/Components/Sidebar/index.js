@@ -44,7 +44,7 @@ function Sidebar() {
   }
 
   const handleNoDeleteClick = (course) => {
-    dispatch(selectCourse(course.abbreviation));
+    dispatch(selectCourse(course.courseID));
     setShow3(prevShow => !prevShow);
   }  
 
@@ -56,8 +56,8 @@ function Sidebar() {
   }, []);
 
   const navigateToRooms = (course) => {
-    dispatch(selectCourse(course.abbreviation));
-    navigate(`/${course.abbreviation}`);
+    dispatch(selectCourse(course.courseID));
+    navigate(`/${course.courseID}`);
     dispatch(selectRoom(''));
     dispatch(selectSection(''));
     dispatch(selectTime(''));
@@ -88,7 +88,7 @@ function Sidebar() {
           if (isMatchingCollege) {
             return (
               <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                <div style={{ backgroundColor: selectedCourse === course.abbreviation ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
+                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
                   {isAdmin && (
 
@@ -96,7 +96,7 @@ function Sidebar() {
                     src={edit} 
                     alt="edit icon" 
                     style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
-                    onClick={() => { handleCancelClick(); dispatch(selectCourse(course.abbreviation)); }}
+                    onClick={() => { handleCancelClick(); dispatch(selectCourse(course.id)); }}
                   />
                   )}
                   {show2 ? <UpdateCourse setShow2={setShow2} handleNoClick={handleCancelClick} /> : null}
@@ -113,7 +113,7 @@ function Sidebar() {
                 </div>
   
                 {/* Show years only if the course is selected */}
-                {selectedCourse === course.abbreviation && (
+                {selectedCourse === course.courseID && (
                   <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px' }}>
                     {years.map((year, index) => (
                       <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>

@@ -17,7 +17,7 @@ const DeleteSubject = (props) => {
           const foundSubject = subjectData.find(subject => 
             subject.course === selectedCourseAbbreviation &&
             subject.year === selectedYear &&
-            subject.subjectcode === selectedSubject
+            subject.subjectID === selectedSubject
           );
 
           if (foundSubject) {
@@ -81,8 +81,8 @@ const DeleteSubject = (props) => {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteSubject(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer'}} onClick={handleDelete}>Yes</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer' }} onClick={() => props.setShowDeleteSubject(false)}>No</button>
       </div>
     </div>
   );

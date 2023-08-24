@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 
 const DeleteTimeslot = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
-  const selectedStarttime = useSelector(state => state.auth.starttime)
-  const selectedEndtime = useSelector(state => state.auth.endtime)
+  const selectedTime = useSelector(state => state.auth.time)
   const selectedType = useSelector(state => state.auth.type);
   const [timeslotData, setTimeslotData] = useState(null);
 
@@ -17,8 +16,7 @@ const DeleteTimeslot = (props) => {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
           const foundTimeslot = timeslotData.find(timeslot => 
             timeslot.course === selectedCourseAbbreviation &&
-            timeslot.starttime === selectedStarttime &&
-            timeslot.endtime === selectedEndtime &&
+            timeslot.timeslotID === selectedTime &&
             timeslot.timeslottype === selectedType
           );
 
@@ -28,7 +26,7 @@ const DeleteTimeslot = (props) => {
         }
       })
       .catch(error => console.log(error));
-  }, [selectedCourseAbbreviation, selectedStarttime, selectedEndtime, selectedType]);
+  }, [selectedCourseAbbreviation, selectedTime, selectedType]);
 
   const handleDelete = () => {
     // Check if roomData is available before proceeding with the delete request
@@ -38,7 +36,7 @@ const DeleteTimeslot = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_timeslot/${selectedCourseAbbreviation}/${timeslotData.starttime}/${timeslotData.endtime}/`)
+    axios.delete(`http://127.0.0.1:8000/delete_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

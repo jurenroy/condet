@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import USTP from '../../Assets/USTP logo.png';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectCourse,selectYear} from '../Redux/Auth/AuthSlice';
 import Logout from '../Popup/Logout';
 
 function Header(props) {
   const [showLogout, setShowLogout] = useState(false)
-  const selectedSchedule= useSelector(state => state.auth.schedule);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,7 +29,7 @@ function Header(props) {
         </h1>
       </div>
       <span style={{ color: 'white', fontSize: '16px', marginRight: '15px', marginTop: '-4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={()=> {handleLogout();}}>
-        Logout {selectedSchedule}
+        Logout 
       </span>
       {showLogout ? <Logout setShowLogout={setShowLogout} handleLogout={handleLogout}  /> : null}
     </div>

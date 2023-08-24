@@ -22,7 +22,7 @@ const UpdateRoom = (props) => {
           const foundRoom = roomData.find(room => 
             room.course === selectedCourseAbbreviation &&
             room.roomtype === selectedType &&
-            room.roomname === selectedRoom
+            room.roomID === selectedRoom
           );
 
           if (foundRoom) {
@@ -83,13 +83,6 @@ const UpdateRoom = (props) => {
       borderRadius: '10px'
     }}>
       <h2 style={{ marginTop: '12px' }}>Update Room</h2>
-      <h3 style={{ marginTop: '12px' }}>Room Name:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
-        type="text"
-        value={roomname}
-        onChange={(e) => setRoomname(e.target.value)}
-      />
 
       <h3 style={{ marginTop: '12px' }}>Building Number:</h3>
       <input
@@ -97,6 +90,14 @@ const UpdateRoom = (props) => {
         type="text"
         value={buildingNumber}
         onChange={(e) => setBuildingNumber(e.target.value)}
+      />
+      
+      <h3 style={{ marginTop: '12px' }}>Room Name:</h3>
+      <input
+        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
+        type="text"
+        value={roomname}
+        onChange={(e) => setRoomname(e.target.value)}
       />
 
       {error && <p style={{ color: 'white' }}>{error}</p>}

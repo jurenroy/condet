@@ -14,6 +14,43 @@ function Schedule() {
 
   const [showUpdateSchedule , setShowUpdateSchedule] = useState(false)
 
+  const [courseAbbreviation, setCourseAbbreviation] = useState('');
+
+    // Assuming you have a function to fetch data from an API
+    async function fetchCourseData() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        return [];
+      }
+    }
+  
+    // Inside your component
+    const getCourseAbbreviation = async (courseId) => {
+      const courseData = await fetchCourseData();
+  
+      // Find the course with the matching course ID
+      const matchingCourse = courseData.find(course => course.courseID === courseId);
+  
+      if (matchingCourse) {
+        return matchingCourse.abbreviation;
+      } else {
+        return null; // Course not found
+      }
+    };
+  
+    useEffect(() => {
+      if (selectedCourse) {
+        getCourseAbbreviation(selectedCourse)
+          .then(abbreviation => setCourseAbbreviation(abbreviation))
+          .catch(error => console.error('Error fetching course abbreviation:', error));
+      }
+    // eslint-disable-next-line
+    }, [selectedCourse]);
+
   const handleCancelClickSchedule = (schedule) => {
     setShowUpdateSchedule(prevShow => !prevShow);
     dispatch(selectSchedule(schedule.scheduleID)); 
@@ -52,7 +89,7 @@ function Schedule() {
 
   return (
     <div>
-      <h2 style={{textAlign: 'center'}}>Schedule for {selectedCourse.substring(2)}{yearvalue}S{selectedSection}</h2>
+      <h2 style={{textAlign: 'center'}}>Schedule for {courseAbbreviation.substring(2)}{yearvalue}S{selectedSection}</h2>
       <table className="schedule-table">
         <thead>
           <tr>
@@ -72,6 +109,7 @@ function Schedule() {
             } else if (schedule.section_year === 'Third Year') {
               yearValue = '3';
             } else if (schedule.section_year === 'Fourth Year') {
+              // eslint-disable-next-line
               yearValue = '4';
             }
 

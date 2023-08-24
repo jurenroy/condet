@@ -17,7 +17,7 @@ const DeleteRoom = (props) => {
           const foundRoom = roomData.find(room => 
             room.course === selectedCourseAbbreviation &&
             room.roomtype === selectedType &&
-            room.roomname === selectedRoom
+            room.roomID === selectedRoom
           );
 
           if (foundRoom) {
@@ -36,7 +36,7 @@ const DeleteRoom = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${roomData.roomname}/`)
+    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${selectedRoom}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions
@@ -81,8 +81,8 @@ const DeleteRoom = (props) => {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer'}} onClick={handleDelete}>Yes</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
       </div>
     </div>
   );

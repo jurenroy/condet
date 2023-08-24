@@ -7,6 +7,7 @@ import TimePicker from '../../../TimePicker';
 const UpdateTimeslot = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
   const selectedType = useSelector(state => state.auth.type);
+  const selectedTime = useSelector(state => state.auth.time);
   const selectedStarttime = useSelector(state => state.auth.starttime)
   const selectedEndtime = useSelector(state => state.auth.endtime)
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
           const foundTimeslot = timeslotData.find(timeslot => 
             timeslot.course === selectedCourseAbbreviation &&
             timeslot.timeslottype === selectedType &&
+            timeslot.timeslotID === selectedTime &&
             timeslot.starttime === selectedStarttime && 
             timeslot.endtime === selectedEndtime
           );
@@ -43,7 +45,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
         }
       })
       .catch(error => console.log(error));
-  }, [selectedCourseAbbreviation, selectedType, selectedStarttime, selectedEndtime]);
+  }, [selectedCourseAbbreviation, selectedType, selectedTime, selectedStarttime, selectedEndtime]);
 
   const handleFormSubmit = () => {
     setError(''); // Clear any previous errors
@@ -62,7 +64,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 
     // Send the updated room data to the Django backend using PUT method
     axios
-      .post(`http://127.0.0.1:8000/update_timeslot/${selectedCourseAbbreviation}/${selectedStarttime}/${selectedEndtime}/`, formData)
+      .post(`http://127.0.0.1:8000/update_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`, formData)
       .then((response) => {
         console.log(response.data);
         window.location.reload();
@@ -110,7 +112,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       borderRadius: '10px'
     }}>
       <h2 style={{ marginTop: '12px' }}>Update Timeslot</h2>
-      <h3 style={{ marginTop: '12px' }}>Start Time:</h3>
+      <h3 style={{ marginTop: '12px' }}>Start Time: </h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange} militaryTimeProp={formatTimeTo12Hour(selectedStarttime)} />
 
       <h3 style={{ marginTop: '12px' }}>End Time:</h3>

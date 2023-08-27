@@ -3,58 +3,58 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const UpdateRoom = (props) => {
+const UpdateSubject = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
-  const selectedType = useSelector(state => state.auth.type);
-  const selectedRoom = useSelector(state => state.auth.room);
+  const selectedYear = useSelector(state => state.auth.year);
+  const selectedSubject = useSelector(state => state.auth.subject);
   const navigate = useNavigate();
 
-  const [roomname, setRoomname] = useState('');
-  const [buildingNumber, setBuildingNumber] = useState('');
+  const [subjectcode, setSubjectcode] = useState('');
+  const [subjectname, setSubjectname] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_room_json/')
+    axios.get('http://127.0.0.1:8000/get_subject_json/')
       .then(response => {
-        const roomData = response.data;
-        if (roomData) {
+        const subjectData = response.data;
+        if (subjectData) {
           // Find the room based on selectedCourseAbbreviation, selectedType, and selectedRoom
-          const foundRoom = roomData.find(room => 
-            room.course === selectedCourseAbbreviation &&
-            room.roomtype === selectedType &&
-            room.roomname === selectedRoom
+          const foundSubject = subjectData.find(subject => 
+            subject.course === selectedCourseAbbreviation &&
+            subject.year === selectedYear &&
+            subject.subjectID=== selectedSubject
           );
 
-          if (foundRoom) {
-            setRoomname(foundRoom.roomname);
-            setBuildingNumber(foundRoom.building_number);
+          if (foundSubject) {
+            setSubjectcode(foundSubject.subjectcode);
+            setSubjectname(foundSubject.subjectname);
           }
         }
       })
-  }, [selectedCourseAbbreviation, selectedType, selectedRoom]);
+  }, [selectedCourseAbbreviation, selectedYear, selectedSubject]);
 
   const handleFormSubmit = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!roomname || !buildingNumber) {
+    if (!subjectcode || !subjectname) {
       setError('All fields are required.');
       return;
     }
 
     // Create FormData object
     const formData = new FormData();
-    formData.append('roomname', roomname);
-    formData.append('building_number', buildingNumber);
-    formData.append('roomtype', selectedType);
-
+    formData.append('year', selectedYear);
+    formData.append('subjectcode', subjectcode);
+    formData.append('subjectname', subjectname);
+    
     // Send the updated room data to the Django backend using PUT method
     axios
-      .post(`http://127.0.0.1:8000/update_room/${selectedCourseAbbreviation}/${selectedRoom}/`, formData)
+      .post(`http://127.0.0.1:8000/update_subject/${selectedCourseAbbreviation}/${selectedSubject}/`, formData)
       .then((response) => {
         window.location.reload();
         // Handle the response or perform any additional actions
-        props.setShowUpdate(false); // Close the update room form
+        props.setShowUpdateSubject(false); // Close the update room form
         navigate(`/${selectedCourseAbbreviation}`);
         
       })
@@ -93,7 +93,7 @@ const UpdateRoom = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Rooms</h2>
+        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Subject</h2>
       </div>
 
       <div style={{
@@ -105,32 +105,32 @@ const UpdateRoom = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
+      // padding: '20px',
       }}/>
-
-      <h3 style={{ marginTop: '12px' }}>Building Number:</h3>
+      <h3 style={{ marginTop: '12px' }}>Subject Code:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
         type="text"
-        value={buildingNumber}
-        onChange={(e) => setBuildingNumber(e.target.value)}
+        value={subjectcode}
+        onChange={(e) => setSubjectcode(e.target.value)}
       />
-      
-      <h3 style={{ marginTop: '12px' }}>Room Name:</h3>
+
+      <h3 style={{ marginTop: '12px' }}>Subject Name:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
         type="text"
-        value={roomname}
-        onChange={(e) => setRoomname(e.target.value)}
+        value={subjectname}
+        onChange={(e) => setSubjectname(e.target.value)}
       />
 
       {error && <p style={{ color: 'white' }}>{error}</p>}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdateRooms(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdateSubject(false)}>Cancel</button>
       </div>
     </div>
   );
 };
 
-export default UpdateRoom;
+export default UpdateSubject;

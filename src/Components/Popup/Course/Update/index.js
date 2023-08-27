@@ -18,7 +18,6 @@ const UpdateCourse = (props) => {
           setAbbreviation(foundCourse.abbreviation);
         }
       })
-      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation]);
 
   const handleFormSubmit = (event) => {
@@ -30,7 +29,6 @@ const UpdateCourse = (props) => {
   
     axios.post(`http://localhost:8000/update_course/${selectedCourseAbbreviation}/`, formData)
       .then((response) => {
-        console.log(response.data);
         // Handle the response or perform any additional actions
         window.location.reload();
       })
@@ -43,7 +41,7 @@ const UpdateCourse = (props) => {
 
   return (
     <div style={{
-      backgroundColor: 'red',
+      backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
       top: '50%',
@@ -54,10 +52,39 @@ const UpdateCourse = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      border: '1px solid black',
     }}>
-      <h2 style={{ marginTop: '12px' }}>Update Course</h2>
-      <h3 style={{ marginTop: '12px' }}>Course Name:</h3>
+
+      <div style={{
+      backgroundColor: '#060E57', 
+      height: '20px',
+      width: '400px', 
+      position: 'absolute',
+      left:'0',
+      top: '0%', 
+      borderTopRightRadius:'8px',
+      borderTopLeftRadius:'8px',
+      padding: '20px',
+      }}>
+        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Course</h2>
+      </div>
+
+      <div style={{
+      backgroundColor: '#FAB417', 
+      height: '7px',
+      width: '437.5px', 
+      position: 'absolute',
+      left:'0.4%',
+      top: '98%', 
+      borderBottomRightRadius:'8px',
+      borderBottomLeftRadius:'8px',
+      // padding: '20px',
+      }}/>
+
+
+      
+      <h3 style={{ marginTop: '50px' }}>Course Name:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
         type="text"

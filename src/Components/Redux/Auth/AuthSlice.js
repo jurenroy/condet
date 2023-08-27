@@ -7,8 +7,19 @@ const AuthSlice = createSlice({
     username: '',
     course: '', // New state for the selected course
     year: '', // New state for the selected year
+    isAdmin: false, // New state for isAdmin
+    college: '', // New state for college
     type: '',
-    room: ''
+    building: '',
+    room: '',
+    time: '',
+    subject: '',
+    sectionnumber: '',
+    schedule: '',
+    starttime: '',
+    endtime: '',
+    lectureRoomslot: '',
+    labRoomslot: '',
     
   },
   reducers: {
@@ -26,15 +37,44 @@ const AuthSlice = createSlice({
     selectYear: (state, action) => {
       state.year = action.payload;
     },
+    setAdmin: (state, action) => {
+      state.isAdmin = action.payload;
+    },
+    setCollege: (state, action) => {
+      state.college = action.payload;
+    },
     selectType: (state, action) => {
       state.type = action.payload;
     },
     selectRoom: (state, action) => {
       state.room = action.payload;
     },
+    selectTime: (state, action) => {
+      state.time = action.payload;
+    }, 
+    selectSubject: (state, action) => {
+      state.subject = action.payload;
+    },
+    selectSection: (state, action) => {
+      state.sectionnumber = action.payload;
+    },
+    selectSchedule: (state, action) => {
+      state.schedule = action.payload;
+    },
+    selectTimeslots: (state, action) => {
+      const { starttime, endtime } = action.payload;
+      state.starttime = starttime;
+      state.endtime = endtime;
+    },
+    selectLectureRoomslot: (state, action) => {
+      state.lectureRoomslot = action.payload;
+    },
+    selectLabRoomslot: (state, action) => {
+      state.labRoomslot = action.payload;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear, selectType, selectRoom } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject, selectSection, selectSchedule, selectTimeslots, selectLectureRoomslot, selectLabRoomslot } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

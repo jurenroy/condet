@@ -1,36 +1,44 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import TimePicker from '../../../TimePicker/index'
 
-const AddRooms = (props) => {
-  const [roomname, setRoomname] = useState('');
-  const [buildingNumber, setBuildingNumber] = useState('');
+const AddTimeslot = (props) => {
+  const [starttime, setStarttime] = useState('');
+  const [endtime, setEndtime] = useState('');
   const [error, setError] = useState('');
 
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedType = useSelector(state => state.auth.type);
   
+    const handleMilitaryTimeChange = (militaryTime) => {
+        setStarttime(militaryTime);
+    };
 
-  const handleAddRoom = () => {
+    const handleMilitaryTimeChange2 = (militaryTime) => {
+        setEndtime(militaryTime);
+    };
+
+  const handleAddTimeslot = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!roomname || !buildingNumber || !selectedCourse || !selectedType) {
+    if (!starttime || !endtime || !selectedCourse || !selectedType) {
       setError('All fields are required.');
       return;
     }
 
     // Create FormData object
     const formData = new FormData();
-    formData.append('roomname', roomname);
-    formData.append('building_number', buildingNumber);
-    formData.append('roomtype', selectedType);
+    formData.append('starttime', starttime);
+    formData.append('endtime', endtime);
+    formData.append('timeslottype', selectedType);
 
     // Send the room data to the Django backend
     axios
-      .post(`http://127.0.0.1:8000/add_room/${selectedCourse}/`, formData)
+      .post(`http://127.0.0.1:8000/add_timeslot/${selectedCourse}/`, formData)
       .then((response) => {
-        props.setShowAddRooms(false); // Close the add room form
+        props.setShowAddTimeslot(false); // Close the add room form
         window.location.reload();
       })
       .catch((error) => {
@@ -71,7 +79,7 @@ const AddRooms = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Add Rooms</h2>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Add Timeslot</h2>
       </div>
 
       <div style={{
@@ -83,34 +91,23 @@ const AddRooms = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      
       }}/>
-      <h3 style={{marginTop:'50px'}}>Building:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
-        type="text" 
-        value={buildingNumber} 
-        onChange={e => setBuildingNumber(e.target.value)}
-        required
-      />
 
-      <h3 style={{marginTop:'12px'}}>Room Name:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize: '20px'}}
-        type="text" 
-        value={roomname} 
-        onChange={e => setRoomname(e.target.value)}
-        required
-      />
+      <h3 style={{marginTop:'50px'}}>Start Time:</h3>
+      <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange} />
+      
+
+      <h3 style={{marginTop:'12px'}}>End Time:</h3>
+      <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange2} />
 
       {error && <p style={{ color: 'white' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddRoom}>Add</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddRooms(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddTimeslot}>Add</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddTimeslot(false)}>Cancel</button>
       </div>
     </div>
   );
 };
 
-export default AddRooms;
+export default AddTimeslot;

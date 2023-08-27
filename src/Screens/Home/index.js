@@ -3,14 +3,38 @@ import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
 import USTP from '../../Assets/USTP logo.png';
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { selectCourse, selectType, selectYear } from '../../Components/Redux/Auth/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom,selectSubject,selectSection,selectTime } from '../../Components/Redux/Auth/AuthSlice';
+import axios from 'axios';
 
 function Home() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const storedUsername = useSelector(state => state.auth.username);
   
+  useEffect(() => {
+    if (location.pathname === "/") {
+      dispatch(selectCourse(''));
+      dispatch(selectYear(''));
+      dispatch(selectSection(''));
+      dispatch(selectSubject(''));
+      dispatch(selectRoom(''));
+      dispatch(selectType(''));
+      dispatch(selectTime(''));
+    }
+
+    // Fetch user data from the API using Axios
+    axios.get('http://127.0.0.1:8000/users/')
+  .then(response => {
+    const userData = response.data.find(user => user.email === storedUsername);
+    if (userData) {
+      dispatch(setAdmin(userData.isAdmin));
+      dispatch(setCollege(userData.college));
+    }
+  })
+  }, [dispatch, location.pathname, storedUsername]);
   if (location.pathname === "/") {
     dispatch(selectCourse(''));
     dispatch(selectYear(''));

@@ -3,12 +3,14 @@ import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
 import { useSelector } from 'react-redux';
-import Rooms from '../Rooms';
-import Timeslots from '../Timeslots';
-import Roomslots from '../Roomslots';
+import Subjects from '../Subjects';
+import Sections from '../Section';
+import Schedule from '../Schedule';
 
-function Course() {
+function Year() {
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedYear = useSelector(state => state.auth.year);
+  const selectedSection = useSelector(state => state.auth.sectionnumber);
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
 
     // Assuming you have a function to fetch data from an API
@@ -47,19 +49,15 @@ function Course() {
     }, [selectedCourse]);
 
   return (
-    <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
+    <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <Navbar />
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
-          <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation}</h1>
-          <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-start', width: '100%' }}>
-            <Rooms />             
-            <Timeslots />
-          </div>
-          <Roomslots/>
-          {/* <button style={{ position: 'absolute', bottom: '40px'}}>Generate Schedule</button> */}
+          <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation} - {selectedYear}</h1>
+          <Sections/>
+          {selectedSection ? <Schedule /> : <Subjects />}
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
@@ -69,4 +67,4 @@ function Course() {
   );
 }
 
-export default Course;
+export default Year;

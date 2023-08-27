@@ -70,7 +70,6 @@ function Rooms() {
         const filteredRooms = data.filter(room => room.course === selectedCourse);
         setRoomsData(filteredRooms);
       })
-      .catch(error => console.log(error));
   }, [selectedCourse]);
 
   const lectureRooms = roomsData.filter(room => room.roomtype === 'Lecture');

@@ -2,42 +2,43 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const DeleteRoom = (props) => {
+const DeleteTimeslot = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
-  const selectedRoom = useSelector(state => state.auth.room);
+  const selectedTime = useSelector(state => state.auth.time)
   const selectedType = useSelector(state => state.auth.type);
-  const [roomData, setRoomData] = useState(null);
+  const [timeslotData, setTimeslotData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_room_json/')
+    axios.get('http://127.0.0.1:8000/get_timeslot_json/')
       .then(response => {
-        const roomData = response.data;
-        if (roomData) {
+        const timeslotData = response.data;
+        if (timeslotData) {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
-          const foundRoom = roomData.find(room => 
-            room.course === selectedCourseAbbreviation &&
-            room.roomname === selectedRoom
+          const foundTimeslot = timeslotData.find(timeslot => 
+            timeslot.course === selectedCourseAbbreviation &&
+            timeslot.timeslotID === selectedTime &&
+            timeslot.timeslottype === selectedType
           );
 
-          if (foundRoom) {
-            setRoomData(foundRoom);
+          if (foundTimeslot) {
+            setTimeslotData(foundTimeslot);
           }
         }
       })
-  }, [selectedCourseAbbreviation, selectedRoom, selectedType]);
+  }, [selectedCourseAbbreviation, selectedTime, selectedType]);
 
   const handleDelete = () => {
     // Check if roomData is available before proceeding with the delete request
-    if (!roomData) {
-      console.error('Room data not available.');
+    if (!timeslotData) {
+      console.error('Timeslot data not available.');
       return;
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${roomData.roomname}/`)
+    axios.delete(`http://127.0.0.1:8000/delete_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`)
       .then((response) => {
         // Handle the response or perform any additional actions
-        props.setShowDeleteRooms(false); // Close the delete room form
+        props.setShowDeleteTimeslot(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room
       })
       .catch((error) => {
@@ -74,7 +75,7 @@ const DeleteRoom = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Delete Rooms</h2>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Delete Timeslot</h2>
       </div>
 
       <div style={{
@@ -86,29 +87,26 @@ const DeleteRoom = (props) => {
       top: '97.2%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      // padding: '20px',
       }}/>
 
-      {roomData ? (
+      {timeslotData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>
-          <span style={{fontSize: '15px'}}>Building Number : {roomData.building_number}</span>
-          <br />
-          <span style={{fontSize: '15px'}}>Room Name: {roomData.roomname}</span>
+          <span style={{fontSize: '15px'}}>{timeslotData.starttime} - {timeslotData.endtime}</span>
           {/* Display other room details as needed */}
         </div>
       ) : (
         <div>
-          <h3>Loading room data...</h3>
+          <h3>Loading timeslot data...</h3>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteTimeslot(false)}>No</button>
       </div>
     </div>
   );
 }
 
-export default DeleteRoom;
+export default DeleteTimeslot;

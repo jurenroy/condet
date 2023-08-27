@@ -2,35 +2,34 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-const AddRooms = (props) => {
-  const [roomname, setRoomname] = useState('');
-  const [buildingNumber, setBuildingNumber] = useState('');
+const AddSubject = (props) => {
+  const [subjectcode, setSubjectcode] = useState('');
+  const [subjectname, setSubjectname] = useState('');
   const [error, setError] = useState('');
 
   const selectedCourse = useSelector(state => state.auth.course);
-  const selectedType = useSelector(state => state.auth.type);
-  
+    const selectedYear = useSelector(state => state.auth.year)
 
-  const handleAddRoom = () => {
+  const handleAddSubject = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!roomname || !buildingNumber || !selectedCourse || !selectedType) {
+    if (!subjectcode || !subjectname || !selectedCourse || !selectedYear) {
       setError('All fields are required.');
       return;
     }
 
     // Create FormData object
     const formData = new FormData();
-    formData.append('roomname', roomname);
-    formData.append('building_number', buildingNumber);
-    formData.append('roomtype', selectedType);
+    formData.append('subjectcode', subjectcode);
+    formData.append('subjectname', subjectname);
+    formData.append('year', selectedYear);
 
     // Send the room data to the Django backend
     axios
-      .post(`http://127.0.0.1:8000/add_room/${selectedCourse}/`, formData)
+      .post(`http://127.0.0.1:8000/add_subject/${selectedCourse}/`, formData)
       .then((response) => {
-        props.setShowAddRooms(false); // Close the add room form
+        props.setShowAddSubject(false); // Close the add room form
         window.location.reload();
       })
       .catch((error) => {
@@ -71,7 +70,7 @@ const AddRooms = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Add Rooms</h2>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Add Subject</h2>
       </div>
 
       <div style={{
@@ -83,34 +82,37 @@ const AddRooms = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      
+      // padding: '20px',
       }}/>
-      <h3 style={{marginTop:'50px'}}>Building:</h3>
+
+      
+     
+      <h3 style={{marginTop:'50px'}}>Subject Code:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
         type="text" 
-        value={buildingNumber} 
-        onChange={e => setBuildingNumber(e.target.value)}
+        value={subjectcode} 
+        onChange={e => setSubjectcode(e.target.value)}
         required
       />
 
-      <h3 style={{marginTop:'12px'}}>Room Name:</h3>
+      <h3 style={{marginTop:'12px'}}>Subject Name:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px'}}
         type="text" 
-        value={roomname} 
-        onChange={e => setRoomname(e.target.value)}
+        value={subjectname} 
+        onChange={e => setSubjectname(e.target.value)}
         required
       />
 
       {error && <p style={{ color: 'white' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddRoom}>Add</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddRooms(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddSubject}>Add</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddSubject(false)}>Cancel</button>
       </div>
     </div>
   );
 };
 
-export default AddRooms;
+export default AddSubject;

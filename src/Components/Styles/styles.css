@@ -88,7 +88,6 @@
 }
 button {
     color: white;
-
     background: #4B8DF8;
     border-radius: 10px;
     font-weight: bold;
@@ -175,6 +174,140 @@ Headed {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.conLogin{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: black
+}
+.secondLogin{
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    margin-top: 400px;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 350px;
+    background-color: #000000b4;
+    flex-direction: column;
+    justify-content: center; /* center horizontally */
+    align-items: center; /* center vertically */
+}
+.dept{
+    position: absolute;
+    left: 5%;
+    top: 20%;
+    width: 55%;
+    height: 2rem;
+    border-color: rgb(255, 255, 255);
+    background-color: transparent;
+    font-size: 30px;
+    text-align: center;
+    transition: 0.5s;
+    outline: none;
+    color: white;
+}
+.department{
+    position: absolute;
+    left: 25%;
+    top: 21.5%;
+    font-size: 20px;
+    transition: 0.5s;
+    color: white;
+}
+.dept:valid ~ .department,
+.dept:focus ~ .department{
+    color: white;
+    border: 1.2px solid #fff;
+    background: #4B8DF8;
+    transform: translate(50px,-27px) scale(0.88);
+    border-radius: 6px;
+    font-size: 1em;
+    padding: 0 8px ;
+    left: -1.7rem;
+}
+.role{
+    position: absolute;
+    left: 65%;
+    top: 20%;
+    width: 30%;
+    height: 2.4rem;
+    border-color: rgb(255, 255, 255);
+    background-color: transparent;
+    font-size: 15px;
+    text-align: center;
+    transition: 0.5s;
+    outline: none;
+    color: white;
+    background: #00000000;
+}
+.emailLog{
+    position: absolute;
+    left: 5%;
+    top: 40%;
+    width: 42%;
+    height: 2rem;
+    border-color: rgb(255, 255, 255);
+    background-color: transparent;
+    font-size: 30px;
+    text-align: center;
+    transition: 0.5s;
+    outline: none;
+    color: white;
+}
+.emLog{
+    position: absolute;
+    left: 23%;
+    top: 41.5%;
+    font-size: 20px;
+    transition: 0.5s;
+    color: white;
+}
+.emailLog:valid ~ .emLog,
+.emailLog:focus ~ .emLog{
+    color: white;
+    border: 1.2px solid #fff;
+    background: #4B8DF8;
+    transform: translate(50px,-27px) scale(0.88);
+    border-radius: 6px;
+    font-size: 1em;
+    padding: 0 8px;
+    left: -1.6rem;
+}
+.passLog{
+    position: absolute;
+    left: 52%;
+    top: 40%;
+    width: 42%;
+    height: 2rem;
+    border-color: rgb(255, 255, 255);
+    background-color: transparent;
+    font-size: 20px;
+    text-align: center;
+    transition: 0.5s;
+    outline: none;
+    color: white;
+}
+.passwordLog{
+    position: absolute;
+    left: 66.5%;
+    top: 41.5%;
+    font-size: 20px;
+    transition: 0.5s;
+    color: white;
+}
+.passLog:valid ~ .passwordLog,
+.passLog:focus ~ .passwordLog{
+    color: white;
+    border: 1.2px solid #fff;
+    background: #4B8DF8;
+    transform: translate(50px,-27px) scale(0.88);
+    border-radius: 6px;
+    font-size: 1em;
+    padding: 0 8px ;
+    left: 16rem;
 }
 
 

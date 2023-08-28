@@ -11,3 +11,6 @@ export function createUserProfile(data, headers) {
 export function UserLogin(data, headers) {
   return api.post("api/v1/accounts/token/login", data, headers);
 }
+export function UserRegistration (data, headers){
+  return api.post ("api/v1/accounts/registration")
+}

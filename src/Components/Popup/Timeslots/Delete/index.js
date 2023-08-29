@@ -25,6 +25,7 @@ const DeleteTimeslot = (props) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedTime, selectedType]);
 
   const handleDelete = () => {
@@ -37,6 +38,7 @@ const DeleteTimeslot = (props) => {
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
     axios.delete(`http://127.0.0.1:8000/delete_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`)
       .then((response) => {
+        console.log(response.data);
         // Handle the response or perform any additional actions
         props.setShowDeleteTimeslot(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room
@@ -88,7 +90,6 @@ const DeleteTimeslot = (props) => {
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
       }}/>
-
       {timeslotData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>

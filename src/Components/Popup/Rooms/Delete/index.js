@@ -16,7 +16,8 @@ const DeleteRoom = (props) => {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
           const foundRoom = roomData.find(room => 
             room.course === selectedCourseAbbreviation &&
-            room.roomname === selectedRoom
+            room.roomtype === selectedType &&
+            room.roomID === selectedRoom
           );
 
           if (foundRoom) {
@@ -24,6 +25,7 @@ const DeleteRoom = (props) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedRoom, selectedType]);
 
   const handleDelete = () => {
@@ -34,8 +36,9 @@ const DeleteRoom = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${roomData.roomname}/`)
+    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${selectedRoom}/`)
       .then((response) => {
+        console.log(response.data);
         // Handle the response or perform any additional actions
         props.setShowDeleteRooms(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room
@@ -86,9 +89,8 @@ const DeleteRoom = (props) => {
       top: '97.2%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      // padding: '20px',
-      }}/>
-
+      }}/> 
+      
       {roomData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>
@@ -104,8 +106,8 @@ const DeleteRoom = (props) => {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer'}} onClick={handleDelete}>Yes</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer' }} onClick={() => props.setShowDeleteRooms(false)}>No</button>
       </div>
     </div>
   );

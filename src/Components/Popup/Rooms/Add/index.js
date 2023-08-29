@@ -30,6 +30,7 @@ const AddRooms = (props) => {
     axios
       .post(`http://127.0.0.1:8000/add_room/${selectedCourse}/`, formData)
       .then((response) => {
+        console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddRooms(false); // Close the add room form
         window.location.reload();
       })
@@ -83,7 +84,6 @@ const AddRooms = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      
       }}/>
       <h3 style={{marginTop:'50px'}}>Building:</h3>
       <input

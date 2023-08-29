@@ -11,9 +11,9 @@ import DeleteCourse from '../Popup/Course/Delete';
 
 function Sidebar() {
   const [courseData, setCourseData] = useState([]);
-  const [showAdd , setShowAdd] = useState(false)
-  const [showUpdate , setShowUpdate] = useState(false)
-  const [showDelete , setShowDelete] = useState(false)
+  const [showAdd  , setShowAdd] = useState(false)
+  const [showUpdate  , setShowUpdate] = useState(false)
+  const [showDelete  , setShowDelete] = useState(false)
   const years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
@@ -65,10 +65,7 @@ function Sidebar() {
     dispatch(selectType(''));
   };  
 
-
-  
-
-  return (  
+  return (
     <div style={{ backgroundColor: '#060e57', width: '15%', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <img src={list} alt="list icon" style={{ width: '25px', height: '25px' }} />
@@ -85,9 +82,8 @@ function Sidebar() {
           }}
         />
         )}
-        {showAdd ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
-
-     </div>
+        {showAdd  ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
+      </div>
       <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
         {courseData.map(course => {
           // Check if the college of the course matches the college in the Redux state
@@ -100,14 +96,19 @@ function Sidebar() {
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
                   {isAdmin && (
 
-                   <img 
+                  <img 
                     src={edit} 
                     alt="edit icon" 
                     style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
-                    onClick={() => { handleCancelClick(); dispatch(selectCourse(course.id)); }}
+                    onClick={() => { 
+                      handleCancelClick(); 
+                      dispatch(selectCourse(course.id)); 
+                      setShowAdd(false)
+                      setShowDelete(false)
+                    }}
                   />
                   )}
-                   {showUpdate ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
+                  {showUpdate  ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
                   {isAdmin && (
 
                   <img 
@@ -118,10 +119,10 @@ function Sidebar() {
                       handleNoDeleteClick(course)
                       setShowAdd(false)
                       setShowUpdate(false)
-                  }}
+                  }}  
                   />
                   )}
-                  {showDelete ? <DeleteCourse setShowDelete={setShowDelete} handleNoClick={handleNoDeleteClick} /> : null}
+                  {showDelete  ? <DeleteCourse setShowDelete={setShowDelete} handleNoClick={handleNoDeleteClick} /> : null}
                 </div>
   
                 {/* Show years only if the course is selected */}

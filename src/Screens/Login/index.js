@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import bg from "../../Assets/loginBG.JPG";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { login } from '../../Components/Redux/Auth/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, setAdmin, setCollege } from '../../Components/Redux/Auth/AuthSlice';
 import { UserLogin } from "../../api";
 import USTP from '../..//Assets/logo3.png';
 import USTP2 from '../..//Assets/arrow.png';
@@ -15,6 +15,7 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [errormsg, setErrormsg] = useState("")
+    const storedUsername = useSelector(state => state.auth.username);
 
     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const passvalid = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9-]{7,}$/;
@@ -24,7 +25,10 @@ const Login = () => {
       password: "",
     });
 
-    
+    if (storedUsername === '') {
+      dispatch(setAdmin(false));
+      dispatch(setCollege(''));
+    }
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setData((prevState) => ({ ...prevState, [name]: value }));

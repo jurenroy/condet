@@ -29,6 +29,7 @@ const AddSubject = (props) => {
     axios
       .post(`http://127.0.0.1:8000/add_subject/${selectedCourse}/`, formData)
       .then((response) => {
+        console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddSubject(false); // Close the add room form
         window.location.reload();
       })
@@ -82,11 +83,7 @@ const AddSubject = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      // padding: '20px',
       }}/>
-
-      
-     
       <h3 style={{marginTop:'50px'}}>Subject Code:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}

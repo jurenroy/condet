@@ -25,6 +25,7 @@ const DeleteSubject = (props) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedYear, selectedSubject]);
 
   const handleDelete = () => {
@@ -37,6 +38,7 @@ const DeleteSubject = (props) => {
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
     axios.delete(`http://127.0.0.1:8000/delete_subject/${selectedCourseAbbreviation}/${selectedSubject}/`)
       .then((response) => {
+        console.log(response.data);
         // Handle the response or perform any additional actions
         props.setShowDeleteSubject(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room
@@ -87,9 +89,7 @@ const DeleteSubject = (props) => {
       top: '97.2%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
-      // padding: '20px',
       }}/>
-
       {subjectData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>

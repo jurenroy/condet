@@ -28,17 +28,21 @@ function Home() {
     // Fetch user data from the API using Axios
     axios.get('http://127.0.0.1:8000/users/')
   .then(response => {
+    console.log('Fetched data:', response.data);
     const userData = response.data.find(user => user.email === storedUsername);
+    console.log('User data:', userData);
     if (userData) {
       dispatch(setAdmin(userData.isAdmin));
       dispatch(setCollege(userData.college));
     }
   })
+  .catch(error => console.log('Error fetching data:', error));
   }, [dispatch, location.pathname, storedUsername]);
   if (location.pathname === "/") {
     dispatch(selectCourse(''));
     dispatch(selectYear(''));
     dispatch(selectType(''));
+
   }
 
   return (
@@ -59,7 +63,3 @@ function Home() {
 }
 
 export default Home;
-
-
-
-

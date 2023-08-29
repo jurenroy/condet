@@ -44,6 +44,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedType, selectedTime, selectedStarttime, selectedEndtime]);
 
   const handleFormSubmit = () => {
@@ -65,6 +66,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
     axios
       .post(`http://127.0.0.1:8000/update_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`, formData)
       .then((response) => {
+        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         props.setShowUpdate(false); // Close the update room form
@@ -95,7 +97,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 
 
   return (
-    <div style={{
+     <div style={{
       backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
@@ -122,7 +124,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white' }}>Update timeslot</h2>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Timeslot</h2>
       </div>
 
       <div style={{
@@ -136,7 +138,6 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       borderBottomLeftRadius:'8px',
       // padding: '20px',
       }}/>
-
       <h3 style={{ marginTop: '50px' }}>Start Time: </h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange} militaryTimeProp={formatTimeTo12Hour(selectedStarttime)} />
 

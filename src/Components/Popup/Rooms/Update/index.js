@@ -22,7 +22,7 @@ const UpdateRoom = (props) => {
           const foundRoom = roomData.find(room => 
             room.course === selectedCourseAbbreviation &&
             room.roomtype === selectedType &&
-            room.roomname === selectedRoom
+            room.roomID === selectedRoom
           );
 
           if (foundRoom) {
@@ -31,6 +31,7 @@ const UpdateRoom = (props) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedType, selectedRoom]);
 
   const handleFormSubmit = () => {
@@ -52,6 +53,7 @@ const UpdateRoom = (props) => {
     axios
       .post(`http://127.0.0.1:8000/update_room/${selectedCourseAbbreviation}/${selectedRoom}/`, formData)
       .then((response) => {
+        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         props.setShowUpdate(false); // Close the update room form
@@ -66,7 +68,7 @@ const UpdateRoom = (props) => {
 
 
   return (
-    <div style={{
+     <div style={{
       backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
@@ -93,7 +95,7 @@ const UpdateRoom = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Rooms</h2>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Rooms</h2>
       </div>
 
       <div style={{
@@ -105,9 +107,11 @@ const UpdateRoom = (props) => {
       top: '98%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
+      // padding: '20px',
       }}/>
 
-      <h3 style={{ marginTop: '12px' }}>Building Number:</h3>
+
+      <h3 style={{ marginTop: '50px' }}>Building Number:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
         type="text"

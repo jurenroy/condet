@@ -1,26 +1,31 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 
 const AddCourse = (props) => {
     const [coursename, setCoursename] = useState('');
     const [abbreviation, setAbbreviation] = useState('');
+    // eslint-disable-next-line
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const college = useSelector(state => state.auth.college);
+
     const handleAddCourse = () => {
-      if (coursename.trim() === '' || abbreviation.trim() === '') {
-        setErrorMessage('Please provide a valid coursename and abbreviation');
+      if (coursename.trim() === '' || abbreviation.trim() === ''|| college.trim() === '') {
+        setErrorMessage('Please provide a valid coursename, abbreviation, and college');
         return;
       }
 
       const formData = new FormData();
       formData.append('coursename', coursename);
       formData.append('abbreviation', abbreviation);
+      formData.append('college', college);
   
       axios
         .post('http://127.0.0.1:8000/add_course/', formData)
         .then(response => {
+          console.log(response.data);
           // setSuccessMessage(response.data.message);
           // setErrorMessage('');
           window.location.reload();
@@ -74,8 +79,6 @@ const AddCourse = (props) => {
       borderBottomLeftRadius:'8px',
       }}/>
 
-      
-     
       <h3 style={{marginTop:'50px'}}>Course Name:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
@@ -92,7 +95,7 @@ const AddCourse = (props) => {
         onChange={e => setAbbreviation(e.target.value)}
       />
 
-      {successMessage && <p>{successMessage}</p>}
+      {/* {successMessage && <p>{successMessage}</p>} */}
       {errorMessage && <p>{errorMessage}</p>}
       
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
@@ -104,5 +107,3 @@ const AddCourse = (props) => {
 }
 
 export default AddCourse;
-
-

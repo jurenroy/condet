@@ -31,6 +31,7 @@ const UpdateSubject = (props) => {
           }
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedYear, selectedSubject]);
 
   const handleFormSubmit = () => {
@@ -52,6 +53,7 @@ const UpdateSubject = (props) => {
     axios
       .post(`http://127.0.0.1:8000/update_subject/${selectedCourseAbbreviation}/${selectedSubject}/`, formData)
       .then((response) => {
+        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         props.setShowUpdateSubject(false); // Close the update room form
@@ -93,7 +95,7 @@ const UpdateSubject = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Subject</h2>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Subject</h2>
       </div>
 
       <div style={{
@@ -107,7 +109,7 @@ const UpdateSubject = (props) => {
       borderBottomLeftRadius:'8px',
       // padding: '20px',
       }}/>
-      <h3 style={{ marginTop: '12px' }}>Subject Code:</h3>
+      <h3 style={{ marginTop: '50px' }}>Subject Code:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
         type="text"

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { selectCourse } from '../../../Redux/Auth/AuthSlice';
 
 const UpdateCourse = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
-  
+  const college = useSelector(state => state.auth.college); // Get the college from Redux store
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [coursename, setCoursename] = useState('');
   const [abbreviation, setAbbreviation] = useState('');
 
@@ -18,6 +22,7 @@ const UpdateCourse = (props) => {
           setAbbreviation(foundCourse.abbreviation);
         }
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation]);
 
   const handleFormSubmit = (event) => {
@@ -25,12 +30,17 @@ const UpdateCourse = (props) => {
   
     const formData = new FormData();
     formData.append('coursename', coursename);
-    formData.append('abbreviation', abbreviation);
+    formData.append('new_abbreviation', abbreviation);
+    formData.append('college', college); // Include the college in the form data
   
-    axios.post(`http://localhost:8000/update_course/${selectedCourseAbbreviation}/`, formData)
+    axios.post(`http://127.0.0.1:8000/update_course/${selectedCourseAbbreviation}/`, formData)
       .then((response) => {
+        console.log(response.data);
         // Handle the response or perform any additional actions
+        
+        navigate('/');
         window.location.reload();
+        dispatch(selectCourse(''));
       })
       .catch((error) => {
         console.error(error);
@@ -67,7 +77,7 @@ const UpdateCourse = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white' }}>Update Course</h2>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Course</h2>
       </div>
 
       <div style={{
@@ -81,8 +91,6 @@ const UpdateCourse = (props) => {
       borderBottomLeftRadius:'8px',
       // padding: '20px',
       }}/>
-
-
       
       <h3 style={{ marginTop: '50px' }}>Course Name:</h3>
       <input
@@ -99,7 +107,7 @@ const UpdateCourse = (props) => {
         value={abbreviation}
         onChange={(e) => setAbbreviation(e.target.value)}
       />
-
+  
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdate(false)}>Cancel</button>

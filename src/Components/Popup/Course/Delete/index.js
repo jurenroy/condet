@@ -17,12 +17,14 @@ const DeleteCourse = (props) => {
         const foundCourse = courses.find(course => course.abbreviation === selectedCourseAbbreviation);
         setSelectedCourse(foundCourse);
       })
+      .catch(error => console.log(error));
   }, [selectedCourseAbbreviation]);
 
   const handleDelete = () => {
     if (selectedCourse) {
       axios.delete(`http://127.0.0.1:8000/delete_course/${selectedCourse.abbreviation}/`)
         .then((response) => {
+          console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the course list.
@@ -79,7 +81,6 @@ const DeleteCourse = (props) => {
       borderBottomLeftRadius:'8px',
       }}/>
 
-      
       {selectedCourse ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>

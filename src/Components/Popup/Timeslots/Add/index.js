@@ -38,6 +38,7 @@ const AddTimeslot = (props) => {
     axios
       .post(`http://127.0.0.1:8000/add_timeslot/${selectedCourse}/`, formData)
       .then((response) => {
+        console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddTimeslot(false); // Close the add room form
         window.location.reload();
       })
@@ -92,7 +93,6 @@ const AddTimeslot = (props) => {
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
       }}/>
-
       <h3 style={{marginTop:'50px'}}>Start Time:</h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange} />
       

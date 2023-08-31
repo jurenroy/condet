@@ -1,147 +1,166 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import add from '../../Assets/addicon2.png'
-import editicon from '../../Assets/edit1.png'
-import deleteicon from '../../Assets/delete.png';
-import AddRooms from '../../Components/Popup/Rooms/Add';
-import DeleteRooms from '../../Components/Popup/Rooms/Delete';
-import UpdateRooms from '../../Components/Popup/Rooms/Update';
-import { selectType, selectRoom} from '../../Components/Redux/Auth/AuthSlice';
+import { useSelector } from 'react-redux';
 
-function Rooms() {
-  const dispatch = useDispatch();
-  const [showAddRooms , setShowAddRooms] = useState(false)
-  const [showUpdateRooms , setShowUpdateRooms] = useState(false)
-  const [showDeleteRooms , setShowDeleteRooms] = useState(false)
-  const [roomsData, setRoomsData] = useState([]);
+function Roomslots() {
+  const [roomslotsData, setRoomslotsData] = useState([]);
+  const [selectedRoomslotType, setSelectedRoomslotType] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState('');
+  const [selectedDay, setSelectedDay] = useState('');
+  const [availability, setAvailability] = useState('');
+  const availabilityValue = availability === "true";
+  
   const selectedCourse = useSelector(state => state.auth.course);
   const isAdmin = useSelector(state => state.auth.isAdmin);
 
-  const handleNoClickRooms = () => {
-    setShowAddRooms(prevShow => !prevShow);
-    dispatch(selectType('Lecture'));
-  };
+  const [courseAbbreviation, setCourseAbbreviation] = useState('');
 
-  const handleCancelClickRooms = (room) => {
-    setShowUpdateRooms(prevShow => !prevShow);
-    dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomID)); 
-  }
-
-  const handleNoDeleteClickRooms = (room) => {
-    setShowDeleteRooms(prevShow => !prevShow);
-    dispatch(selectType('Lecture'));
-    dispatch(selectRoom(room.roomID)); 
-  }  
-
-  const handleNoClickRooms2 = () => {
-    setShowAddRooms(prevShow => !prevShow);
-    dispatch(selectType('Laboratory'));
-  };
-
-  const handleCancelClickRooms2 = (room) => {
-    setShowUpdateRooms(prevShow => !prevShow);
-    dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomID)); 
-  }
-
-  const handleNoDeleteClickRooms2 = (room) => {
-    setShowDeleteRooms(prevShow => !prevShow);
-    dispatch(selectType('Laboratory'));
-    dispatch(selectRoom(room.roomID)); 
-  }  
+    // Assuming you have a function to fetch data from an API
+    async function fetchCourseData() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+        return [];
+      }
+    }
+  
+    // Inside your component
+    const getCourseAbbreviation = async (courseId) => {
+      const courseData = await fetchCourseData();
+  
+      // Find the course with the matching course ID
+      const matchingCourse = courseData.find(course => course.courseID === courseId);
+  
+      if (matchingCourse) {
+        return matchingCourse.abbreviation;
+      } else {
+        return null; // Course not found
+      }
+    };
+  
+    useEffect(() => {
+      if (selectedCourse) {
+        getCourseAbbreviation(selectedCourse)
+          .then(abbreviation => setCourseAbbreviation(abbreviation))
+          .catch(error => console.error('Error fetching course abbreviation:', error));
+      }
+    // eslint-disable-next-line
+    }, [selectedCourse]);
 
 
   useEffect(() => {
-    // Fetch data from the API
-    fetch('http://localhost:8000/get_room_json/')
-      .then(response => response.json())
-      .then(data => {
-        // Filter the data based on the selected course
-        const filteredRooms = data.filter(room => room.course === selectedCourse);
-        setRoomsData(filteredRooms);
-      })
-      .catch(error => console.log(error));
-  }, [selectedCourse]);
+    async function fetchRoomslotsData() {
+      try {
+        const response = await fetch('http://localhost:8000/get_roomslot_json/');
+        const data = await response.json();
+        setRoomslotsData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
 
-  const lectureRooms = roomsData.filter(room => room.roomtype === 'Lecture');
-  const laboratoryRooms = roomsData.filter(room => room.roomtype === 'Laboratory');
+    fetchRoomslotsData();
+  }, []);
+
+  // Filtered data based on selected roomslot type and room
+  const filteredRoomslots = roomslotsData.filter(roomslot =>
+    roomslot.course === selectedCourse && 
+    (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) &&
+    (!selectedDay || roomslot.day === selectedDay) &&
+    (!selectedRoom || `${roomslot.building_number} - ${roomslot.roomname}` === selectedRoom)&&
+    (!availability || roomslot.availability === availabilityValue)
+  );
+
+  const uniqueRooms = Array.from(new Set(
+    roomslotsData
+    .filter(roomslot => roomslot.course === selectedCourse && (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) )
+      .map(roomslot => `${roomslot.building_number} - ${roomslot.roomname}`)
+  ));
 
   return (
-    <div style={{width: '100%', textAlign: 'center'}}>
-      <h2>Rooms</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-              <h3>Lecture</h3>
-              {isAdmin && (
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
-              onClick={() => {handleNoClickRooms();
-                setShowUpdateRooms(false);
-                setShowDeleteRooms(false)}}/>
-                )}
-              {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms} /> : null}
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
-
-            </div>
-            {lectureRooms.map((room) => (
-                <div key={room.roomID}>
-                    <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
-                  {isAdmin && ( 
-                    <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                     onClick={() => {handleCancelClickRooms(room);
-                      setShowAddRooms(false);
-                      setShowDeleteRooms(false)}}/>
-                  )}
-                  {isAdmin && (
-                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                    onClick={() => {handleNoDeleteClickRooms(room);
-                      setShowUpdateRooms(false);
-                      setShowAddRooms(false)}}/> 
-                  )}
-                 </div>
-            ))}
-            {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
-            {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms} /> : null}
+    <div>
+      <h2>Roomslot for {courseAbbreviation}</h2>
+      <div style={{display: 'flex', flexDirection: 'row', marginBottom: '20px'}}>
+        <div>
+          <label>Roomslot Type:</label>
+          <select
+            value={selectedRoomslotType}
+            onChange={e => setSelectedRoomslotType(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Lecture">Lecture</option>
+            <option value="Laboratory">Laboratory</option>
+          </select>
         </div>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-            <h3>Laboratory</h3>
-            {isAdmin && ( 
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
-                 onClick={() => {handleNoClickRooms2();
-                  setShowUpdateRooms(false);
-                  setShowDeleteRooms(false)}}/>
-            )}
-                {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms2} /> : null}
-
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
-            </div>
-            {laboratoryRooms.map((room) => (
-              <div key={room.roomID}>
-                <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
-              {isAdmin && (  
-                <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                 onClick={() => {handleCancelClickRooms2(room);
-                  setShowAddRooms(false);
-                  setShowDeleteRooms(false)}}/>
-              )}
-              {isAdmin && (
-                <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                  onClick={() => {handleNoDeleteClickRooms2(room);
-                  setShowUpdateRooms(false);
-                  setShowAddRooms(false)}}/> 
-              )}
-              </div>
+        <div>
+          <label>Room:</label>
+          <select
+            value={selectedRoom}
+            onChange={e => setSelectedRoom(e.target.value)}
+          >
+            <option value="">All</option>
+            {uniqueRooms.map((roomOption, index) => (
+              <option key={index} value={roomOption}>
+                {roomOption}
+              </option>
             ))}
-            {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
-            {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms2} /> : null}
+          </select>
+        </div>
+        <div>
+          <label>Day:</label>
+          <select
+            value={selectedDay}
+            onChange={e => setSelectedDay(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+          </select>
+        </div>
+        <div>
+          <label>Availability:</label>
+          <select
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
         </div>
       </div>
-      <div>
-      </div>
+      <table className="schedule-table">
+        <thead>
+          <tr>
+            <th>Roomslot Type</th>
+            <th>Room</th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Availability</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredRoomslots.map(roomslot => (
+            <tr key={roomslot.roomslotID}>
+              <td>{roomslot.roomslottype}</td>
+              <td>{roomslot.building_number} - {roomslot.roomname}</td>
+              <td>{roomslot.day}</td>
+              <td>{roomslot.starttime} - {roomslot.endtime}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-export default Rooms;
+export default Roomslots;

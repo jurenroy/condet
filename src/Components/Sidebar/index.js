@@ -11,9 +11,9 @@ import DeleteCourse from '../Popup/Course/Delete';
 
 function Sidebar() {
   const [courseData, setCourseData] = useState([]);
-  const [show , setShow] = useState(false)
-  const [show2 , setShow2] = useState(false)
-  const [show3 , setShow3] = useState(false)
+  const [showAdd  , setShowAdd] = useState(false)
+  const [showUpdate  , setShowUpdate] = useState(false)
+  const [showDelete  , setShowDelete] = useState(false)
   const years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
@@ -36,16 +36,16 @@ function Sidebar() {
   };
 
   const handleNoClick = () => {
-    setShow(prevShow => !prevShow);
+    setShowAdd(prevShow => !prevShow);
   };
 
   const handleCancelClick = () => {
-    setShow2(prevShow => !prevShow);
+    setShowUpdate(prevShow => !prevShow);
   }
 
   const handleNoDeleteClick = (course) => {
     dispatch(selectCourse(course.courseID));
-    setShow3(prevShow => !prevShow);
+    setShowDelete(prevShow => !prevShow);
   }  
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Sidebar() {
           onClick={handleNoClick}
         />
         )}
-        {show ? <AddCourse setShow={setShow} handleNoClick={handleNoClick} /> : null}
+        {showAdd  ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
       </div>
       <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
         {courseData.map(course => {
@@ -96,20 +96,29 @@ function Sidebar() {
                     src={edit} 
                     alt="edit icon" 
                     style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
-                    onClick={() => { handleCancelClick(); dispatch(selectCourse(course.id)); }}
+                    onClick={() => { 
+                      handleCancelClick(); 
+                      dispatch(selectCourse(course.id)); 
+                      setShowAdd(false)
+                      setShowDelete(false)
+                    }}
                   />
                   )}
-                  {show2 ? <UpdateCourse setShow2={setShow2} handleNoClick={handleCancelClick} /> : null}
+                  {showUpdate  ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
                   {isAdmin && (
 
                   <img 
                     src={add} 
                     alt="add icon" 
                     style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '8.2%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)' }}
-                    onClick={() => handleNoDeleteClick(course)}
+                    onClick={() => {
+                      handleNoDeleteClick(course)
+                      setShowAdd(false)
+                      setShowUpdate(false)
+                  }}  
                   />
                   )}
-                  {show3 ? <DeleteCourse setShow3={setShow3} handleNoClick={handleNoDeleteClick} /> : null}
+                  {showDelete  ? <DeleteCourse setShowDelete={setShowDelete} handleNoClick={handleNoDeleteClick} /> : null}
                 </div>
   
                 {/* Show years only if the course is selected */}

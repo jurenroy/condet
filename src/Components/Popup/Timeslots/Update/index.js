@@ -97,8 +97,8 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 
 
   return (
-    <div style={{
-      backgroundColor: 'red',
+     <div style={{
+      backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
       top: '50%',
@@ -109,10 +109,36 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      border: '1px solid black',
     }}>
-      <h2 style={{ marginTop: '12px' }}>Update Timeslot</h2>
-      <h3 style={{ marginTop: '12px' }}>Start Time: </h3>
+
+      <div style={{
+      backgroundColor: '#060E57', 
+      height: '20px',
+      width: '400px', 
+      position: 'absolute',
+      left:'0',
+      top: '0%', 
+      borderTopRightRadius:'8px',
+      borderTopLeftRadius:'8px',
+      padding: '20px',
+      }}>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Timeslot</h2>
+      </div>
+
+      <div style={{
+      backgroundColor: '#FAB417', 
+      height: '7px',
+      width: '437.5px', 
+      position: 'absolute',
+      left:'0.4%',
+      top: '98%', 
+      borderBottomRightRadius:'8px',
+      borderBottomLeftRadius:'8px',
+      // padding: '20px',
+      }}/>
+      <h3 style={{ marginTop: '50px' }}>Start Time: </h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange} militaryTimeProp={formatTimeTo12Hour(selectedStarttime)} />
 
       <h3 style={{ marginTop: '12px' }}>End Time:</h3>

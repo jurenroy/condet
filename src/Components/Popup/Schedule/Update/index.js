@@ -328,7 +328,7 @@ const UpdateSchedule = (props) => {
           onChange={(e) => {
             const combinedValue = e.target.value;
             if (combinedValue) {
-            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  {/* Decode the value */}
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-'); 
             setLectureBuildingNumber(selectedBuildingNumber.trim());
             setLectureRoomName(selectedRoomName.trim());
             }else{
@@ -389,7 +389,7 @@ const UpdateSchedule = (props) => {
           onChange={(e) => {
             const combinedValue = e.target.value;
             if (combinedValue) {
-            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  {/* Decode the value */}
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  
             setLabBuildingNumber(selectedBuildingNumber.trim());
             setLabRoomName(selectedRoomName.trim());
             }else{

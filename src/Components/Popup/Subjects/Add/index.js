@@ -45,7 +45,7 @@ const AddSubject = (props) => {
   
   return (
     <div style={{
-      backgroundColor: 'red',
+      backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
       top: '50%',
@@ -56,10 +56,35 @@ const AddSubject = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
+      border: '1px solid black',
       borderRadius: '10px'
     }}>
-      <h2 style={{marginTop:'12px'}}>Add Subject</h2>
-      <h3 style={{marginTop:'12px'}}>Subject Code:</h3>
+
+      <div style={{
+      backgroundColor: '#060E57', 
+      height: '20px',
+      width: '400px', 
+      position: 'absolute',
+      left:'0',
+      top: '0%', 
+      borderTopRightRadius:'8px',
+      borderTopLeftRadius:'8px',
+      padding: '20px',
+      }}>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Add Subject</h2>
+      </div>
+
+      <div style={{
+      backgroundColor: '#FAB417', 
+      height: '7px',
+      width: '437.5px', 
+      position: 'absolute',
+      left:'0.4%',
+      top: '98%', 
+      borderBottomRightRadius:'8px',
+      borderBottomLeftRadius:'8px',
+      }}/>
+      <h3 style={{marginTop:'50px'}}>Subject Code:</h3>
       <input
         style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
         type="text" 

@@ -52,7 +52,7 @@ const DeleteSubject = (props) => {
 
   return (
     <div style={{
-      backgroundColor: 'red',
+      backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
       top: '50%',
@@ -63,9 +63,33 @@ const DeleteSubject = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      border: '1px solid black',
     }}>
-      <h2 style={{marginBottom: '-10px'}}>Delete Subject</h2>
+      <div style={{
+      backgroundColor: '#060E57', 
+      height: '20px',
+      width: '350px', 
+      position: 'absolute',
+      left:'0',
+      top: '0%', 
+      borderTopRightRadius:'8px',
+      borderTopLeftRadius:'8px',
+      padding: '20px',
+      }}>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Delete Subject</h2>
+      </div>
+
+      <div style={{
+      backgroundColor: '#FAB417', 
+      height: '7px',
+      width: '387.8px', 
+      position: 'absolute',
+      left:'0.4%',
+      top: '97.2%', 
+      borderBottomRightRadius:'8px',
+      borderBottomLeftRadius:'8px',
+      }}/>
       {subjectData ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
           <h3>Are you sure you want to delete?</h3>

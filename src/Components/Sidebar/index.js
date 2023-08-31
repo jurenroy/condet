@@ -39,7 +39,8 @@ function Sidebar() {
     setShowAdd(prevShow => !prevShow);
   };
 
-  const handleCancelClick = () => {
+  const handleCancelClick = (course) => {
+    dispatch(selectCourse(course.courseID));
     setShowUpdate(prevShow => !prevShow);
   }
 
@@ -97,8 +98,7 @@ function Sidebar() {
                     alt="edit icon" 
                     style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
                     onClick={() => { 
-                      handleCancelClick(); 
-                      dispatch(selectCourse(course.id)); 
+                      handleCancelClick(course);  
                       setShowAdd(false)
                       setShowDelete(false)
                     }}

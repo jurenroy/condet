@@ -16,7 +16,7 @@ const UpdateCourse = (props) => {
     axios.get('http://localhost:8000/get_course_json/')
       .then(response => {
         const courses = response.data;
-        const foundCourse = courses.find(course => course.abbreviation === selectedCourseAbbreviation);
+        const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
         if (foundCourse) {
           setCoursename(foundCourse.coursename);
           setAbbreviation(foundCourse.abbreviation);
@@ -110,7 +110,7 @@ const UpdateCourse = (props) => {
   
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShow2(false)}>Cancel</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdate(false)}>Cancel</button>
       </div>
     </div>
   );

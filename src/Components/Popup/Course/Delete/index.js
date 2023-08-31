@@ -14,7 +14,7 @@ const DeleteCourse = (props) => {
     axios.get('http://127.0.0.1:8000/get_course_json/')
       .then(response => {
         const courses = response.data;
-        const foundCourse = courses.find(course => course.abbreviation === selectedCourseAbbreviation);
+        const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
         setSelectedCourse(foundCourse);
       })
       .catch(error => console.log(error));
@@ -22,15 +22,16 @@ const DeleteCourse = (props) => {
 
   const handleDelete = () => {
     if (selectedCourse) {
-      axios.delete(`http://127.0.0.1:8000/delete_course/${selectedCourse.abbreviation}/`)
+      axios.delete(`http://127.0.0.1:8000/delete_course/${selectedCourseAbbreviation}/`)
         .then((response) => {
           console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the course list.
           props.setShowDelete(false); // Close the delete modal after successful deletion
-          dispatch(selectCourse(''));
           navigate('/');
+          window.location.reload();
+          dispatch(selectCourse(''));
 
         })
         .catch((error) => {
@@ -90,13 +91,13 @@ const DeleteCourse = (props) => {
         </div>
       ) : (
         <div>
-          <h3>Loading course data...</h3>
+          <h3>Loading course data...{selectedCourse}</h3>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px'}} onClick={handleDelete}>Yes</button>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShow3(false)}>No</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px' }} onClick={() => props.setShowDelete(false)}>No</button>
       </div>
     </div>
   );

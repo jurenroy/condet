@@ -55,7 +55,7 @@ function Course() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation}</h1>
           <div style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'flex-start', width: '100%' }}>
-            <Rooms />             
+            <Rooms/>             
             <Timeslots />
           </div>
           <Roomslots/>

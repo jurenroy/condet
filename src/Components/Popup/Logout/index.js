@@ -16,15 +16,20 @@ const Logout = (props) => {
 
   return (
   <div style={{display: 'flex'}}>
-      <div style={{position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backdropFilter: 'blur(8px)'}}>
+       {/* kadtong blur sa likod */}
+      <div style={{position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(8px)',
+        zIndex: 1}}>
+
+          {/* Color sa container na popup  */}
         <div style={{
-          backgroundColor: 'red',
+          backgroundColor: 'white',
+          border:'1px solid black',
           position: 'relative',
           left: '50%',
           top: '50%',
@@ -37,6 +42,32 @@ const Logout = (props) => {
           flexDirection: 'column',
           borderRadius: '20px'
         }}>
+          {/* Color blue sa taas */}
+          <div style={{
+            backgroundColor: '#060E57', 
+            height: '14px',
+            width: '400px', 
+            position: 'absolute',
+            left:'0%',
+            top: '0%', 
+            borderTopRightRadius:'18px',
+            borderTopLeftRadius:'18px',
+            padding: '10px',
+          }}/>
+
+            {/* Color yellow sa ubos */}
+            <div style={{
+              backgroundColor: '#FAB417', 
+              height: '14px',
+              width: '416.2px', 
+              position: 'absolute',
+              left:'0.2%',
+              top: '91%', 
+              borderBottomRightRadius:'18px',
+              borderBottomLeftRadius:'18px',
+              padding: '1px',
+            }}/>
+
           <h2 style={{marginTop:'12px'}}>Are you sure you want to logout?</h2>
 
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>

@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Index from './Components/Index';
 import Course from './Screens/Course';
 import Year from './Screens/Year';
+import Registration from './Screens/Registration'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Index/>} />
             <Route path="/:course/" element={<Course/>} /> 
             <Route path="/:course/:year" element={<Year/>} />
+            <Route path="/registration" element={<Registration />} />
           </Routes>
         </Router>
     </PersistGate>

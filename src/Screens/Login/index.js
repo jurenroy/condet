@@ -119,9 +119,9 @@ const Login = () => {
             
                 <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '-235px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>No worries,</h4>
             <a href style= {{position:'absolute', cursor: 'pointer', width: '200px'}}>
-                <Link to = 'forgotpass' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>pleace click here </Link>
+                <Link to = 'forgotpass' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>please click here </Link>
             </a>
-                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '180px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>to reset your password</h4>
+                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '185px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}> to reset your password</h4>
 
             <div style={{display: 'flex', flexDirection: 'row', backgroundColor: '#4B8DF8' , height: '40px', width: '100px', justifyContent: 'space-evenly', marginTop: '100px', position: "absolute", marginLeft: '210px', cursor: "pointer"}} onClick={submit}>
                 <h4 style={{marginTop: '8px', color: 'white'}}>Login</h4>
@@ -133,9 +133,9 @@ const Login = () => {
             <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '360px',left: '30px',textDecorationColor: 'white'}}>
                 <Link to = 'registration' style={{color: 'white', fontWeight: 'normal'}}>Doesn’t have an account? Sign Up Here.</Link>
             </a>
+            
           </div>
         </div>
-        
       </div>
     )
 }

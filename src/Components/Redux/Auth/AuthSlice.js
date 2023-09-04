@@ -20,6 +20,7 @@ const AuthSlice = createSlice({
     endtime: '',
     lectureRoomslot: '',
     labRoomslot: '',
+    instructor: '',
     
   },
   reducers: {
@@ -72,9 +73,12 @@ const AuthSlice = createSlice({
     selectLabRoomslot: (state, action) => {
       state.labRoomslot = action.payload;
     },
+    selectInstructor: (state, action) => {
+      state.instructor = action.payload;
+    },
   },
 });
 
-export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject, selectSection, selectSchedule, selectTimeslots, selectLectureRoomslot, selectLabRoomslot } = AuthSlice.actions;
+export const { login, logout, selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom, selectTime, selectSubject, selectSection, selectSchedule, selectTimeslots, selectLectureRoomslot, selectLabRoomslot, selectInstructor } = AuthSlice.actions;
 
 export default AuthSlice.reducer;

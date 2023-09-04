@@ -3,10 +3,12 @@ import editicon from '../../Assets/edit1.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
+import { useNavigate } from 'react-router-dom';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
@@ -122,7 +124,7 @@ function Schedule() {
               <tr key={schedule.scheduleID}>
                 <td>{schedule.subject_code}</td>
                 <td>{schedule.subject_name}</td>
-                <td>{schedule.instructor}</td>
+                <td><p style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
                 <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
                 <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
                 <td>{isAdmin && (

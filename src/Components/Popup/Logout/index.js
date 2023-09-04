@@ -68,7 +68,7 @@ const Logout = (props) => {
               padding: '1px',
             }}/>
 
-          <h2 style={{marginTop:'12px'}}>Are you sure you want to logout?</h2>
+          <h3 style={{marginTop:'12px'}}>Are you sure you want to logout?</h3>
 
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
               <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={YesLogout}>Yes</button>

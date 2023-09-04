@@ -7,6 +7,7 @@ import Index from './Components/Index';
 import Course from './Screens/Course';
 import Year from './Screens/Year';
 import Registration from './Screens/Registration'
+import Instructor from './Screens/Instructor'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Index/>} />
             <Route path="/:course/" element={<Course/>} /> 
             <Route path="/:course/:year" element={<Year/>} />
+            <Route path="/instructor/:instructor" element={<Instructor/>} />
             <Route path="/registration" element={<Registration />} />
           </Routes>
         </Router>

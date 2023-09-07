@@ -7,8 +7,10 @@ import AddSubject from '../../Components/Popup/Subjects/Add';
 import UpdateSubject from '../../Components/Popup/Subjects/Update';
 import DeleteSubject from '../../Components/Popup/Subjects/Delete';
 import { selectSubject} from '../../Components/Redux/Auth/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Subjects() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
@@ -61,7 +63,8 @@ function Subjects() {
       </div>
       {filteredSubjects.map((subject) => (
         <div key={subject.subjectcode}>
-          <span style={{ fontSize: '17px', fontWeight: 'bold' }}>{subject.subjectcode} - {subject.subjectname}</span>
+          
+          <span style={{ fontSize: '17px', fontWeight: 'bold' }}>{subject.subjectcode} - <span style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${subject.subjectname}`);}}>{subject.subjectname}</span></span>
           {isAdmin && (
           <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
           onClick={() => {handleCancelClickSubject(subject);

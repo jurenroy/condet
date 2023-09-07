@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import NotAvailableRoomslot from '../../Components/Popup/Schedule/Not Available RoomSlot';
+import { selectRoomslot } from '../../Components/Redux/Auth/AuthSlice';
 
 function Roomslots() {
+  const dispatch = useDispatch();
   const [roomslotsData, setRoomslotsData] = useState([]);
   const [selectedRoomslotType, setSelectedRoomslotType] = useState('');
   const [selectedRoom, setSelectedRoom] = useState('');
   const [selectedDay, setSelectedDay] = useState('');
   const [availability, setAvailability] = useState('');
   const availabilityValue = availability === "true";
+  const [showNotAvailableRoomslot, setNotAvailableRoomslot] = useState(false);
+
+  const [hoveredRoomslotID, setHoveredRoomslotID] = useState(null);
+
+  const handleMouseEnter = (roomslotID) => {
+    setHoveredRoomslotID(roomslotID);
+    setNotAvailableRoomslot(true);
+    dispatch(selectRoomslot(roomslotID))
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredRoomslotID(null);
+    setNotAvailableRoomslot(false);
+    dispatch(selectRoomslot(''))
+  };
   
   const selectedCourse = useSelector(state => state.auth.course);
 
@@ -142,7 +160,6 @@ function Roomslots() {
             <th>Day</th>
             <th>Time</th>
             <th>Availability</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -152,8 +169,10 @@ function Roomslots() {
               <td>{roomslot.building_number} - {roomslot.roomname}</td>
               <td>{roomslot.day}</td>
               <td>{roomslot.starttime} - {roomslot.endtime}</td>
-              <td></td>
-              <td></td>
+              <td onMouseEnter={() => handleMouseEnter(roomslot.roomslotID)} onMouseLeave={handleMouseLeave} style={{ backgroundColor: hoveredRoomslotID === roomslot.roomslotID && !roomslot.availability ? 'red' : 'white' }}>
+                {roomslot.availability ? 'Yes' : 'No'}
+                {showNotAvailableRoomslot && hoveredRoomslotID === roomslot.roomslotID && !roomslot.availability ? <NotAvailableRoomslot setNotAvailableRoomslot={setNotAvailableRoomslot} /> : null}
+            </td>
             </tr>
           ))}
         </tbody>

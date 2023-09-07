@@ -123,8 +123,8 @@ function Schedule() {
                 
               <tr key={schedule.scheduleID}>
                 <td>{schedule.subject_code}</td>
-                <td>{schedule.subject_name}</td>
-                <td><p style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${schedule.subject_name}`);}}>{schedule.subject_name}</p></td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
                 <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
                 <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
                 <td>{isAdmin && (

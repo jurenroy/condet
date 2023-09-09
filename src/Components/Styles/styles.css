@@ -168,6 +168,26 @@ Headed {
     /* align-items: center; */
 }
 
+.signuperror{
+    color: red;
+    text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
+    font-size: 22px;
+    position: absolute;
+    top: 58%;
+    left: 10%;
+    /* align-items: center; */
+}
+
+.loginerror{
+    color: red;
+    text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
+    font-size: 20px;
+    position: absolute;
+    top: 56%;
+    left: 7%;
+    /* align-items: center; */
+}
+
 .bghehe{
     position: absolute;
     width: 100% ;

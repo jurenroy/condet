@@ -127,7 +127,7 @@ const Login = () => {
                 <h4 style={{marginTop: '8px', color: 'white'}}>Login</h4>
               <img src={USTP2} alt="USTP logo" style={{ width: '25px', height: '25px', marginTop: '7px', marginLeft: '10px', }}/>
             </div>
-            <p className="signuperror">{errormsg}</p>
+            <p className="loginerror">{errormsg}</p>
             <h4 style={{position:'absolute', marginTop: '200px',marginLeft: '-125px', color: 'white',fontWeight: 'normal',fontSize:'17px'}}>Forgot your password?</h4>
             <h4 style={{position:'absolute', marginTop: '310px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
             <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '360px',left: '30px',textDecorationColor: 'white'}}>

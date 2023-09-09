@@ -42,28 +42,36 @@ const Registration = () => {
         if (data.college === "" || data.email === "" || data.password === "") {
             setErrormsg("Please fill out all fields");
             return;
-        }
+        }else if (data.email === ''){
+          
+            setErrormsg("Enter your Email")
+  
+        }else if (regex.test(data.email) === false){
+            
+            setErrormsg("Enter a valid Email")
+  
+        }else if (data.password === ''){
+            
+            setErrormsg("Enter your Password")
+  
+        }else if (passvalid.test(data.password) === false){
+            
+            setErrormsg("Enter a valid Password")
+  
+        }else{
 
-        if (!regex.test(data.email)) {
-            setErrormsg("Enter a valid Email");
-            return;
-        }
+            createUserProfile(data)
+                .then((response) => {
+                    console.log("Registration successful:", response);
+                    navigate('/');
+                })
+                .catch((error) => {
+                    console.error("Registration error:", error);
+                    setErrormsg("Registration failed. Please try again.");
+                });
+        };
+    }
 
-        if (!passvalid.test(data.password)) {
-            setErrormsg("Enter a valid Password");
-            return;
-        }
-
-        createUserProfile(data)
-            .then((response) => {
-                console.log("Registration successful:", response);
-                navigate('/');
-            })
-            .catch((error) => {
-                console.error("Registration error:", error);
-                setErrormsg("Registration failed. Please try again.");
-            });
-    };
 
     return (
         <div style={{ backgroundColor: "lightgray",

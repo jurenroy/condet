@@ -56,7 +56,7 @@ function Home() {
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
-        <p style={{ marginTop: '-5px' }}>footer man ni sya</p>
+        <p style={{ marginTop: '-5px' }}>KOKKAK</p>
       </footer>
     </div>
   );

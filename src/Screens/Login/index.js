@@ -45,23 +45,21 @@ const Login = () => {
     const submit = () =>{
         if (data.username==='' && data.password===''){
             setErrormsg('Please fill out all fields');
-            document.querySelector('input[name="username"]').classList.add('error');
-            document.querySelector('input[name="password"]').classList.add('error');
-
+            
         }else if (data.username === ''){
-          document.querySelector('input[name="username"]').classList.add('error');
+          
           setErrormsg("Enter your Email")
 
         }else if (regex.test(data.username) === false){
-          document.querySelector('input[name="username"]').classList.add('error');
+          
           setErrormsg("Enter a valid Email")
 
         }else if (data.password === ''){
-          document.querySelector('input[name="password"]').classList.add('error');
+          
           setErrormsg("Enter your Password")
 
         }else if (passvalid.test(data.password) === false){
-          document.querySelector('input[name="password"]').classList.add('error');
+          
           setErrormsg("Enter a valid Password")
 
         }else{
@@ -127,7 +125,7 @@ const Login = () => {
                 <h4 style={{marginTop: '8px', color: 'white'}}>Login</h4>
               <img src={USTP2} alt="USTP logo" style={{ width: '25px', height: '25px', marginTop: '7px', marginLeft: '10px', }}/>
             </div>
-            <p className="signuperror">{errormsg}</p>
+            <p className="loginerror">{errormsg}</p>
             <h4 style={{position:'absolute', marginTop: '200px',marginLeft: '-125px', color: 'white',fontWeight: 'normal',fontSize:'17px'}}>Forgot your password?</h4>
             <h4 style={{position:'absolute', marginTop: '310px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
             <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '360px',left: '30px',textDecorationColor: 'white'}}>

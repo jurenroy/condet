@@ -109,7 +109,7 @@ const Registration = () => {
                             }));
                         }}
                         required/>
-                        <span className="department">Department</span>
+                        <span className="department">College</span>
 
                     <input 
                         className="emailLog"

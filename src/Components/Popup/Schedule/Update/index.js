@@ -289,8 +289,11 @@ const UpdateSchedule = (props) => {
  
 
   return (
-    <div style={{
-      backgroundColor: 'red',
+   
+
+
+      <div style={{
+      backgroundColor: 'white',
       position: 'absolute',
       left: '50%',
       top: '50%',
@@ -301,9 +304,58 @@ const UpdateSchedule = (props) => {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
-      borderRadius: '10px'
+      borderRadius: '10px',
+      border: '1px solid black',
     }}>
-      <h2 style={{ marginTop: '12px' }}>Update Schedule for</h2>
+
+      <div style={{
+      backgroundColor: '#060E57', 
+      height: '20px',
+      width: '94%', 
+      position: 'absolute',
+      left:'0',
+      top: '0%', 
+      borderTopRightRadius:'8px',
+      borderTopLeftRadius:'8px',
+      padding: '20px',
+      }}>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Schedule for</h2>
+      </div>
+
+      <div style={{
+      backgroundColor: '#FAB417', 
+      height: '7px',
+      width: '100% ', 
+      position: 'absolute',
+      left:'0%',
+      bottom: '0%', 
+      borderBottomRightRadius:'8px',
+      borderBottomLeftRadius:'8px',
+      // padding: '20px',
+      }}/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <h3 style={{ marginTop: '12px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
       <input

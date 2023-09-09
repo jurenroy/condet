@@ -21,7 +21,7 @@ function Header(props) {
   };
 
   return (
-    <div style={{ backgroundColor: '#060e57', padding: '1px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <div style={{ backgroundColor: '#060e57', padding: '1px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '99.9%' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img src={USTP} alt="USTP logo" style={{ width: '45px', height: '45px', margin: '5px', cursor: 'pointer' }} onClick={handleNavigateToHome} />
         <h1 style={{ color: 'white', fontSize: '20px', marginLeft: '10px', cursor: 'pointer' }} onClick={handleNavigateToHome}>

@@ -86,6 +86,7 @@ const NotAvailableRoomslot = (props) => {
         display: 'flex',
         alignItems: 'center', // Vertically center content
         flexDirection: 'column',
+        marginLeft: '10%'
       }}
     >
       {/* Color sa container na popup */}

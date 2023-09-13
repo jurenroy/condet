@@ -65,6 +65,7 @@ const Login = () => {
           setErrormsg("Enter a valid Password")
 
         }else{
+            setErrormsg("Logging in!")
             UserLogin(data, {
               headers: {
                 "Content-Type": "application/json",
@@ -73,11 +74,11 @@ const Login = () => {
               .then((response) => {
                 navigate('/');
                 dispatch(login(data.username));
-                alert("Account Logged in")
+                
               })
               .catch((error) => {
-                alert(
-                  "Invalid Credentials!\nor your account may not activated\nPlease check your email for activation"
+                setErrormsg(
+                  "Invalid Credentials!"
                 );
               }); 
         }

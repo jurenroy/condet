@@ -183,8 +183,8 @@ Headed {
     text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
     font-size: 20px;
     position: absolute;
-    top: 56%;
-    left: 7%;
+    top: 53%;
+    left: 8%;
     /* align-items: center; */
 }
 
@@ -350,5 +350,4 @@ Headed {
     top: 45.6%;
     left: 45.5%;
 }
-
 

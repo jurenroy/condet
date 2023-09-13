@@ -351,3 +351,7 @@ Headed {
     left: 45.5%;
 }
 
+.conflict {
+    background-color: #ffcccc; /* Background color for conflicting schedules */
+    /* You can add additional styles for better visibility */
+  }

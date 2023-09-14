@@ -7,6 +7,8 @@ import axios from 'axios';
 const AutomateSchedule = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [availableRoomSlots, setAvailableRoomSlots] = useState([]);
+  const [scheduleCount, setScheduleCount] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -16,6 +18,22 @@ const AutomateSchedule = (props) => {
         const courses = response.data;
         const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
         setSelectedCourse(foundCourse);
+      })
+      .catch(error => console.log(error));
+
+    // Fetch available room slots
+    axios.get('http://127.0.0.1:8000/get_roomslot_json/')
+      .then(response => {
+        const roomSlots = response.data.filter(roomslot => roomslot.course === selectedCourseAbbreviation && roomslot.availability === true);
+        setAvailableRoomSlots(roomSlots);
+      })
+      .catch(error => console.log(error));
+
+    // Fetch schedules
+    axios.get('http://127.0.0.1:8000/get_schedule_json/')
+      .then(response => {
+        const schedules = response.data.filter(schedule => schedule.course === selectedCourseAbbreviation && !schedule.instructor && !schedule.lecture_roomslotnumber && !schedule.lab_roomslotnumber);
+        setScheduleCount(schedules.length);
       })
       .catch(error => console.log(error));
   }, [selectedCourseAbbreviation]);
@@ -47,8 +65,8 @@ const AutomateSchedule = (props) => {
       left: '50%',
       top: '50%',
       transform: 'translate(-50%, -50%)',
-      height: '200px',
-      width: '350px',
+      height: '250px',
+      width: 'auto',
       padding: '20px',
       display: 'flex',
       justifyContent: 'center',
@@ -59,7 +77,7 @@ const AutomateSchedule = (props) => {
       <div style={{
       backgroundColor: '#060E57', 
       height: '20px',
-      width: '350px', 
+      width: '91%', 
       position: 'absolute',
       left:'0',
       top: '0%', 
@@ -67,26 +85,31 @@ const AutomateSchedule = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Delete Course</h2>
+         <h2 style={{marginTop:'-10px',color:'white'}}>Automate Schedule for</h2>
       </div>
 
       <div style={{
       backgroundColor: '#FAB417', 
       height: '7px',
-      width: '387.8px', 
+      width: '100%', 
       position: 'absolute',
-      left:'0.4%',
-      top: '97.2%', 
+      left:'0.1%',
+      bottom: '0.1%', 
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
       }}/>
 
       {selectedCourse ? (
         <div style={{marginTop: '10px', textAlign: 'center'}}>
-          <h3>Automate schedule for</h3>
-          <span style={{fontSize: '15px'}}>{selectedCourse.coursename}</span>
+          <h3 style={{marginTop: '5px'}}>Automate schedule for</h3>
+          
+          <span style={{fontSize: '20px', fontWeight: 'bold', textAlign: 'center'}}>{selectedCourse.abbreviation}</span>
+          <span style={{fontSize: '15px', fontWeight: 'bold'}}> - {selectedCourse.coursename}</span>
+
           <br/>
-          <span style={{fontSize: '25px', fontWeight: 'bold', textAlign: 'center'}}>{selectedCourse.abbreviation}</span>
+          <h4>Available Room Slots: {availableRoomSlots.length}</h4>
+
+          <h4>No of Lecture:{scheduleCount} & No of Laboratory:{scheduleCount} to be schedule</h4>
         </div>
       ) : (
         <div>
@@ -95,7 +118,7 @@ const AutomateSchedule = (props) => {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer'}} onClick={handleAutomate}>Yes</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: availableRoomSlots.length < (scheduleCount * 2) || scheduleCount === 0 ? 'not-allowed' : 'pointer'}} onClick={handleAutomate} disabled={availableRoomSlots.length < scheduleCount * 2 || scheduleCount===0}>Yes</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10%', marginTop: '-15px', cursor: 'pointer' }} onClick={() => props.setShowAutomate(false)}>No</button>
       </div>
     </div>

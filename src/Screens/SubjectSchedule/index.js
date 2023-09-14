@@ -188,6 +188,7 @@ async function fetchScheduleDataForSearch(searchQuery) {
                   <th>Instructor</th>
                   <th>Lecture Schedule</th>
                   <th>Laboratory Schedule</th>
+                  <th>Conflict</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -203,13 +204,29 @@ async function fetchScheduleDataForSearch(searchQuery) {
                     yearValue = '4';
                   }
 
+                  const isConflict = schedule.lecture_day === schedule.lab_day && schedule.lecture_day && schedule.lab_day;
+
+                  // Parse the start and end times into Date objects
+                  const lectureStartTime = new Date(`1970-01-01T${schedule.lecture_starttime}`);
+                  const lectureEndTime = new Date(`1970-01-01T${schedule.lecture_endtime}`);
+                  const labStartTime = new Date(`1970-01-01T${schedule.lab_starttime}`);
+                  const labEndTime = new Date(`1970-01-01T${schedule.lab_endtime}`);
+
+                  // Check if there is a time overlap
+                  const isTimeConflict = isConflict && lectureStartTime < labEndTime && lectureEndTime > labStartTime;
+
                   return (
                     <tr key={schedule.scheduleID}>
                       <td>{schedule.abbreviation}{yearValue}S{schedule.section_number}</td>
                       <td>{schedule.subject_code} - {schedule.subject_name}</td>
-                      <td>{schedule.instructor}</td>
+                      <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
                       <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
                       <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
+                      <td>
+                        {isConflict && <p style={{color: 'red'}}>Lecture and Lab on the same day</p>}
+                        {isTimeConflict && <p style={{color: 'red'}}>Time Conflict</p>}
+                        {!isConflict && !isTimeConflict && <p>No conflict</p>}
+                      </td>
                       <td>{isAdmin && (
                         <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
                           onClick={() => { handleCancelClickSchedule(schedule); }} />

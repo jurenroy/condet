@@ -305,13 +305,14 @@ const UpdateSchedule = (props) => {
     }
   }, [selectedCourse, labDay, labStartTime, labEndTime, labBuildingNumber, labRoomName]);
 
-    
- 
+  const isDisabled = 
+    ((parseInt(selectedLabRoomslot) !== parseInt(labRoomslotNumber) && isLabModified === false &&labRoomslotAvailability === false) &&
+    (parseInt(selectedLectureRoomslot) !== parseInt(lectureRoomslotNumber) &&isLectureModified === false &&lectureRoomslotAvailability === false))
+    || (parseInt(selectedLabRoomslot) !== parseInt(labRoomslotNumber) && isLabModified === false &&labRoomslotAvailability === false) 
+    || (parseInt(selectedLectureRoomslot) !== parseInt(lectureRoomslotNumber) &&isLectureModified === false &&lectureRoomslotAvailability === false)
+
 
   return (
-   
-
-
       <div style={{
       backgroundColor: 'white',
       position: 'absolute',
@@ -353,28 +354,6 @@ const UpdateSchedule = (props) => {
       borderBottomLeftRadius:'8px',
       // padding: '20px',
       }}/>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <h3 style={{ marginTop: '12px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
@@ -440,8 +419,8 @@ const UpdateSchedule = (props) => {
         </select>
       </div>
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-      {lectureDetailsFilled===false && <p style={{marginRight: '50px'}}>Please input lecture details</p>}
-      {selectedLectureRoomslot === lectureRoomslotNumber && isLectureModified===false && lectureRoomslotAvailability === false && <p>Room slot is not available</p>}
+      {lectureDetailsFilled===false && <p style={{marginRight: '50px'}}>Please input lecture details else be empty</p>}
+      {parseInt(selectedLectureRoomslot) !== parseInt(lectureRoomslotNumber) && isLectureModified===false && lectureRoomslotAvailability === false && <p>Room slot is not available</p>}
       
       </div>
 
@@ -482,14 +461,14 @@ const UpdateSchedule = (props) => {
           onChange={(e) => {
             const selectedTimeslot = e.target.value;
             if (selectedTimeslot) {
-              const [selectedStart, selectedEnd] = selectedTimeslot.split('-');
-              setLabStartTime(selectedStart.trim());
-              setLabEndTime(selectedEnd.trim());
-            } else {
-              // Handle the case when the selected timeslot is empty
-              setLabStartTime('');
-              setLabEndTime('');
-            }
+                const [selectedStart, selectedEnd] = selectedTimeslot.split('-');
+                setLabStartTime(selectedStart.trim());
+                setLabEndTime(selectedEnd.trim());
+              } else {
+                // Handle the case when the selected timeslot is empty
+                setLabStartTime('');
+                setLabEndTime('');
+              }
           }}
         >
           <option value=" - ">Select Timeslot</option>
@@ -502,14 +481,16 @@ const UpdateSchedule = (props) => {
       </div>
 
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-      {labDetailsFilled===false && <p style={{marginRight: '50px'}}>Please input laboratory details</p>}
-      {selectedLabRoomslot === labRoomslotNumber && isLabModified===false && labRoomslotAvailability === false && <p>Room slot is not available</p>}
+      {labDetailsFilled===false && <p style={{marginRight: '50px'}}>Please input laboratory details else be empty</p>}
+      {parseInt(selectedLabRoomslot) !== parseInt(labRoomslotNumber) && isLabModified === false && labRoomslotAvailability === false && <p>Room slot is not available</p>}
       </div>
 
       {error && <p style={{ color: 'white' }}>{error}</p>}
 
+      
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor:  'pointer'}} onClick={handleFormSubmit} >Update</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: !isDisabled ? 'pointer' : 'not-allowed'}} onClick={handleFormSubmit} disabled={isDisabled} >Update</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={() => props.setShowUpdateSchedule(false)}>Cancel</button>
       </div>
     </div>

@@ -71,7 +71,7 @@ function Rooms() {
     <div style={{width: '100%', textAlign: 'center'}}>
       <h2>Rooms</h2>
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
               <h3>Lecture</h3>
               {isAdmin && (

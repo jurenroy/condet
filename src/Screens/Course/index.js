@@ -7,6 +7,7 @@ import Rooms from '../Rooms';
 import Timeslots from '../Timeslots';
 import Roomslots from '../Roomslots';
 
+
 function Course() {
   const selectedCourse = useSelector(state => state.auth.course);
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
@@ -46,6 +47,7 @@ function Course() {
     // eslint-disable-next-line
     }, [selectedCourse]);
 
+
   return (
     <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
       <Header />
@@ -59,11 +61,10 @@ function Course() {
             <Timeslots />
           </div>
           <Roomslots/>
-          {/* <button style={{ position: 'absolute', bottom: '40px'}}>Generate Schedule</button> */}
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
-        <p style={{ marginTop: '-5px' }}>footer man ni sya</p>
+        <p style={{ marginTop: '-5px' }}>Team Kokkak</p>
       </footer>
     </div>
   );

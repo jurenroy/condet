@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bg from "../../Assets/loginBG.JPG";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux'; 
-import { setAdmin, setCollege } from '../../Components/Redux/Auth/AuthSlice';
-import { UserRegistration, createUserProfile } from "../../api";
+import { createUserProfile } from "../../api";
 import USTP from '../..//Assets/logo3.png';
 import USTP2 from '../..//Assets/arrow.png';
-import USER from '../..//Assets/user.png';
-import LOCK from '../..//Assets/lock.png';
-import styles from '../../Components/Styles/styles.css'
+import axios from "axios";
 
 const Registration = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [errormsg, setErrormsg] = useState("");
+    const [msg, setMsg] = useState("");
+    const [userlist, setUserlist] = useState([]);
+    const [emailExists, setEmailExists] = useState(false);
 
     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const passvalid = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9-]{7,}$/;
@@ -35,6 +33,7 @@ const Registration = () => {
         if (inputElement) {
             inputElement.classList.remove('error');
             setErrormsg(' ');
+            setMsg(' ');
         }
     };
 
@@ -42,41 +41,62 @@ const Registration = () => {
         const value = e.target.value;
         const isAdmin = value === 'Admin';
         setData((prevState) => ({ ...prevState, isAdmin, last_name: value }));
+        setErrormsg(' ');
+        setMsg(' ');
     };
 
-    const submit = () => {
-        if (data.college === "" || data.email === "" || data.password === "") {
-            setErrormsg("Please fill out all fields");
-            return;
-        }else if (data.email === ''){
-          
-            setErrormsg("Enter your Email")
-  
-        }else if (regex.test(data.email) === false){
-            
-            setErrormsg("Enter a valid Email")
-  
-        }else if (data.password === ''){
-            
-            setErrormsg("Enter your Password")
-  
-        }else if (passvalid.test(data.password) === false){
-            
-            setErrormsg("Enter a valid Password")
-  
-        }else{
+    useEffect(() => {
+      // Fetch user data from the server when the component mounts
+      axios.get('http://localhost:8000/users/')
+          .then(response => {
+          console.log(response.data)
+          const fetchedUserlist = response.data; // Assuming the response contains user data
+          setUserlist(fetchedUserlist);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          // setErrormsg('Error fetching user data ha. Please try again.');
+        });
+    }, []); // Empty dependency array ensures this effect runs only once on component mount
+    
+      const submit = () => {
+        if (data.college === '' || data.email === '' || data.password === '') {
+          setErrormsg('Please fill out all fields');
+          return;
+        } else if (data.email === '') {
+          setErrormsg('Enter your Email');
+          return;
+        } else if (regex.test(data.email) === false) {
+          setErrormsg('Enter a valid Email');
+          return;
+        } else if (data.password === '') {
+          setErrormsg('Enter your Password');
+          return;
+        } else if (passvalid.test(data.password) === false) {
+          setErrormsg('Enter a valid Password');
+          return;
+        }
+    
+        // Check if the email already exists in the fetched user data
+        const emailExists = userlist.some((user) => user.email === data.email);
+    
+        if (emailExists) {
+          setErrormsg('Email address already exists');
+        } else { 
+        setMsg('Account Registering, please wait!');
+        setErrormsg('');
+          createUserProfile(data)
+            .then((response) => {
+              console.log('Registration successful:', response);
+              navigate('/');
+            })
+            .catch((error) => {
+              console.error('Registration error:', error);
+              navigate('/');
+            });
+        }
+      };
 
-            createUserProfile(data)
-                .then((response) => {
-                    console.log("Registration successful:", response);
-                    navigate('/');
-                })
-                .catch((error) => {
-                    console.error("Registration error:", error);
-                    setErrormsg("Registration failed. Please try again.");
-                });
-        };
-    }
 
 
     return (
@@ -99,7 +119,7 @@ const Registration = () => {
                             fontSize: '25px', 
                             fontWeight: 'normal',
                             top:'0px'
-                            }}>Register an account {data.isAdmin}{data.last_name}</h1>
+                            }}>Register an account </h1>
 
                     <input 
                         className="dept"
@@ -113,6 +133,8 @@ const Registration = () => {
                                 college: newValue,
                                 first_name: newValue, // Update first_name along with college
                             }));
+                            setErrormsg(' ');
+                            setMsg(' ');
                         }}
                         required/>
                         <span className="department">College</span>
@@ -129,6 +151,8 @@ const Registration = () => {
                                 email: newValue,
                                 username: newValue, // Update first_name along with college
                             }));
+                            setErrormsg(' ');
+                            setMsg(' ');
                         }}
                         required/>
                         <span className="emLog">Email</span>
@@ -183,6 +207,7 @@ const Registration = () => {
                     </button>
 
                     <p className="signuperror">{errormsg}</p>
+                    <p className="message">{msg}</p>
 
                     <h4 style={{position:'absolute', 
                             // textAlign:'center',

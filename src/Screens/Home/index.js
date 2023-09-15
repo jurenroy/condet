@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCourse, selectYear, setAdmin, setCollege, selectType, selectRoom,selectSubject,selectSection,selectTime } from '../../Components/Redux/Auth/AuthSlice';
 import axios from 'axios';
+import Generate from '../Generate';
 
 function Home() {
   const location = useLocation();
@@ -52,11 +53,12 @@ function Home() {
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Generate/>
           <img src={USTP} alt="USTP logo" style={{ width: '450px', height: '450px', margin: '5px' }}/>
         </div>
       </div>
       <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
-        <p style={{ marginTop: '-5px' }}>KOKKAK</p>
+        <p style={{ marginTop: '-5px' }}>Team Kokkak</p>
       </footer>
     </div>
   );

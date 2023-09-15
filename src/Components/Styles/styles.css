@@ -168,12 +168,34 @@ Headed {
     /* align-items: center; */
 }
 
+.signuperror{
+    color: red;
+    text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
+    font-size: 22px;
+    position: absolute;
+    top: 58%;
+    left: 10%;
+    /* align-items: center; */
+}
+
+.message{
+    color: #4CBB17;
+    /* text-shadow: 0 0 5px green,  0 0 15px  green, 0 0 30px  green, 0 0 60px  green; */
+    font-size: 22px;
+    position: absolute;
+    top: 58%;
+    left: 10%;
+    font-weight: bold;
+    /* align-items: center; */
+}
+
+
 .loginerror{
     color: red;
     text-shadow: 0 0 5px  #7d0000,  0 0 15px  #7d0000, 0 0 30px  #7d0000, 0 0 60px  #7d0000;
     font-size: 20px;
     position: absolute;
-    top: 55%;
+    top: 53%;
     left: 8%;
     /* align-items: center; */
 }
@@ -341,4 +363,7 @@ Headed {
     left: 45.5%;
 }
 
-
+.conflict {
+    background-color: #ffcccc; /* Background color for conflicting schedules */
+    /* You can add additional styles for better visibility */
+  }

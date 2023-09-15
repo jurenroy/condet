@@ -3,10 +3,12 @@ import editicon from '../../Assets/edit1.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
+import { useNavigate } from 'react-router-dom';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
@@ -91,6 +93,61 @@ function Schedule() {
     yearvalue = '4';
   }
 
+  function checkScheduleConflicts(scheduleEntries) {
+    const conflicts = [];
+  
+    for (let i = 0; i < scheduleEntries.length; i++) {
+      for (let j = i + 1; j < scheduleEntries.length; j++) {
+        const entry1 = scheduleEntries[i];
+        const entry2 = scheduleEntries[j];
+  
+        if (
+          entry1.day === entry2.day &&
+          entry1.starttime < entry2.endtime &&
+          entry1.endtime > entry2.starttime
+        ) {
+          conflicts.push([entry1, entry2]);
+        }
+      }
+    }
+  
+    return conflicts;
+  }
+
+  const extractedTimes = [];
+
+  scheduleData.forEach(schedule => {
+    const lectureTime = {
+      building_number: schedule.lecture_building_number,
+      roomname: schedule.lecture_roomname,
+      day: schedule.lecture_day,
+      starttime: schedule.lecture_starttime,
+      endtime: schedule.lecture_endtime,
+    };
+  
+    const labTime = {
+      building_number: schedule.lab_building_number,
+      roomname: schedule.lab_roomname,
+      day: schedule.lab_day,
+      starttime: schedule.lab_starttime,
+      endtime: schedule.lab_endtime,
+    };
+  
+    extractedTimes.push(lectureTime, labTime);
+  });
+
+  const conflicts = checkScheduleConflicts(extractedTimes);
+
+  const conflex = []
+
+if (conflicts.length > 0) {
+  for (const conflict of conflicts) {
+    conflex.push(conflict[0]);
+    conflex.push(conflict[1]);
+  }
+} 
+
+
   return (
     <div>
       <h2 style={{textAlign: 'center'}}>Schedule for {courseAbbreviation.substring(2)}{yearvalue}S{selectedSection}</h2>
@@ -102,6 +159,7 @@ function Schedule() {
             <th>Instructor</th>
             <th>Lecture Schedule</th>
             <th>Laboratory Schedule</th>
+            <th>Conflict</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -117,14 +175,81 @@ function Schedule() {
               yearValue = '4';
             }
 
+            const isConflict = schedule.lecture_day === schedule.lab_day && schedule.lecture_day && schedule.lab_day;
+
+            // Parse the start and end times into Date objects
+            const lectureStartTime = new Date(`1970-01-01T${schedule.lecture_starttime}`);
+            const lectureEndTime = new Date(`1970-01-01T${schedule.lecture_endtime}`);
+            const labStartTime = new Date(`1970-01-01T${schedule.lab_starttime}`);
+            const labEndTime = new Date(`1970-01-01T${schedule.lab_endtime}`);
+
+            // Check if there is a time overlap
+            const isTimeConflict = isConflict && lectureStartTime < labEndTime && lectureEndTime > labStartTime;
+
             return (
                 
               <tr key={schedule.scheduleID}>
                 <td>{schedule.subject_code}</td>
-                <td>{schedule.subject_name}</td>
-                <td>{schedule.instructor}</td>
-                <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
-                <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${schedule.subject_name}`);}}>{schedule.subject_name}</p></td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
+                <td>
+                  <p style={{
+                    color: conflex.some(conflict =>
+                      conflict.day === schedule.lecture_day &&
+                      conflict.starttime === schedule.lecture_starttime &&
+                      conflict.endtime === schedule.lecture_endtime &&
+                      conflict.building_number === schedule.lecture_building_number &&
+                      conflict.roomname === schedule.lecture_roomname
+                    ) ? 'red' : 'black'
+                  }}>
+                    {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]
+                  </p>
+                </td>
+                <td>
+                  <p style={{
+                    color: conflex.some(conflict =>
+                      conflict.day === schedule.lab_day &&
+                      conflict.starttime === schedule.lab_starttime &&
+                      conflict.endtime === schedule.lab_endtime &&
+                      conflict.building_number === schedule.lab_building_number &&
+                      conflict.roomname === schedule.lab_roomname
+                    ) ? 'red' : 'black'
+                  }}>
+                    {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]
+                  </p>
+                </td>
+
+                <td>
+                  {isConflict && <p style={{color: 'red'}}>Lecture and Lab on the same day</p>}
+                  {isTimeConflict && <p style={{color: 'red'}}>Time Conflict with the subject</p>}
+                  {conflex.some(conflict =>
+                            conflict.day === schedule.lab_day &&
+                            conflict.starttime === schedule.lab_starttime &&
+                            conflict.endtime === schedule.lab_endtime &&
+                            conflict.building_number === schedule.lab_building_number &&
+                            conflict.roomname === schedule.lab_roomname
+                          ) && <p style={{color: 'red'}}>Conflict with Laboratory Schedule</p>}
+                  {conflex.some(conflict =>
+                            conflict.day === schedule.lecture_day &&
+                            conflict.starttime === schedule.lecture_starttime &&
+                            conflict.endtime === schedule.lecture_endtime &&
+                            conflict.building_number === schedule.lecture_building_number &&
+                            conflict.roomname === schedule.lecture_roomname
+                          ) && <p style={{color: 'red'}}>Conflict with Lecture Schedule</p>}
+                        {!conflex.some(conflict =>
+                            conflict.day === schedule.lab_day &&
+                            conflict.starttime === schedule.lab_starttime &&
+                            conflict.endtime === schedule.lab_endtime &&
+                            conflict.building_number === schedule.lab_building_number &&
+                            conflict.roomname === schedule.lab_roomname
+                          ) && !conflex.some(conflict =>
+                            conflict.day === schedule.lecture_day &&
+                            conflict.starttime === schedule.lecture_starttime &&
+                            conflict.endtime === schedule.lecture_endtime &&
+                            conflict.building_number === schedule.lecture_building_number &&
+                            conflict.roomname === schedule.lecture_roomname
+                          ) &&  !isConflict && !isTimeConflict && <p>No conflict</p>}
+                </td>
                 <td>{isAdmin && (
                     <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickSchedule(schedule);}}/>
@@ -135,6 +260,39 @@ function Schedule() {
         </tbody>
       </table>
       {showUpdateSchedule ? <UpdateSchedule setShowUpdateSchedule={setShowUpdateSchedule} handleCancelClickSchedule={handleCancelClickSchedule} /> : null}
+      
+        <div>
+{conflicts.length > 0 ? (
+  <table className="schedule-table">
+    <thead>
+      <tr>
+        <th>Conflict 1</th>
+        <th>Conflict 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      {conflicts.map((conflict, index) => (
+        <tr key={index}>
+          <td>
+            <p>BN#: {conflict[0].building_number} Room: {conflict[0].roomname}</p>
+            <p>{conflict[0].day} : {conflict[0].starttime} - {conflict[0].endtime}</p>
+            {/* Render other properties as needed */}
+          </td>
+          <td>
+            <p>BN#: {conflict[1].building_number} Room: {conflict[1].roomname}</p>
+            <p>{conflict[1].day} : {conflict[1].starttime} - {conflict[1].endtime}</p>
+            {/* Render other properties as needed */}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+) : (
+  <p>No conflicts detected.</p>
+)}
+
+
+      </div>
     </div>
   );
 }

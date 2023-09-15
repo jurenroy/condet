@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import list from '../../Assets/listicon.png';
 import add from '../../Assets/addicon.png';
 import edit from '../../Assets/edit1.png';
+import generate from '../../Assets/generate-icon.png';
 import AddCourse from '../Popup/Course/Add';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCourse, selectYear, selectRoom, selectSection, selectSubject, selectTime, selectType } from '../Redux/Auth/AuthSlice';
 import UpdateCourse from '../Popup/Course/Update';
 import DeleteCourse from '../Popup/Course/Delete';
+import AutomateSchedule from '../Popup/Schedule/Automate';
 
 function Sidebar() {
   const [courseData, setCourseData] = useState([]);
   const [showAdd  , setShowAdd] = useState(false)
   const [showUpdate  , setShowUpdate] = useState(false)
   const [showDelete  , setShowDelete] = useState(false)
+  const [showAutomate  , setShowAutomate] = useState(false)
   const years = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
@@ -47,6 +50,10 @@ function Sidebar() {
   const handleNoDeleteClick = (course) => {
     dispatch(selectCourse(course.courseID));
     setShowDelete(prevShow => !prevShow);
+  }  
+  const handleAutomateClick = (course) => {
+    dispatch(selectCourse(course.courseID));
+    setShowAutomate(prevShow => !prevShow);
   }  
 
   useEffect(() => {
@@ -89,16 +96,17 @@ function Sidebar() {
           if (isMatchingCollege) {
             return (
               <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px'}}>
+                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '150%', marginLeft: '-30%'}}>
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
+                  
                   {isAdmin && (
 
                   <img 
-                    src={edit} 
-                    alt="edit icon" 
-                    style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
+                    src={generate} 
+                    alt="generate icon" 
+                    style={{ width: '25px', height: '25px', marginRight: '-35%', cursor: 'pointer' }} 
                     onClick={() => { 
-                      handleCancelClick(course);  
+                      handleAutomateClick(course);    
                       setShowAdd(false)
                       setShowDelete(false)
                     }}
@@ -107,10 +115,26 @@ function Sidebar() {
                   {showUpdate  ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
                   {isAdmin && (
 
+                    <img 
+                      src={edit} 
+                      alt="edit icon" 
+                      style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
+                      onClick={() => { 
+                        handleCancelClick(course);  
+                        setShowAdd(false)
+                        setShowDelete(false)
+                      }}
+                    />
+                    )}
+                  {showAutomate  ? <AutomateSchedule setShowAutomate={setShowAutomate} handleNoClick={handleAutomateClick} /> : null}
+                  {isAdmin && (
+
+                    
+
                   <img 
                     src={add} 
                     alt="add icon" 
-                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '8.2%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)' }}
+                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '13%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)', marginTop: '-0.5%' }}
                     onClick={() => {
                       handleNoDeleteClick(course)
                       setShowAdd(false)

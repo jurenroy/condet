@@ -6,11 +6,23 @@ import { useSelector } from 'react-redux';
 import Rooms from '../Rooms';
 import Timeslots from '../Timeslots';
 import Roomslots from '../Roomslots';
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Course() {
   const selectedCourse = useSelector(state => state.auth.course);
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
+  const navigate = useNavigate();
+
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  useEffect(() => {
+      // Check if the user is logged in and navigate accordingly
+      if (!isLoggedIn) {
+        navigate('/'); // Redirect to the '/' route
+      }
+    }, [isLoggedIn, navigate]);
+
 
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {

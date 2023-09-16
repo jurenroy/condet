@@ -5,13 +5,23 @@ import { createUserProfile } from "../../api";
 import USTP from '../..//Assets/logo3.png';
 import USTP2 from '../..//Assets/arrow.png';
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Registration = () => {
     const navigate = useNavigate();
     const [errormsg, setErrormsg] = useState("");
     const [msg, setMsg] = useState("");
     const [userlist, setUserlist] = useState([]);
+    // eslint-disable-next-line
     const [emailExists, setEmailExists] = useState(false);
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+    useEffect(() => {
+      // Check if the user is logged in and navigate accordingly
+      if (isLoggedIn) {
+        navigate('/'); // Redirect to the '/' route
+      }
+    }, [isLoggedIn, navigate]);
 
     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     const passvalid = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9-]{7,}$/;
@@ -58,6 +68,12 @@ const Registration = () => {
           // setErrormsg('Error fetching user data ha. Please try again.');
         });
     }, []); // Empty dependency array ensures this effect runs only once on component mount
+
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        submit();
+      }
+    };
     
       const submit = () => {
         if (data.college === '' || data.email === '' || data.password === '') {
@@ -136,6 +152,7 @@ const Registration = () => {
                             setErrormsg(' ');
                             setMsg(' ');
                         }}
+                        onKeyDown={handleKeyPress}
                         required/>
                         <span className="department">College</span>
 
@@ -154,6 +171,7 @@ const Registration = () => {
                             setErrormsg(' ');
                             setMsg(' ');
                         }}
+                        onKeyDown={handleKeyPress}
                         required/>
                         <span className="emLog">Email</span>
 
@@ -161,6 +179,7 @@ const Registration = () => {
                         className="role"
                         name="role"
                         value={data.role}
+                        onKeyDown={handleKeyPress}
                         onChange={handleRoleChange}>
 
                         <option value=" " disabled selected
@@ -185,6 +204,7 @@ const Registration = () => {
                         name="password"
                         value={data.password}
                         onChange={handleInputChange}
+                        onKeyDown={handleKeyPress}
                         required/>
                         <span className="passwordLog">Password</span>
                                     

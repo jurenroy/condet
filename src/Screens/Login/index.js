@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bg from "../../Assets/loginBG.JPG";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +39,11 @@ const Login = () => {
         }
       };
 
-
+      const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+          submit();
+        }
+      };
 
 
     const submit = () =>{
@@ -99,6 +103,7 @@ const Login = () => {
             name="username"
             value={data.username}
             onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
             required = 'required'/>
             <span className="em">Email</span>
             <img src={USER} alt='user' style={{position:'absolute', marginTop:'-185px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
@@ -112,13 +117,14 @@ const Login = () => {
             name="password"
             value={data.password}
             onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
             required = 'required'/>
             <span className="password">Password</span>
             <img src={LOCK} alt='lock'style={{position:'absolute', marginTop:'-37px', marginLeft: '-260px',height: '20px', width: '20px'}}/>
             
                 <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '-235px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>No worries,</h4>
             <a href style= {{position:'absolute', cursor: 'pointer', width: '200px'}}>
-                <Link to = 'forgotpass' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>please click here </Link>
+                <Link to = '' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>please click here </Link>
             </a>
                 <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '185px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}> to reset your password</h4>
 

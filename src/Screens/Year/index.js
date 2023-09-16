@@ -3,6 +3,7 @@ import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Subjects from '../Subjects';
 import Sections from '../Section';
 import Schedule from '../Schedule';
@@ -12,6 +13,16 @@ function Year() {
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
+
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+    useEffect(() => {
+      // Check if the user is logged in and navigate accordingly
+      if (!isLoggedIn) {
+        navigate('/'); // Redirect to the '/' route
+      }
+    }, [isLoggedIn, navigate]);
 
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {

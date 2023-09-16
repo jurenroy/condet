@@ -21,6 +21,14 @@ function Instructor() {
   const [searchInput, setSearchInput] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    // Check if the user is logged in and navigate accordingly
+    if (!isLoggedIn) {
+      navigate('/'); // Redirect to the '/' route
+    }
+  }, [isLoggedIn, navigate]);
 
 // Fetch course data based on selectedCollege
 async function fetchCourseData(selectedCollege) {

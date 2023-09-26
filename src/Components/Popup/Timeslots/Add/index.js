@@ -19,12 +19,14 @@ const AddTimeslot = (props) => {
         setEndtime(militaryTime);
     };
 
+   
+
   const handleAddTimeslot = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
     if (!starttime || !endtime || !selectedCourse || !selectedType) {
-      setError('All fields are required.');
+      setError('All fields are required to fill in.');
       return;
     }
 
@@ -100,7 +102,7 @@ const AddTimeslot = (props) => {
       <h3 style={{marginTop:'12px'}}>End Time:</h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange2} />
 
-      {error && <p style={{ color: 'white' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddTimeslot}>Add</button>

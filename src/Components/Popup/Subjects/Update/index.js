@@ -13,6 +13,16 @@ const UpdateSubject = (props) => {
   const [subjectname, setSubjectname] = useState('');
   const [error, setError] = useState('');
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit();
+    }
+    if (e.key === 'Escape') {
+      props.setShowUpdateSubject(false)
+    }
+  };
+  
+
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/get_subject_json/')
       .then(response => {
@@ -38,10 +48,16 @@ const UpdateSubject = (props) => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!subjectcode || !subjectname) {
-      setError('All fields are required.');
-      return;
-    }
+    if (subjectcode.trim() === '' && subjectname.trim() === '' ) {
+      setError('All fields are required to fill in.');
+    
+    }else if (subjectcode.trim() === '' ) {
+      setError('Please input a valid Subject Code');
+    
+    }else if (subjectname.trim() === '') {
+        setError('Please input a valid Subject Name');
+
+    }else{
 
     // Create FormData object
     const formData = new FormData();
@@ -64,6 +80,7 @@ const UpdateSubject = (props) => {
         // Handle error response
         
       });
+    }
   };
 
 
@@ -115,6 +132,7 @@ const UpdateSubject = (props) => {
         type="text"
         value={subjectcode}
         onChange={(e) => setSubjectcode(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
       <h3 style={{ marginTop: '12px' }}>Subject Name:</h3>
@@ -123,9 +141,10 @@ const UpdateSubject = (props) => {
         type="text"
         value={subjectname}
         onChange={(e) => setSubjectname(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
-      {error && <p style={{ color: 'white' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>

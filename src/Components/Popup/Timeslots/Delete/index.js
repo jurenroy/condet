@@ -9,7 +9,7 @@ const DeleteTimeslot = (props) => {
   const [timeslotData, setTimeslotData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_timeslot_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_timeslot_json/')
       .then(response => {
         const timeslotData = response.data;
         if (timeslotData) {
@@ -36,7 +36,7 @@ const DeleteTimeslot = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`)
+    axios.delete(`https://classscheeduling.pythonanywhere.com/delete_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

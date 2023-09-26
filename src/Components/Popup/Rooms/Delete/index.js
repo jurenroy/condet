@@ -9,7 +9,7 @@ const DeleteRoom = (props) => {
   const [roomData, setRoomData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_room_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_room_json/')
       .then(response => {
         const roomData = response.data;
         if (roomData) {
@@ -36,7 +36,7 @@ const DeleteRoom = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_room/${selectedCourseAbbreviation}/${selectedRoom}/`)
+    axios.delete(`https://classscheeduling.pythonanywhere.com/delete_room/${selectedCourseAbbreviation}/${selectedRoom}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

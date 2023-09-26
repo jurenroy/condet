@@ -27,7 +27,7 @@ const AddSubject = (props) => {
 
     // Send the room data to the Django backend
     axios
-      .post(`http://127.0.0.1:8000/add_subject/${selectedCourse}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/add_subject/${selectedCourse}/`, formData)
       .then((response) => {
         console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddSubject(false); // Close the add room form

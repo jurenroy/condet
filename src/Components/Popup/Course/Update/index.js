@@ -13,7 +13,7 @@ const UpdateCourse = (props) => {
   const [abbreviation, setAbbreviation] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/get_course_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then(response => {
         const courses = response.data;
         const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
@@ -33,7 +33,7 @@ const UpdateCourse = (props) => {
     formData.append('new_abbreviation', abbreviation);
     formData.append('college', college); // Include the college in the form data
   
-    axios.post(`http://127.0.0.1:8000/update_course/${selectedCourseAbbreviation}/`, formData)
+    axios.post(`https://classscheeduling.pythonanywhere.com/update_course/${selectedCourseAbbreviation}/`, formData)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

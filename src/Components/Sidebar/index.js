@@ -57,7 +57,7 @@ function Sidebar() {
   }  
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/get_course_json/')
+    fetch('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then(response => response.json())
       .then(data => setCourseData(data))
       .catch(error => console.log(error));

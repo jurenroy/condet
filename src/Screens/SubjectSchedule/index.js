@@ -33,7 +33,7 @@ function SubjectSchedule() {
 // Fetch course data based on selectedCollege
 async function fetchCourseData(selectedCollege) {
     try {
-      const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+      const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
       const data = await response.json();
   
       // Filter the data based on selectedCollege
@@ -50,7 +50,7 @@ async function fetchCourseData(selectedCollege) {
   // eslint-disable-next-line
   async function fetchScheduleData() {
     try {
-      const scheduleResponse = await fetch('http://127.0.0.1:8000/get_schedule_json/').then((response) =>
+      const scheduleResponse = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/').then((response) =>
         response.json()
       );
   
@@ -108,7 +108,7 @@ async function fetchCourseData(selectedCollege) {
 async function fetchScheduleDataForSearch(searchQuery) {
   try {
     // Fetch the schedule data (you can customize the URL as needed)
-    const response = await fetch('http://localhost:8000/get_schedule_json/');
+    const response = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/');
     const data = await response.json();
     const courseData = await fetchCourseData(selectedCollege);
 

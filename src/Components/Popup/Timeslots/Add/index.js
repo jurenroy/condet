@@ -36,7 +36,7 @@ const AddTimeslot = (props) => {
 
     // Send the room data to the Django backend
     axios
-      .post(`http://127.0.0.1:8000/add_timeslot/${selectedCourse}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/add_timeslot/${selectedCourse}/`, formData)
       .then((response) => {
         console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddTimeslot(false); // Close the add room form

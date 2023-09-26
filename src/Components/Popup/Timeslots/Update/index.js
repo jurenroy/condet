@@ -25,7 +25,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 };
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_timeslot_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_timeslot_json/')
       .then(response => {
         const timeslotData = response.data;
         if (timeslotData) {
@@ -64,7 +64,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 
     // Send the updated room data to the Django backend using PUT method
     axios
-      .post(`http://127.0.0.1:8000/update_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/update_timeslot/${selectedCourseAbbreviation}/${selectedTime}/`, formData)
       .then((response) => {
         console.log(response.data);
         window.location.reload();

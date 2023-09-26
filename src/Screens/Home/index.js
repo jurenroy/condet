@@ -27,7 +27,7 @@ function Home() {
     }
 
     // Fetch user data from the API using Axios
-    axios.get('http://127.0.0.1:8000/users/')
+    axios.get('https://classscheeduling.pythonanywhere.com/users/')
   .then(response => {
     console.log('Fetched data:', response.data);
     const userData = response.data.find(user => user.email === storedUsername);

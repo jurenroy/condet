@@ -15,7 +15,7 @@ const AutomateSchedule = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_course_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then(response => {
         const courses = response.data;
         const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
@@ -24,7 +24,7 @@ const AutomateSchedule = (props) => {
       .catch(error => console.log(error));
 
     // Fetch available room slots
-    axios.get('http://127.0.0.1:8000/get_roomslot_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
       .then(response => {
         const roomSlots = response.data.filter(roomslot => roomslot.course === selectedCourseAbbreviation && roomslot.availability === true);
         setAvailableRoomSlots(roomSlots);
@@ -36,7 +36,7 @@ const AutomateSchedule = (props) => {
       .catch(error => console.log(error));
 
     // Fetch schedules
-    axios.get('http://127.0.0.1:8000/get_schedule_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/et_schedule_json/')
       .then(response => {
         const schedules = response.data.filter(schedule => schedule.course === selectedCourseAbbreviation && !schedule.instructor && !schedule.lecture_roomslotnumber && !schedule.lab_roomslotnumber);
         setScheduleCount(schedules.length);
@@ -46,7 +46,7 @@ const AutomateSchedule = (props) => {
 
   const handleAutomate = () => {
     if (selectedCourse) {
-      axios.delete(`http://127.0.0.1:8000/automate_schedule/${selectedCourseAbbreviation}/`)
+      axios.delete(`https://classscheeduling.pythonanywhere.com/automate_schedule/${selectedCourseAbbreviation}/`)
         .then((response) => {
           console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion

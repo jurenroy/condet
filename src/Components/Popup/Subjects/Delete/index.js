@@ -9,7 +9,7 @@ const DeleteSubject = (props) => {
   const [subjectData, setSubjectData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_subject_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_subject_json/')
       .then(response => {
         const subjectData = response.data;
         if (subjectData) {
@@ -36,7 +36,7 @@ const DeleteSubject = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`http://127.0.0.1:8000/delete_subject/${selectedCourseAbbreviation}/${selectedSubject}/`)
+    axios.delete(`https://classscheeduling.pythonanywhere.com/delete_subject/${selectedCourseAbbreviation}/${selectedSubject}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

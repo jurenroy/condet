@@ -14,7 +14,7 @@ const UpdateRoom = (props) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_room_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_room_json/')
       .then(response => {
         const roomData = response.data;
         if (roomData) {
@@ -51,7 +51,7 @@ const UpdateRoom = (props) => {
 
     // Send the updated room data to the Django backend using PUT method
     axios
-      .post(`http://127.0.0.1:8000/update_room/${selectedCourseAbbreviation}/${selectedRoom}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/update_room/${selectedCourseAbbreviation}/${selectedRoom}/`, formData)
       .then((response) => {
         console.log(response.data);
         window.location.reload();

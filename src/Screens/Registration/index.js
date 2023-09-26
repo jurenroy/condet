@@ -57,7 +57,7 @@ const Registration = () => {
 
     useEffect(() => {
       // Fetch user data from the server when the component mounts
-      axios.get('http://localhost:8000/users/')
+      axios.get('https://classscheeduling.pythonanywhere.com/users/')
           .then(response => {
           console.log(response.data)
           const fetchedUserlist = response.data; // Assuming the response contains user data

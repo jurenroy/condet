@@ -23,7 +23,7 @@ const AddCourse = (props) => {
       formData.append('college', college);
   
       axios
-        .post('http://127.0.0.1:8000/add_course/', formData)
+        .post('https://classscheeduling.pythonanywhere.com/add_course/', formData)
         .then(response => {
           console.log(response.data);
           // setSuccessMessage(response.data.message);

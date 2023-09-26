@@ -21,7 +21,7 @@ function Schedule() {
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
         const data = await response.json();
         return data;
       } catch (error) {
@@ -64,7 +64,7 @@ function Schedule() {
   useEffect(() => {
     async function fetchScheduleData() {
       try {
-        const response = await fetch('http://localhost:8000/get_schedule_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/');
         const data = await response.json();
 
         // Filter data based on selectedCourse, selectedYear, and selectedSection

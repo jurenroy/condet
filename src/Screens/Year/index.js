@@ -27,7 +27,7 @@ function Year() {
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
         const data = await response.json();
         return data;
       } catch (error) {

@@ -10,7 +10,7 @@ const NotAvailableRoomslot = (props) => {
     // Fetch roomslot data where selectedRoomslot matches roomslot.roomslotID
     async function fetchRoomslotData() {
       try {
-        const response = await fetch('http://localhost:8000/get_roomslot_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_roomslot_json/');
         const data = await response.json();
 
         // Filter the data to find the matching roomslot by ID
@@ -31,7 +31,7 @@ const NotAvailableRoomslot = (props) => {
     // Fetch schedule data where course matches roomslot.course
     async function fetchScheduleData(roomslotData) {
       try {
-        const response = await fetch('http://localhost:8000/get_schedule_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/');
         const data = await response.json();
         console.log(data)
 

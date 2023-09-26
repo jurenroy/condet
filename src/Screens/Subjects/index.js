@@ -38,7 +38,7 @@ function Subjects() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch('http://127.0.0.1:8000/get_subject_json/')
+    fetch('https://classscheeduling.pythonanywhere.com/get_subject_json/')
       .then(response => response.json())
       .then(data => {
         // Filter subjects based on selected course and year

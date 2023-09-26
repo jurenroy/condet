@@ -11,7 +11,7 @@ const DeleteCourse = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/get_course_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then(response => {
         const courses = response.data;
         const foundCourse = courses.find(course => course.courseID === selectedCourseAbbreviation);
@@ -22,7 +22,7 @@ const DeleteCourse = (props) => {
 
   const handleDelete = () => {
     if (selectedCourse) {
-      axios.delete(`http://127.0.0.1:8000/delete_course/${selectedCourseAbbreviation}/`)
+      axios.delete(`https://classscheeduling.pythonanywhere.com/delete_course/${selectedCourseAbbreviation}/`)
         .then((response) => {
           console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion

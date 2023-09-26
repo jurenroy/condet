@@ -15,7 +15,7 @@ function Sections() {
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/get_course_json/');
+        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
         const data = await response.json();
         return data;
       } catch (error) {
@@ -59,7 +59,7 @@ function Sections() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch('http://127.0.0.1:8000/get_section_json/')
+    fetch('https://classscheeduling.pythonanywhere.com/get_section_json/')
       .then(response => response.json())
       .then(data => {
         // Filter subjects based on selected course and year
@@ -81,13 +81,13 @@ function Sections() {
 
   const addSection = () => {
     // Make a POST request to the add_section endpoint with the selectedCourse and selectedYear
-    fetch(`http://127.0.0.1:8000/add_section/${selectedCourse}/${selectedYear.replace(' ', '%20')}/`, {
+    fetch(`https://classscheeduling.pythonanywhere.com/add_section/${selectedCourse}/${selectedYear.replace(' ', '%20')}/`, {
       method: 'POST',
     })
       .then(response => response.json())
       .then(data => {
         // Refresh the sections after adding
-        fetch('http://127.0.0.1:8000/get_section_json/')
+        fetch('https://classscheeduling.pythonanywhere.com/get_section_json/')
           .then(response => response.json())
           .then(data => {
             const filteredSections = data.filter(subject => subject.course === selectedCourse && subject.year === selectedYear);
@@ -100,13 +100,13 @@ function Sections() {
 
   const deleteSection = () => {
     // Make a DELETE request to the delete_section endpoint with the selectedCourse and selectedYear
-    fetch(`http://127.0.0.1:8000/delete_section/${selectedCourse}/${selectedYear.replace(' ', '%20')}/`, {
+    fetch(`https://classscheeduling.pythonanywhere.com/delete_section/${selectedCourse}/${selectedYear.replace(' ', '%20')}/`, {
       method: 'DELETE',
     })
       .then(response => response.json())
       .then(data => {
         // Refresh the sections after deleting
-        fetch('http://127.0.0.1:8000/get_section_json/')
+        fetch('https://classscheeduling.pythonanywhere.com/get_section_json/')
           .then(response => response.json())
           .then(data => {
             const filteredSections = data.filter(subject => subject.course === selectedCourse && subject.year === selectedYear);

@@ -54,7 +54,7 @@ function Rooms() {
 
   useEffect(() => {
     // Fetch data from the API
-    fetch('http://localhost:8000/get_room_json/')
+    fetch('https://classscheeduling.pythonanywhere.com/get_room_json/')
       .then(response => response.json())
       .then(data => {
         // Filter the data based on the selected course

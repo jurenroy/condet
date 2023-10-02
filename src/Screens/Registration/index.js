@@ -119,7 +119,7 @@ const Registration = () => {
         <div style={{ backgroundColor: "lightgray",
                 height:'100%'}}>
 
-            <div className='conLogin'>
+            <div className='container'>
                 <img src={bg} className='bghehe' alt='logo'/>
 
                 <div className='secondLogin'>
@@ -215,7 +215,7 @@ const Registration = () => {
                             width: '155px', 
                             justifyContent: 'space-evenly', 
                             top: '63%', 
-                            left: '600px', 
+                            left: '400px', 
                             position: "absolute", 
                             cursor: "pointer"}} 
                         onClick={submit}>
@@ -232,7 +232,7 @@ const Registration = () => {
                     <h4 style={{position:'absolute', 
                             // textAlign:'center',
                             top: '290px',
-                            left: '260px', 
+                            left: '160px', 
                             color: 'white',
                             fontWeight: 'normal',
                             fontSize:'20px'}}>Already have an account?</h4>
@@ -243,13 +243,13 @@ const Registration = () => {
                             color: 'white',
                             fontWeight: 'normal',
                             fontSize:'19px',
-                            letterSpacing: '1px'}}>.....................................................................................................................................................</h4>
+                            letterSpacing: '1px'}}>.................................................................................................................</h4>
                     
                     <a href style= {{position:'absolute', 
                                 textDecorationLine: 'underline', 
                                 cursor: 'pointer', 
                                 top: '315px',
-                                left: '490px',
+                                left: '390px',
                                 textDecorationColor: 'white'}}>
                         <Link to = '/' style={{fontSize:'20px' ,color: '#4B8DF8', fontWeight: 'normal'}}>Log in here.</Link>
                     </a>

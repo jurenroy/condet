@@ -235,7 +235,7 @@ async function fetchScheduleDataForSearch(searchQuery) {
                         {isTimeConflict && <p style={{color: 'red'}}>Time Conflict</p>}
                         {!isConflict && !isTimeConflict && <p>No conflict</p>}
                       </td>
-                      <td>{isAdmin && (
+                      <td>{!isAdmin && (
                         <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
                           onClick={() => { handleCancelClickSchedule(schedule); }} />
                       )}</td>

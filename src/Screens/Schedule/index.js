@@ -250,7 +250,7 @@ if (conflicts.length > 0) {
                             conflict.roomname === schedule.lecture_roomname
                           ) &&  !isConflict && !isTimeConflict && <p>No conflict</p>}
                 </td>
-                <td>{isAdmin && (
+                <td>{!isAdmin && (
                     <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickSchedule(schedule);}}/>
                     )}</td>

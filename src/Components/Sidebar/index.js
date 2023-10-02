@@ -75,6 +75,7 @@ function Sidebar() {
 
   return (
     <div style={{ backgroundColor: '#060e57', width: '15%', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+      <div style={{ overflowY: 'auto', maxHeight: '400px', width: '100%' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <img src={list} alt="list icon" style={{ width: '25px', height: '25px' }} />
         <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '10px' }}>Courses</h3>
@@ -96,7 +97,7 @@ function Sidebar() {
           if (isMatchingCollege) {
             return (
               <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '150%', marginLeft: '-30%'}}>
+                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '140%', marginLeft: '-10%'}}>
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
                   
                   {!isAdmin && (
@@ -134,7 +135,7 @@ function Sidebar() {
                   <img 
                     src={add} 
                     alt="add icon" 
-                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '13%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)', marginTop: '-0.5%' }}
+                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '12.4%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)', marginTop: '-0.5%' }}
                     onClick={() => {
                       handleNoDeleteClick(course)
                       setShowAdd(false)
@@ -147,9 +148,9 @@ function Sidebar() {
   
                 {/* Show years only if the course is selected */}
                 {selectedCourse === course.courseID && (
-                  <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px', marginLeft: '25%' }}>
                     {years.map((year, index) => (
-                      <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '100px', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
+                      <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '120%', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
                         {year}
                       </div>
                     ))}
@@ -163,6 +164,7 @@ function Sidebar() {
           }
         })}
       </ul>
+      </div>
     </div>
   );
 }

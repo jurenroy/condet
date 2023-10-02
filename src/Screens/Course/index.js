@@ -63,6 +63,7 @@ function Course() {
   return (
     <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
       <Header />
+      <div style={{ background: '#dcdee4', height: '115px', position: 'fixed', top: '0', left: '0', right: '0', zIndex: '0' }}></div>
       <Navbar />
       <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
@@ -75,7 +76,7 @@ function Course() {
           <Roomslots/>
         </div>
       </div>
-      <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
+      <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', position: 'fixed', bottom: '0', left: '0', right: '0', zIndex: '100', height: '10px' }}>
         <p style={{ marginTop: '-5px' }}>Team Kokkak</p>
       </footer>
     </div>

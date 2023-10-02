@@ -94,7 +94,7 @@ const Login = () => {
         <img src={bg} className='bghehe' alt='logo'/>
           <div className='second'>
             <img src={USTP} alt="USTP logo" style={{ width: '150px', height: '150px', marginTop: '-600px', position: 'absolute' }}/>
-            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-300px', fontWeight: 'normal', marginLeft: '-50px'}}>Login to your account</h1>
+            <h1 style={{color: 'white', fontSize: '25px', marginTop: '-280px', fontWeight: 'normal', marginLeft: '-50px'}}>Login to your account</h1>
            
             <input 
             className="email"
@@ -106,7 +106,7 @@ const Login = () => {
             onKeyDown={handleKeyPress}
             required = 'required'/>
             <span className="em">Email</span>
-            <img src={USER} alt='user' style={{position:'absolute', marginTop:'-185px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
+            <img src={USER} alt='user' style={{position:'absolute', marginTop:'-175px', marginLeft: '-255px', height:'25px', width: '25px'}}/>
 
             
 
@@ -121,21 +121,15 @@ const Login = () => {
             required = 'required'/>
             <span className="password">Password</span>
             <img src={LOCK} alt='lock'style={{position:'absolute', marginTop:'-37px', marginLeft: '-260px',height: '20px', width: '20px'}}/>
-            
-                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '-235px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}>No worries,</h4>
-            <a href style= {{position:'absolute', cursor: 'pointer', width: '200px'}}>
-                <Link to = '' style={{color: '#4B8DF8', fontWeight: 'normal', fontSize:'14px',position:'absolute', marginTop: '110px',marginLeft: '18px'}}>please click here </Link>
-            </a>
-                <h4 style={{position:'absolute', marginTop: '260px',marginLeft: '185px', color: 'white',fontWeight: 'normal',fontSize:'14px'}}> to reset your password</h4>
+      
 
             <div style={{display: 'flex', flexDirection: 'row', backgroundColor: '#4B8DF8' , height: '40px', width: '100px', justifyContent: 'space-evenly', marginTop: '100px', position: "absolute", marginLeft: '210px', cursor: "pointer"}} onClick={submit}>
                 <h4 style={{marginTop: '8px', color: 'white'}}>Login</h4>
               <img src={USTP2} alt="USTP logo" style={{ width: '25px', height: '25px', marginTop: '7px', marginLeft: '10px', }}/>
             </div>
             <p className="loginerror">{errormsg}</p>
-            <h4 style={{position:'absolute', marginTop: '200px',marginLeft: '-125px', color: 'white',fontWeight: 'normal',fontSize:'17px'}}>Forgot your password?</h4>
-            <h4 style={{position:'absolute', marginTop: '310px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
-            <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '360px',left: '30px',textDecorationColor: 'white'}}>
+            <h4 style={{position:'absolute', marginTop: '220px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
+            <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '310px',left: '30px',textDecorationColor: 'white'}}>
                 <Link to = 'registration' style={{color: 'white', fontWeight: 'normal'}}>Doesn’t have an account? Sign Up Here.</Link>
             </a>
             

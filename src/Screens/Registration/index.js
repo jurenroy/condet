@@ -119,7 +119,7 @@ const Registration = () => {
         <div style={{ backgroundColor: "lightgray",
                 height:'100%'}}>
 
-            <div className='container'>
+            <div className='conLogin'>
                 <img src={bg} className='bghehe' alt='logo'/>
 
                 <div className='secondLogin'>
@@ -238,12 +238,11 @@ const Registration = () => {
                             fontSize:'20px'}}>Already have an account?</h4>
                     
                     <h4 style={{position:'absolute', 
-                            top: '260px',
-                            left: '20px', 
+                            top: '260px', 
                             color: 'white',
                             fontWeight: 'normal',
                             fontSize:'19px',
-                            letterSpacing: '1px'}}>.................................................................................................................</h4>
+                            letterSpacing: '1px'}}>...........................................................................................</h4>
                     
                     <a href style= {{position:'absolute', 
                                 textDecorationLine: 'underline', 

@@ -77,13 +77,13 @@ function Sidebar() {
     <div style={{ backgroundColor: '#060e57', width: '15%', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
       <div style={{ overflowY: 'auto', maxHeight: '400px', width: '100%' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-        <img src={list} alt="list icon" style={{ width: '25px', height: '25px' }} />
+        <img src={list} alt="list icon" style={{ width: '25px', height: '25px', position: 'absolute', marginLeft: '-100px' }} />
         <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '10px' }}>Courses</h3>
         {isAdmin && (
         <img 
           src={add}
           alt="add icon" 
-          style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '10px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer' }} 
+          style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '110px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', position: 'absolute' }} 
           onClick={handleNoClick}
         />
         )}

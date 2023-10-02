@@ -355,7 +355,7 @@ const UpdateSchedule = (props) => {
       // padding: '20px',
       }}/>
 
-      <h3 style={{ marginTop: '12px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
+      <h3 style={{ marginTop: '42px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
       <input
         style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}

@@ -11,6 +11,16 @@ const UpdateCourse = (props) => {
   const navigate = useNavigate();
   const [coursename, setCoursename] = useState('');
   const [abbreviation, setAbbreviation] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit();
+    }
+    if (e.key === 'Escape') {
+      props.setShowUpdate(false)
+    }
+  };
 
   useEffect(() => {
     axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
@@ -27,6 +37,19 @@ const UpdateCourse = (props) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+
+    if (coursename.trim() === '' && abbreviation.trim() === '') {
+      setErrorMessage('Please provide a valid coursename, abbreviation');
+    }else
+     if (coursename.trim() === ''){
+      setErrorMessage('Please provide a valid coursename');
+      
+    }else
+     if (abbreviation.trim() === ''){
+      setErrorMessage('Please provide a valid abbreviation');
+    
+    }else{
+      
   
     const formData = new FormData();
     formData.append('coursename', coursename);
@@ -46,6 +69,7 @@ const UpdateCourse = (props) => {
         console.error(error);
         // Handle the error
       });
+    }
   };
   
 
@@ -98,6 +122,7 @@ const UpdateCourse = (props) => {
         type="text"
         value={coursename}
         onChange={(e) => setCoursename(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
       <h3 style={{ marginTop: '12px' }}>Abbreviation:</h3>
@@ -106,7 +131,10 @@ const UpdateCourse = (props) => {
         type="text"
         value={abbreviation}
         onChange={(e) => setAbbreviation(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
+
+        {errorMessage && <p>{errorMessage}</p>}
   
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>

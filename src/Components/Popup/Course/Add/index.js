@@ -11,11 +11,27 @@ const AddCourse = (props) => {
 
     const college = useSelector(state => state.auth.college);
 
-    const handleAddCourse = () => {
-      if (coursename.trim() === '' || abbreviation.trim() === ''|| college.trim() === '') {
-        setErrorMessage('Please provide a valid coursename, abbreviation, and college');
-        return;
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleAddCourse();
       }
+      if (e.key === 'Escape') {
+        props.setShowAdd(false)
+      }
+    };
+
+    const handleAddCourse = () => {
+      if (coursename.trim() === '' && abbreviation.trim() === '') {
+        setErrorMessage('Please provide a valid coursename, abbreviation');
+      }else
+       if (coursename.trim() === ''){
+        setErrorMessage('Please provide a valid coursename');
+        
+      }else
+       if (abbreviation.trim() === ''){
+        setErrorMessage('Please provide a valid abbreviation');
+      
+      }else{
 
       const formData = new FormData();
       formData.append('coursename', coursename);
@@ -35,6 +51,7 @@ const AddCourse = (props) => {
           setErrorMessage('Error adding course');
           setSuccessMessage('');
         });
+      }
     };
     
   return (
@@ -85,6 +102,7 @@ const AddCourse = (props) => {
         type="text" 
         value={coursename} 
         onChange={e => setCoursename(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
       <h3 style={{marginTop:'12px'}}>Abbreviation:</h3>
@@ -93,6 +111,7 @@ const AddCourse = (props) => {
         type="text" 
         value={abbreviation} 
         onChange={e => setAbbreviation(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
       {/* {successMessage && <p>{successMessage}</p>} */}

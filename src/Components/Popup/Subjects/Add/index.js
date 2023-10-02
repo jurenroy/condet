@@ -10,14 +10,30 @@ const AddSubject = (props) => {
   const selectedCourse = useSelector(state => state.auth.course);
     const selectedYear = useSelector(state => state.auth.year)
 
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleAddSubject();
+      }
+
+      if (e.key === 'Escape') {
+        props.setShowAddSubject(false)
+      }
+    };
+
   const handleAddSubject = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!subjectcode || !subjectname || !selectedCourse || !selectedYear) {
-      setError('All fields are required.');
-      return;
-    }
+    if (subjectcode.trim() === '' && subjectname.trim() === '' ) {
+      setError('All fields are required to fill in.');
+    
+    }else if (subjectcode.trim() === ''|| !selectedCourse || !selectedYear ) {
+      setError('Please input a valid Subject Code');
+    
+    }else if (subjectname.trim() === ''|| !selectedCourse || !selectedYear) {
+        setError('Please input a valid Subject Name');
+
+    }else{
 
     // Create FormData object
     const formData = new FormData();
@@ -41,6 +57,7 @@ const AddSubject = (props) => {
           setError('An error occurred.');
         }
       });
+    }
   };
   
   return (
@@ -90,6 +107,7 @@ const AddSubject = (props) => {
         type="text" 
         value={subjectcode} 
         onChange={e => setSubjectcode(e.target.value)}
+        onKeyDown={handleKeyPress}
         required
       />
 
@@ -99,10 +117,11 @@ const AddSubject = (props) => {
         type="text" 
         value={subjectname} 
         onChange={e => setSubjectname(e.target.value)}
+        onKeyDown={handleKeyPress}
         required
       />
 
-      {error && <p style={{ color: 'white' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddSubject}>Add</button>

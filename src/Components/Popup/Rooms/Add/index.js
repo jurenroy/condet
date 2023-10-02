@@ -9,16 +9,33 @@ const AddRooms = (props) => {
 
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedType = useSelector(state => state.auth.type);
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddRoom();
+    }
+    if (e.key === 'Escape') {
+      props.setShowAddRooms(false)
+  
+  };
+
+  };
   
 
   const handleAddRoom = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!roomname || !buildingNumber || !selectedCourse || !selectedType) {
-      setError('All fields are required.');
-      return;
-    }
+    if (roomname.trim() === '' && buildingNumber.trim() === ''|| !selectedCourse || !selectedType) {
+      setError('All fields are required to fill in.');
+      
+    }else if (roomname.trim() === '' ) {
+      setError('Please input a valid Room Name'|| !selectedCourse || !selectedType);
+    
+    }else
+      if (buildingNumber.trim() === ''|| !selectedCourse || !selectedType) {
+        setError('Please input a valid Building Number');
+      }else{
 
     // Create FormData object
     const formData = new FormData();
@@ -42,6 +59,7 @@ const AddRooms = (props) => {
           setError('An error occurred.');
         }
       });
+    }
   };
   
   return (
@@ -91,6 +109,7 @@ const AddRooms = (props) => {
         type="text" 
         value={buildingNumber} 
         onChange={e => setBuildingNumber(e.target.value)}
+        onKeyDown={handleKeyPress}
         required
       />
 
@@ -100,10 +119,11 @@ const AddRooms = (props) => {
         type="text" 
         value={roomname} 
         onChange={e => setRoomname(e.target.value)}
+        onKeyDown={handleKeyPress}
         required
       />
 
-      {error && <p style={{ color: 'white' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddRoom}>Add</button>

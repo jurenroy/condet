@@ -13,6 +13,19 @@ const UpdateRoom = (props) => {
   const [buildingNumber, setBuildingNumber] = useState('');
   const [error, setError] = useState('');
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit();
+    }
+    
+    if (e.key === 'Escape') {
+      props.setShowUpdateRooms(false)
+    }
+    
+  };
+
+
+
   useEffect(() => {
     axios.get('https://classscheeduling.pythonanywhere.com/get_room_json/')
       .then(response => {
@@ -38,10 +51,18 @@ const UpdateRoom = (props) => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!roomname || !buildingNumber) {
-      setError('All fields are required.');
-      return;
-    }
+
+    if (roomname.trim() === '' && buildingNumber.trim() === '') {
+      setError('All fields are required to fill in.');
+      
+    }else if (roomname.trim() === '' ) {
+      setError('Please input a valid Room Name');
+    
+    }else
+      if (buildingNumber.trim() === '') {
+        setError('Please input a valid Building Number');
+      }else{
+
 
     // Create FormData object
     const formData = new FormData();
@@ -64,6 +85,7 @@ const UpdateRoom = (props) => {
         // Handle error response
         
       });
+    }
   };
 
 
@@ -117,6 +139,7 @@ const UpdateRoom = (props) => {
         type="text"
         value={buildingNumber}
         onChange={(e) => setBuildingNumber(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
       
       <h3 style={{ marginTop: '12px' }}>Room Name:</h3>
@@ -125,9 +148,10 @@ const UpdateRoom = (props) => {
         type="text"
         value={roomname}
         onChange={(e) => setRoomname(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
-      {error && <p style={{ color: 'white' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', marginTop: '30px' }}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: ' pointer' }} onClick={handleFormSubmit}>Update</button>

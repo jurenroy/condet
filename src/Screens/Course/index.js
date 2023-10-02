@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Rooms from '../Rooms';
 import Timeslots from '../Timeslots';
 import Roomslots from '../Roomslots';
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 
 function Course() {

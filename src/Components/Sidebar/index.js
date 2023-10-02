@@ -99,7 +99,7 @@ function Sidebar() {
                 <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '150%', marginLeft: '-30%'}}>
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
                   
-                  {isAdmin && (
+                  {!isAdmin && (
 
                   <img 
                     src={generate} 

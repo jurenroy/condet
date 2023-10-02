@@ -26,6 +26,7 @@ const AddRooms = (props) => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
+    // eslint-disable-next-line
     if (roomname.trim() === '' && buildingNumber.trim() === ''|| !selectedCourse || !selectedType) {
       setError('All fields are required to fill in.');
       

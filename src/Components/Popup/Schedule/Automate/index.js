@@ -7,10 +7,12 @@ import axios from 'axios';
 const AutomateSchedule = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  // eslint-disable-next-line
   const [availableRoomSlots, setAvailableRoomSlots] = useState([]);
   const [availableLabRoomSlots, setAvailableLabRoomSlots] = useState([]);
   const [availableLectureRoomSlots, setAvailableLectureRoomSlots] = useState([]);
   const [scheduleCount, setScheduleCount] = useState(0);
+  // eslint-disable-next-line
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

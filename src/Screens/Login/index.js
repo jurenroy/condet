@@ -128,7 +128,7 @@ const Login = () => {
               <img src={USTP2} alt="USTP logo" style={{ width: '25px', height: '25px', marginTop: '7px', marginLeft: '10px', }}/>
             </div>
             <p className="loginerror">{errormsg}</p>
-            <h4 style={{position:'absolute', marginTop: '220px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>...............................................................</h4>
+            <h4 style={{position:'absolute', marginTop: '220px',marginLeft: '0px', color: 'white',fontWeight: 'normal',fontSize:'19px',letterSpacing: '1px'}}>..................................................</h4>
             <a href style= {{position:'absolute', textDecorationLine: 'underline', cursor: 'pointer', top: '310px',left: '30px',textDecorationColor: 'white'}}>
                 <Link to = 'registration' style={{color: 'white', fontWeight: 'normal'}}>Doesn’t have an account? Sign Up Here.</Link>
             </a>

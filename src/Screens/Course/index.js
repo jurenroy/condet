@@ -64,7 +64,7 @@ function Course() {
     <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
       <Header />
       <Navbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation}</h1>

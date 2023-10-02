@@ -49,7 +49,7 @@ function Home() {
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <Navbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src={USTP} alt="USTP logo" style={{ width: '450px', height: '450px', margin: '5px' }}/>

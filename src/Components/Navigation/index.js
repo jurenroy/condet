@@ -53,7 +53,7 @@ function Navbar() {
   }, [selectedCourse]);
 
   return (
-    <div style={{ backgroundColor: 'white', height: '40px', padding: '1px', marginTop: '10px', marginBottom: '10px', display:'flex', flexDirection: 'row', width: '100vv'}}>
+    <div style={{ backgroundColor: 'white', height: '40px', padding: '1px', marginTop: '65px', marginBottom: '10px', display:'flex', flexDirection: 'row',  width: '100%', position: 'fixed', top: '0', left: '0', zIndex: '50' }}>
       <img src={home} alt="home icon" style={{ width: '25px', height: '25px', marginLeft: '10px', marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToHome}/>
       <h3 style={{color: '#AAAAAA', marginLeft: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToHome}>Home</h3>
       {selectedCourse && (

@@ -63,15 +63,15 @@ function Year() {
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <Navbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
-        <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
+        <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column', width: '100%' }}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation} - {selectedYear}</h1>
           <Sections/>
           {selectedSection ? <Schedule /> : <Subjects />}
         </div>
       </div>
-      <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px' }}>
+      <footer style={{ backgroundColor: 'lightgray', padding: '5px', textAlign: 'center', height: '15px', width: '100%' }}>
         <p style={{ marginTop: '-5px' }}>Team Kokkak</p>
       </footer>
     </div>

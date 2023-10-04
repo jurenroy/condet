@@ -104,7 +104,7 @@ function Sidebar() {
                   <img 
                     src={generate} 
                     alt="generate icon" 
-                    style={{ width: '25px', height: '25px', marginRight: '-35%', cursor: 'pointer' }} 
+                    style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
                     onClick={() => { 
                       handleAutomateClick(course);    
                       setShowAdd(false)

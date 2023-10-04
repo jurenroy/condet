@@ -38,7 +38,7 @@ const AutomateSchedule = (props) => {
       .catch(error => console.log(error));
 
     // Fetch schedules
-    axios.get('https://classscheeduling.pythonanywhere.com/et_schedule_json/')
+    axios.get('https://classscheeduling.pythonanywhere.com/get_schedule_json/')
       .then(response => {
         const schedules = response.data.filter(schedule => schedule.course === selectedCourseAbbreviation && !schedule.instructor && !schedule.lecture_roomslotnumber && !schedule.lab_roomslotnumber);
         setScheduleCount(schedules.length);

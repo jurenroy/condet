@@ -75,7 +75,6 @@ function Sidebar() {
 
   return (
     <div style={{ backgroundColor: '#060e57', width: '15%', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-      <div style={{ overflowY: 'auto', maxHeight: '400px', width: '100%' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <img src={list} alt="list icon" style={{ width: '25px', height: '25px', position: 'absolute', marginLeft: '-100px' }} />
         <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '10px' }}>Courses</h3>
@@ -89,7 +88,7 @@ function Sidebar() {
         )}
         {showAdd  ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
       </div>
-      <ul style={{ listStyleType: 'none', marginLeft: '-20px', width: '60%' }}>
+      <ul style={{ listStyleType: 'none', marginLeft: '-40%', width: '60%' }}>
         {courseData.map(course => {
           // Check if the college of the course matches the college in the Redux state
           const isMatchingCollege = course.college === selectedCollege;
@@ -97,7 +96,7 @@ function Sidebar() {
           if (isMatchingCollege) {
             return (
               <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '140%', marginLeft: '-10%'}}>
+                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '140%', marginLeft: '0%'}}>
                   <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
                   
                   {!isAdmin && (
@@ -150,7 +149,7 @@ function Sidebar() {
                 {selectedCourse === course.courseID && (
                   <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px', marginLeft: '25%' }}>
                     {years.map((year, index) => (
-                      <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '120%', fontWeight: 'bold', cursor: 'pointer'}} onClick={() => handleYearClick(year)}>
+                      <div key={index} style={{ backgroundColor: selectedYear === year ? '#AAAAAA' : 'white', marginBottom: '3px', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5px', width: '120%', fontWeight: 'bold', cursor: 'pointer', marginLeft: '30%'}} onClick={() => handleYearClick(year)}>
                         {year}
                       </div>
                     ))}
@@ -164,7 +163,6 @@ function Sidebar() {
           }
         })}
       </ul>
-      </div>
     </div>
   );
 }

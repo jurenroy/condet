@@ -63,7 +63,7 @@ function Course() {
   return (
     <div style={{ flex: '1', display:'flex', backgroundColor: '#dcdee4', minHeight: '100vh',  flexDirection: 'column' }}>
       <Header />
-      <div style={{ background: '#dcdee4', height: '115px', position: 'fixed', top: '0', left: '0', right: '0', zIndex: '0' }}></div>
+      <div style={{ background: '#dcdee4', height: '115px', position: 'fixed', top: '0', left: '0', right: '0', zIndex: '10' }}></div>
       <Navbar />
       <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />

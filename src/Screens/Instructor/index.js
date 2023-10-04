@@ -216,8 +216,9 @@ if (conflicts.length > 0) {
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
+      <div style={{ background: '#dcdee4', height: '115px', position: 'fixed', top: '0', left: '0', right: '0', zIndex: '10' }}></div>
       <Navbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px'  }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
           <div>

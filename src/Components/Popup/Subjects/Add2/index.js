@@ -34,7 +34,7 @@ const AddSubject2 = (props) => {
         .catch((error) => {
           console.error('Error fetching courses:', error);
         });
-    }, []);
+    }, [selectedCollege]);
 
   const handleAddSubject = () => {
     setError(''); // Clear any previous errors

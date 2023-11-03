@@ -9,8 +9,6 @@ const AddSubject2 = (props) => {
   const [courses, setCourses] = useState([]); // State for storing the courses
 
   const selectedCollege = useSelector(state => state.auth.college);
-  const selectedCourse = useSelector(state => state.auth.course);
-  const selectedYear = useSelector(state => state.auth.year)
 
   const [course, setCourse] = useState('');
   const [year, setYear] = useState('');

@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../../Components/Header';
 import Navbar from '../../Components/Navigation';
 import Sidebar from '../../Components/Sidebar';
-import USTP from '../../Assets/USTP logo.png';
 import add from '../../Assets/addicon2.png'
 import editicon from '../../Assets/edit1.png'
 import deleteicon from '../../Assets/delete.png';
@@ -142,7 +141,6 @@ function Home() {
       <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
-          {/* <img src={USTP} alt="USTP logo" style={{ width: '450px', height: '450px', margin: '5px' }}/> */}
           <div style={{display: 'flex', flexDirection: 'row'}}>
           <h1>Subjects</h1>
           {isAdmin && (

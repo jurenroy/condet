@@ -327,6 +327,7 @@ const UpdateSchedule = (props) => {
       flexDirection: 'column',
       borderRadius: '10px',
       border: '1px solid black',
+      zIndex: '99999'
     }}>
 
       <div style={{

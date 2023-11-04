@@ -210,7 +210,9 @@ function Home() {
                 <th>Year</th>
                 <th>Subject Code</th>
                 <th>Subject Name</th>
+                {isAdmin && (
                 <th>Action</th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -220,20 +222,22 @@ function Home() {
                   <td>{subject.year}</td>
                   <td>{subject.subjectcode}</td>
                   <td><span style={{ fontSize: '17px', fontWeight: 'bold' }}><span style={{textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${subject.subjectname}`);}}>{subject.subjectname}</span></span></td>
+                  
+                  {isAdmin && (
                   <td>
-                    {isAdmin && (
                     <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickSubject(subject);
                       setShowAddSubject(false);
                       setShowDeleteSubject(false)}}/>
-                    )}
-                    {isAdmin && (
+                    
                     <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickSubject(subject);
                       setShowUpdateSubject(false);
-                      setShowAddSubject(false)}}/> 
+                      setShowAddSubject(false)}}/>
+                      
+                      </td>
                     )}
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>
@@ -254,27 +258,30 @@ function Home() {
               <thead>
                 <tr>
                   <th>Instructor Name</th>
+                  {isAdmin &&(
                   <th>Action</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
                 {instructors.map((instructor) => (
                   <tr key={instructor.instructorID}>
                     <td><span style={{ fontSize: '17px', fontWeight: 'bold' }}><span style={{textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${instructor.instructorID}`);}}>{instructor.name}</span></span></td>
+                    {isAdmin && (
+                    
                     <td>
-                      {isAdmin && (
                       <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                       onClick={() => {handleCancelClickInstructor(instructor);
                         setShowAddInstructor(false);
                         setShowDeleteInstructor(false)}}/>
-                      )}
-                      {isAdmin && (
+                      
                       <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                       onClick={() => {handleNoDeleteClickInstructor(instructor);
                         setShowUpdateInstructor(false);
                         setShowAddInstructor(false)}}/> 
-                      )}
                     </td>
+                    )}
+
                   </tr>
                 ))}
               </tbody>

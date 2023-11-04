@@ -73,6 +73,8 @@ function Rooms() {
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+
+              {/* Lecture */}
               <h3>Lecture</h3>
               {isAdmin && (
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
@@ -84,28 +86,62 @@ function Rooms() {
               {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
 
             </div>
-            {lectureRooms.map((room) => (
-                <div key={room.roomID}>
-                    <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
-                  {isAdmin && ( 
-                    <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                     onClick={() => {handleCancelClickRooms(room);
-                      setShowAddRooms(false);
-                      setShowDeleteRooms(false)}}/>
-                  )}
-                  {isAdmin && (
-                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                    onClick={() => {handleNoDeleteClickRooms(room);
+
+            <div>
+              <table className="schedule-table">
+                <thead>
+                  <tr>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {lectureRooms.map((room) => (
+                    <tr key={room.roomID}>
+                      <td>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                          {room.building_number} - {room.roomname}
+                        </span>
+                      </td>
+                      {isAdmin && (
+                      <td>
+                          <img
+                            src={editicon}
+                            alt="edit icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            onClick={() => {
+                              handleCancelClickRooms(room);
+                              setShowAddRooms(false);
+                      setShowDeleteRooms(false);
+                            }}
+                          />
+
+                          <img
+                            src={deleteicon}
+                            alt="delete icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            onClick={() => {handleNoDeleteClickRooms(room);
                       setShowUpdateRooms(false);
-                      setShowAddRooms(false)}}/> 
-                  )}
-                 </div>
-            ))}
+                      setShowAddRooms(false);
+                            }}
+                          />
+                          </td>
+                      )}
+                      
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
             {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
             {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms} /> : null}
         </div>
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+
+
+              {/* Laboratory */}
             <h3>Laboratory</h3>
             {isAdmin && ( 
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
@@ -117,23 +153,53 @@ function Rooms() {
 
               {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
             </div>
-            {laboratoryRooms.map((room) => (
-              <div key={room.roomID}>
-                <span style={{fontSize: '17px', fontWeight: 'bold'}}>{room.building_number} - {room.roomname}</span>
-              {isAdmin && (  
-                <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                 onClick={() => {handleCancelClickRooms2(room);
-                  setShowAddRooms(false);
-                  setShowDeleteRooms(false)}}/>
-              )}
-              {isAdmin && (
-                <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                  onClick={() => {handleNoDeleteClickRooms2(room);
-                  setShowUpdateRooms(false);
-                  setShowAddRooms(false)}}/> 
-              )}
-              </div>
-            ))}
+
+            <div>
+              <table className="schedule-table">
+                <thead>
+                  <tr>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {laboratoryRooms.map((room) => (
+                    <tr key={room.roomID}>
+                      <td>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                          {room.building_number} - {room.roomname}
+                        </span>
+                      </td>
+                      {isAdmin && (
+                      <td>
+                          <img
+                            src={editicon}
+                            alt="edit icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            onClick={() => {
+                              handleCancelClickRooms2(room);
+                              setShowAddRooms(false);
+                      setShowDeleteRooms(false);
+                            }}
+                          />
+
+                          <img
+                            src={deleteicon}
+                            alt="delete icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '80%' }}
+                            onClick={() => {handleNoDeleteClickRooms2(room);
+                      setShowUpdateRooms(false);
+                      setShowAddRooms(false);
+                            }}
+                          />
+                          </td>
+                      )}
+                      
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
             {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms2} /> : null}
         </div>

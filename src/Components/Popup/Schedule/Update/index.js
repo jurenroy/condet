@@ -13,7 +13,7 @@ const UpdateSchedule = (props) => {
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {
       try {
-        const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
+        const response = await fetch('http://classscheeduling.pythonanywhere.com/get_course_json/');
         const data = await response.json();
         return data;
       } catch (error) {
@@ -68,7 +68,7 @@ const UpdateSchedule = (props) => {
 
   useEffect(() => {
     // Fetch all schedule data
-    axios.get('https://classscheeduling.pythonanywhere.com/get_schedule_json/')
+    axios.get('http://classscheeduling.pythonanywhere.com/get_schedule_json/')
       .then(response => {
         const scheduleData = response.data;
         if (scheduleData) {
@@ -153,7 +153,7 @@ const UpdateSchedule = (props) => {
   
     // Send the updated schedule data to the Django backend using POST method
     axios
-      .post(`https://classscheeduling.pythonanywhere.com/update_schedule/${selectedSchedule}/`, formData)
+      .post(`http://classscheeduling.pythonanywhere.com/update_schedule/${selectedSchedule}/`, formData)
       .then((response) => {
         console.log(response.data);
         window.location.reload();
@@ -186,7 +186,7 @@ const UpdateSchedule = (props) => {
 
   useEffect(() => {
     // Fetch roomslot data
-    axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
+    axios.get('http://classscheeduling.pythonanywhere.com/get_roomslot_json/')
       .then(response => {
         const roomslotData = response.data;
         if (roomslotData) {
@@ -230,7 +230,7 @@ const UpdateSchedule = (props) => {
     if (lectureDay && lectureStartTime && lectureEndTime && lectureBuildingNumber && lectureRoomName) {
       setLectureDetailsFilled(true);
       // Fetch roomslot data to check availability
-      axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
+      axios.get('http://classscheeduling.pythonanywhere.com/get_roomslot_json/')
         .then(response => {
           const roomslotData = response.data;
           if (roomslotData) {
@@ -273,7 +273,7 @@ const UpdateSchedule = (props) => {
     if (labDay && labStartTime && labEndTime && labBuildingNumber && labRoomName) {
       setLabDetailsFilled(true);
       // Fetch roomslot data to check availability
-      axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
+      axios.get('http://classscheeduling.pythonanywhere.com/get_roomslot_json/')
         .then(response => {
           const roomslotData = response.data;
           if (roomslotData) {
@@ -357,12 +357,28 @@ const UpdateSchedule = (props) => {
 
       <h3 style={{ marginTop: '42px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
-      <input
+
+      {/* <input
         style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}
         type="text"
         value={instructor}
         onChange={(e) => setInstructor(e.target.value)}
-      />
+      /> */}
+
+      <select
+        style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}
+        value={instructor}
+        onChange={(e) => setInstructor(e.target.value)}
+      >
+         <option value="" disabled>
+          Select an Instructor
+        </option>
+        <option value="Mary Antonette Rambonanza">Mary</option>
+        <option value="Trisha Jan Bagongon">Trisha</option>
+        <option value="Juren Roy Abragan">Juren</option>
+        <option value="Jonathan Ednilan">Jonathan</option>
+      </select>
+      
       <h3>Lecture: {lectureRoomslotNumber} = {selectedLectureRoomslot}</h3>
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
       <select

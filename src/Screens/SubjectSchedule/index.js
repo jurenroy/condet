@@ -198,7 +198,8 @@ async function fetchScheduleDataForSearch(searchQuery) {
                   <th>Lecture Schedule</th>
                   <th>Laboratory Schedule</th>
                   <th>Conflict</th>
-                  <th>Action</th>
+                  {!isAdmin && (
+                  <th>Action</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -236,10 +237,15 @@ async function fetchScheduleDataForSearch(searchQuery) {
                         {isTimeConflict && <p style={{color: 'red'}}>Time Conflict</p>}
                         {!isConflict && !isTimeConflict && <p>No conflict</p>}
                       </td>
-                      <td>{!isAdmin && (
+
+                        {!isAdmin && (
+                      <td>
+
                         <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
                           onClick={() => { handleCancelClickSchedule(schedule); }} />
-                      )}</td>
+                      </td>
+                      )}
+                      
                     </tr>
                   );
                 })}

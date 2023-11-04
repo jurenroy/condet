@@ -94,6 +94,8 @@ function Timeslots() {
       <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+
+              {/* Lecture */}
               <h3>Lecture</h3>
               {isAdmin && (
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
@@ -105,28 +107,61 @@ function Timeslots() {
               {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
 
             </div>
-            {lectureTimeslots.map((timeslot) => (
-                <div key={timeslot.timeslotID}>
-                    <span style={{fontSize: '17px', fontWeight: 'bold'}}>{formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}</span>
-                  {isAdmin && ( 
-                    <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                     onClick={() => {handleCancelClickTimeslot(timeslot);
-                      setShowAddTimeslot(false);
-                      setShowDeleteTimeslot(false)}}/>
-                  )}
-                  {isAdmin && (
-                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}  
-                    onClick={() => {handleNoDeleteClickTimeslot(timeslot);
-                      setShowUpdateTimeslot(false);
-                      setShowAddTimeslot(false)}}/> 
-                  )}
-                 </div>
-            ))}
+            <div>
+              <table className="schedule-table">
+                <thead>
+                  <tr>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {lectureTimeslots.map((timeslot) => (
+                    <tr key={timeslot.timeslotID}>
+                      <td>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                          {formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}
+                        </span>
+                      </td>
+                      {isAdmin && (
+                      <td>
+                          <img
+                            src={editicon}
+                            alt="edit icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            onClick={() => {
+                              handleCancelClickTimeslot(timeslot);
+                              setShowAddTimeslot(false);
+                              setShowDeleteTimeslot(false);
+                            }}
+                          />
+
+                          <img
+                            src={deleteicon}
+                            alt="delete icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            onClick={() => {
+                              handleNoDeleteClickTimeslot(timeslot);
+                              setShowUpdateTimeslot(false);
+                              setShowAddTimeslot(false);
+                            }}
+                          />
+                          </td>
+                      )}
+                      
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
             {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
             {showUpdateTimeslot ? <UpdateTimeslot setShowUpdateTimeslot={setShowUpdateTimeslot} handleCancelClickTimeslot={handleCancelClickTimeslot} /> : null}
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+
+            {/* Laboratory */}
             <h3>Laboratory</h3>
             {isAdmin && ( 
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
@@ -138,23 +173,59 @@ function Timeslots() {
 
               {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot2={handleNoDeleteClickTimeslot2} /> : null}
             </div>
-            {laboratoryTimeslots.map((timeslot) => (
-              <div key={timeslot.timeslotID}>
-                <span style={{fontSize: '17px', fontWeight: 'bold'}}>{formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}</span>
-              {isAdmin && (  
-                <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                 onClick={() => {handleCancelClickTimeslot2(timeslot);
-                  setShowAddTimeslot(false);
-                  setShowDeleteTimeslot(false)}}/>
-              )}
-              {isAdmin && (
-                <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer'}}
-                  onClick={() => {handleNoDeleteClickTimeslot2(timeslot);
-                  setShowUpdateTimeslot(false);
-                  setShowAddTimeslot(false)}}/> 
-              )}
-              </div>
-            ))}
+
+            
+            <div>
+              <table className="schedule-table">
+                <thead>
+                  <tr>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {laboratoryTimeslots.map((timeslot) => (
+                    <tr key={timeslot.timeslotID}>
+                      <td>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                          {formatTimeTo12Hour(timeslot.starttime)} - {formatTimeTo12Hour(timeslot.endtime)}
+                        </span>
+                      </td>
+                      
+                      {isAdmin && (
+                        <td>
+                        
+                          <img
+                            src={editicon}
+                            alt="edit icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            onClick={() => {
+                              handleCancelClickTimeslot(timeslot);
+                              setShowAddTimeslot(false);
+                              setShowDeleteTimeslot(false);
+                            }}
+                          />
+
+                          <img
+                            src={deleteicon}
+                            alt="delete icon"
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            onClick={() => {
+                              handleNoDeleteClickTimeslot(timeslot);
+                              setShowUpdateTimeslot(false);
+                              setShowAddTimeslot(false);
+                            }}
+                          />
+                          </td>
+                      )}
+                      
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+
             {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot2={handleNoDeleteClickTimeslot2} /> : null}
             {showUpdateTimeslot ? <UpdateTimeslot setShowUpdateTimeslot={setShowUpdateTimeslot} handleCancelClickTimeslot2={handleCancelClickTimeslot2} /> : null}
         </div>

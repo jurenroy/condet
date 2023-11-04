@@ -33,7 +33,7 @@ const DeleteInstructor = (props) => {
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the instructor list.
-          props.setShowDelete(false); // Close the delete modal after successful deletion
+          props.setShowDeleteInstructor(false); // Close the delete modal after successful deletion
           navigate('/');
           window.location.reload();
           dispatch(selectInstructor(''));

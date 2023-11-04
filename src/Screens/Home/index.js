@@ -267,19 +267,20 @@ function Home() {
                 {instructors.map((instructor) => (
                   <tr key={instructor.instructorID}>
                     <td><span style={{ fontSize: '17px', fontWeight: 'bold' }}><span style={{textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${instructor.instructorID}`);}}>{instructor.name}</span></span></td>
-                    {isAdmin && (
                     
-                    <td>
-                      <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
-                      onClick={() => {handleCancelClickInstructor(instructor);
-                        setShowAddInstructor(false);
-                        setShowDeleteInstructor(false)}}/>
+                    {isAdmin && (
+                  <td>
+                    <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    onClick={() => {handleCancelClickInstructor(instructor);
+                      setShowAddInstructor(false);
+                      setShowDeleteInstructor(false)}}/>
+                    
+                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    onClick={() => {handleNoDeleteClickInstructor(instructor);
+                      setShowUpdateInstructor(false);
+                      setShowAddInstructor(false)}}/>
                       
-                      <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
-                      onClick={() => {handleNoDeleteClickInstructor(instructor);
-                        setShowUpdateInstructor(false);
-                        setShowAddInstructor(false)}}/> 
-                    </td>
+                      </td>
                     )}
 
                   </tr>

@@ -8,11 +8,13 @@ import editicon from '../../Assets/edit1.png';
 import { selectCourse, selectSchedule, selectYear } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Instructor() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { instructor } = useParams();
+  const instructorID = parseInt(instructor);
   const [scheduleData, setScheduleData] = useState([]);
   const isAdmin = useSelector(state => state.auth.isAdmin);
   const selectedCourse = useSelector(state => state.auth.course);
@@ -22,6 +24,23 @@ function Instructor() {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    // Fetch instructor data from the API
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        // Filter instructors by college
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+        console.log('Instructors:', filteredInstructors);
+      })
+      .catch((error) => {
+        console.error('Error fetching instructor data:', error);
+      });
+  }, [selectedCollege]);
 
   useEffect(() => {
     // Check if the user is logged in and navigate accordingly
@@ -105,47 +124,31 @@ async function fetchCourseData(selectedCollege) {
 
 
   // Define a function to fetch schedule data for the search bar
-async function fetchScheduleDataForSearch(searchQuery) {
-  try {
-    // Fetch the schedule data (you can customize the URL as needed)
-    const response = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/');
-    const data = await response.json();
-    const courseData = await fetchCourseData(selectedCollege);
-
-    // Filter data to keep only schedules whose course ID exists in courseData
-    const filteredData = data.filter((schedule) => {
-      return courseData.some((course) => course.courseID === schedule.course);
-    });
-
-    return filteredData;
-  } catch (error) {
-       return [];
+  async function fetchInstructorsDataForSearch(searchQuery) {
+    try {
+      const response = await axios.get('https://classscheeduling.pythonanywhere.com/get_instructor_json/');
+      const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege && instructor.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+      return filteredInstructors;
+    } catch (error) {
+      return [];
+    }
   }
-}
+  
   
   const handleSearchInputChange = (e) => {
     const input = e.target.value;
     setSearchInput(input);
   
     if (input.trim() !== '') {
-      // Fetch schedule data based on the non-empty search input
-      fetchScheduleDataForSearch(input)
+      // Fetch instructor data based on the non-empty search input
+      fetchInstructorsDataForSearch(input)
         .then((data) => {
-          // Create an array to store unique instructor names
-          const uniqueInstructors = [];
-  
-          // Filter the data based on the instructor name and add to the uniqueInstructors array
-          data.forEach((schedule) => {
-            const instructor = schedule.instructor;
-            if (instructor.includes(input) && !uniqueInstructors.includes(instructor)) {
-              uniqueInstructors.push(instructor);
-            }
-          });
-  
           // Process the unique results as needed
-          setSearchResults(uniqueInstructors);
+          setSearchResults(data);
         })
         .catch((error) => {
+          console.error('Error fetching instructor data:', error);
         });
     } else {
       // Clear the search results when the input is empty
@@ -154,9 +157,10 @@ async function fetchScheduleDataForSearch(searchQuery) {
   };
 
   const handleInstructorClick = (instructor) => {
-    // Change the route when an instructor is clicked
-    navigate(`/instructor/${instructor}`);
+    const selectedInstructorID = instructor.instructorID;
+    navigate(`/instructor/${selectedInstructorID}`);
   };
+  
 
   //conflex
   function checkScheduleConflicts(scheduleEntries) {
@@ -213,6 +217,9 @@ if (conflicts.length > 0) {
   }
 }
 
+// Find the instructor object based on the instructor ID from the URL params
+const instructorName = instructors.find((instructor) => instructor.instructorID === instructorID)?.name || 'Unknown Instructor';
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -222,7 +229,7 @@ if (conflicts.length > 0) {
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
           <div>
-            <h2 style={{ textAlign: 'center' }}>Schedule for Instructor: {instructor}</h2>
+            <h2 style={{ textAlign: 'center' }}>Schedule for Instructor: {instructorName}</h2>
 
             <div>
               <input
@@ -232,16 +239,17 @@ if (conflicts.length > 0) {
                 onChange={handleSearchInputChange}
               />
               <ul>
-                {searchResults.map((instructor, index) => (
+                {searchResults.map((instructor) => (
                   <li
                     style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}
-                    key={index} // Use index as the key since instructor names don't have unique IDs
+                    key={instructor.instructorID}
                     onClick={() => handleInstructorClick(instructor)}
                   >
-                    {instructor}
+                    {instructor.name}
                   </li>
                 ))}
               </ul>
+
             </div>
 
             <table className="schedule-table">

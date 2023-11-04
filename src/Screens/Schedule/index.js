@@ -4,12 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
   const isAdmin = useSelector(state => state.auth.isAdmin);
@@ -17,6 +19,22 @@ function Schedule() {
   const [showUpdateSchedule , setShowUpdateSchedule] = useState(false)
 
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
+
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    // Fetch instructor data from the API
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        // Filter instructors by college
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+      })
+      .catch((error) => {
+        console.error('Error fetching instructor data:', error);
+      });
+  }, [selectedCollege]);
 
     // Assuming you have a function to fetch data from an API
     async function fetchCourseData() {
@@ -191,7 +209,7 @@ if (conflicts.length > 0) {
               <tr key={schedule.scheduleID}>
                 <td>{schedule.subject_code}</td>
                 <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${schedule.subject_name}`);}}>{schedule.subject_name}</p></td>
-                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}> {instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name || 'Unknown Instructor'}</p></td>
                 <td>
                   <p style={{
                     color: conflex.some(conflict =>

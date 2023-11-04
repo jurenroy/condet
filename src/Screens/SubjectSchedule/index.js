@@ -8,6 +8,7 @@ import editicon from '../../Assets/edit1.png';
 import { selectCourse, selectSchedule, selectYear } from '../../Components/Redux/Auth/AuthSlice';
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function SubjectSchedule() {
   const location = useLocation();
@@ -22,6 +23,22 @@ function SubjectSchedule() {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    // Fetch instructor data from the API
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        // Filter instructors by college
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+      })
+      .catch((error) => {
+        console.error('Error fetching instructor data:', error);
+      });
+  }, [selectedCollege]);
 
   useEffect(() => {
     // Check if the user is logged in and navigate accordingly
@@ -228,7 +245,7 @@ async function fetchScheduleDataForSearch(searchQuery) {
                     <tr key={schedule.scheduleID}>
                       <td>{schedule.abbreviation}{yearValue}S{schedule.section_number}</td>
                       <td>{schedule.subject_code} - {schedule.subject_name}</td>
-                      <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{schedule.instructor}</p></td>
+                      <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name || 'Unknown Instructor'}</p></td>
                       <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
                       <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
                       <td>

@@ -64,6 +64,23 @@ const UpdateSchedule = (props) => {
   const [labBuildingNumber, setLabBuildingNumber] = useState('');
   const [labRoomName, setLabRoomName] = useState('');
   const [error, setError] = useState('');
+  const selectedCollege = useSelector(state => state.auth.college);
+
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    // Fetch instructor data from the API
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        // Filter instructors by college
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+      })
+      .catch((error) => {
+        console.error('Error fetching instructor data:', error);
+      });
+  }, [selectedCollege]);
 
 
   useEffect(() => {
@@ -358,12 +375,25 @@ const UpdateSchedule = (props) => {
 
       <h3 style={{ marginTop: '42px' }}>{courseAbbreviation.substring(2)}{yearvalue}S{section_number}: {subject_code} - {subject_name}</h3>
       <h3 style={{ marginTop: '12px' }}>Instructor:</h3>
-      <input
-        style={{ height: '30px', borderRadius: '10px', fontSize: '20px' }}
-        type="text"
-        value={instructor}
-        onChange={(e) => setInstructor(e.target.value)}
-      />
+      <select
+            style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
+            value={instructor} // Make sure you have a state variable 'course' to store the selected course ID
+            onChange={(e) => {
+              setInstructor(e.target.value); // Update the 'course' state with the selected ID
+              console.log(e.target.value)
+            }}
+          >
+            <option value="">Select Instructor</option>
+            {instructors
+              .slice() // Create a shallow copy of the instructors array to avoid mutating the original array
+              .sort((a, b) => a.name.localeCompare(b.name)) // Sort the shallow copy of the array alphabetically by name
+              .map((instructor) => (
+                <option key={instructor.name} value={instructor.instructorID}>
+                  {instructor.name}
+                </option>
+              ))}
+
+          </select>
       <h3>Lecture: {lectureRoomslotNumber} = {selectedLectureRoomslot}</h3>
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
       <select

@@ -31,6 +31,9 @@ function Home() {
   const [showUpdateSubject , setShowUpdateSubject] = useState(false)
   const [showDeleteSubject , setShowDeleteSubject] = useState(false)
 
+  const [course, setCourse] = useState('');
+  const [year, setYear] = useState('');
+
   const [instructors, setInstructors] = useState([]);
 
   const [showAddInstructor , setShowAddInstructor] = useState(false)
@@ -119,6 +122,23 @@ function Home() {
       });
   }, [courses]);
 
+  const filteredSubjects = subjectdata.filter((subject) => {
+
+    // Check if both course and year are selected, and filter subjects accordingly
+    if (course && year) {
+      return parseInt(subject.course) === parseInt(course) && subject.year === year;
+    }
+    // If only one of course or year is selected, filter subjects based on the selected value
+    if (course) {
+      return parseInt(subject.course) === parseInt(course);
+    }
+    if (year) {
+      return subject.year === year;
+    }
+    // If neither course nor year is selected, return all subjects
+    return true;
+  });
+
   useEffect(() => {
     // Fetch instructor data from the API
     axios
@@ -143,6 +163,9 @@ function Home() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <div style={{display: 'flex', flexDirection: 'row'}}>
           <h1>Subjects</h1>
+          
+
+          
           {isAdmin && (
         <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px' }}
         onClick={() => {handleNoClickSubject();
@@ -150,6 +173,34 @@ function Home() {
           setShowDeleteSubject(false)
         }}/>
         )}
+
+          <select
+            style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
+            value={course} // Make sure you have a state variable 'course' to store the selected course ID
+            onChange={(e) => {
+              setCourse(e.target.value); // Update the 'course' state with the selected ID
+              console.log(e.target.value)
+            }}
+          >
+            <option value="">Course</option>
+            {courses.map((course) => (
+              <option key={course.courseID} value={course.courseID}>
+                {course.abbreviation}
+              </option>
+            ))}
+          </select>
+          <select
+            style={{ height: '30px', borderRadius: '10px', fontSize: '20px', marginTop: '30px', marginLeft: '20px' }}
+            value={year}
+            onChange={(e) => {setYear(e.target.value)
+            }}
+          >
+            <option value="">Year Level</option>
+            <option value="First Year">First Year</option>
+            <option value="Second Year">Second Year</option>
+            <option value="Third Year">Third Year</option>
+            <option value="Fourth Year">Fourth Year</option>
+          </select>
         {showAddSubject ? <AddSubject2 setShowAddSubject={setShowAddSubject} handleNoClickSubject={handleNoClickSubject} /> : null}
         </div>
           <table className="schedule-table" style={{width: 'auto'}}>
@@ -163,7 +214,7 @@ function Home() {
               </tr>
             </thead>
             <tbody>
-              {subjectdata.map((subject) => (
+              {filteredSubjects.map((subject) => (
                 <tr key={subject.subjectcode}>
                   <td>{getCourseAbbreviation(subject.course)}</td>
                   <td>{subject.year}</td>
@@ -209,7 +260,7 @@ function Home() {
               <tbody>
                 {instructors.map((instructor) => (
                   <tr key={instructor.instructorID}>
-                    <td><span style={{ fontSize: '17px', fontWeight: 'bold' }}><span style={{textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${instructor.name}`);}}>{instructor.name}</span></span></td>
+                    <td><span style={{ fontSize: '17px', fontWeight: 'bold' }}><span style={{textDecoration: 'underline', cursor: 'pointer', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${instructor.instructorID}`);}}>{instructor.name}</span></span></td>
                     <td>
                       {isAdmin && (
                       <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 

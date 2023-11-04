@@ -11,12 +11,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCourse, selectYear, setAdmin, setCollege, selectSubject, selectInstructor } from '../../Components/Redux/Auth/AuthSlice';
 import axios from 'axios';
 import AddSubject2 from '../../Components/Popup/Subjects/Add2';
-import UpdateSubject from '../../Components/Popup/Subjects/Update';
 import DeleteSubject from '../../Components/Popup/Subjects/Delete';
 import AddInstructor from '../../Components/Popup/Instructor/Add';
 import UpdateInstructor from '../../Components/Popup/Instructor/Update';
 import DeleteInstructor from '../../Components/Popup/Instructor/Delete';
 import { useNavigate } from 'react-router-dom';
+import UpdateSubject2 from '../../Components/Popup/Subjects/Update2';
 
 function Home() {
   const location = useLocation();
@@ -290,7 +290,7 @@ function Home() {
           </div>
         </div>
         {showDeleteSubject ? <DeleteSubject setShowDeleteSubject={setShowDeleteSubject} handleNoDeleteClickSubject={handleNoDeleteClickSubject} /> : null}
-        {showUpdateSubject ? <UpdateSubject setShowUpdateSubject={setShowUpdateSubject} handleCancelClickSubject={handleCancelClickSubject} /> : null}
+        {showUpdateSubject ? <UpdateSubject2 setShowUpdateSubject={setShowUpdateSubject} handleCancelClickSubject={handleCancelClickSubject} /> : null}
         {showDeleteInstructor ? <DeleteInstructor setShowDeleteInstructor={setShowDeleteInstructor} handleNoDeleteClickInstructor={handleNoDeleteClickInstructor} /> : null}
         {showUpdateInstructor ? <UpdateInstructor setShowUpdateInstructor={setShowUpdateInstructor} handleCancelClickInstructor={handleCancelClickInstructor} /> : null}
       </div>

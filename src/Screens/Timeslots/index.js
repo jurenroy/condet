@@ -200,7 +200,7 @@ function Timeslots() {
                             alt="edit icon"
                             style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
                             onClick={() => {
-                              handleCancelClickTimeslot(timeslot);
+                              handleCancelClickTimeslot2(timeslot);
                               setShowAddTimeslot(false);
                               setShowDeleteTimeslot(false);
                             }}
@@ -211,7 +211,7 @@ function Timeslots() {
                             alt="delete icon"
                             style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                             onClick={() => {
-                              handleNoDeleteClickTimeslot(timeslot);
+                              handleNoDeleteClickTimeslot2(timeslot);
                               setShowUpdateTimeslot(false);
                               setShowAddTimeslot(false);
                             }}

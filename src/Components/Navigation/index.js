@@ -1,15 +1,16 @@
-import React,{useState, useEffect} from 'react';
-import home from '../../Assets/homeicon2.png'
+import React, { useState, useEffect } from 'react';
+import home from '../../Assets/homeicon2.png';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
 
 function Navbar() {
-  const selectedCourse = useSelector(state => state.auth.course);
-  const selectedYear = useSelector(state => state.auth.year);
+  const selectedCourse = useSelector((state) => state.auth.course);
+  const selectedYear = useSelector((state) => state.auth.year);
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavigateToHome = () => {
     navigate('/');
@@ -17,7 +18,7 @@ function Navbar() {
     dispatch(selectYear(''));
   };
 
-    // Assuming you have a function to fetch data from an API
+  // Function to fetch course data from an API
   async function fetchCourseData() {
     try {
       const response = await fetch('https://classscheeduling.pythonanywhere.com/get_course_json/');
@@ -29,12 +30,12 @@ function Navbar() {
     }
   }
 
-  // Inside your component
+  // Function to get the course abbreviation based on course ID
   const getCourseAbbreviation = async (courseId) => {
     const courseData = await fetchCourseData();
 
     // Find the course with the matching course ID
-    const matchingCourse = courseData.find(course => course.courseID === courseId);
+    const matchingCourse = courseData.find((course) => course.courseID === courseId);
 
     if (matchingCourse) {
       return matchingCourse.abbreviation;
@@ -46,16 +47,41 @@ function Navbar() {
   useEffect(() => {
     if (selectedCourse) {
       getCourseAbbreviation(selectedCourse)
-        .then(abbreviation => setCourseAbbreviation(abbreviation))
-        .catch(error => console.error('Error fetching course abbreviation:', error));
+        .then((abbreviation) => setCourseAbbreviation(abbreviation))
+        .catch((error) => console.error('Error fetching course abbreviation:', error));
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [selectedCourse]);
 
   return (
-    <div style={{ backgroundColor: 'white', height: '40px', padding: '1px', marginTop: '65px', marginBottom: '10px', display:'flex', flexDirection: 'row',  width: '100%', position: 'fixed', top: '0', left: '0', zIndex: '50' }}>
-      <img src={home} alt="home icon" style={{ width: '25px', height: '25px', marginLeft: '10px', marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToHome}/>
-      <h3 style={{color: '#AAAAAA', marginLeft: '5px', marginTop: '5px', cursor: 'pointer'}} onClick={handleNavigateToHome}>Home</h3>
+    <div
+      style={{
+        backgroundColor: 'white',
+        height: '40px',
+        padding: '1px',
+        marginTop: '65px',
+        marginBottom: '10px',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        zIndex: '50',
+      }}
+    >
+      <img
+        src={home}
+        alt="home icon"
+        style={{ width: '25px', height: '25px', marginLeft: '10px', marginTop: '5px', cursor: 'pointer' }}
+        onClick={handleNavigateToHome}
+      />
+      <h3
+        style={{ color: '#AAAAAA', marginLeft: '5px', marginTop: '5px', cursor: 'pointer' }}
+        onClick={handleNavigateToHome}
+      >
+        Home
+      </h3>
       {selectedCourse && (
         <>
           <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> {'>'} </h3>
@@ -68,9 +94,20 @@ function Navbar() {
           )}
         </>
       )}
+      {location.pathname.startsWith('/instructor/') && (
+        <>
+          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> {'>'} </h3>
+          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>Instructor</h3>
+        </>
+      )}
+      {location.pathname.startsWith('/subject/') && (
+        <>
+          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}> {'>'} </h3>
+          <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>Subject</h3>
+        </>
+      )}
     </div>
   );
-  
 }
 
 export default Navbar;

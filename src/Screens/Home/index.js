@@ -171,6 +171,9 @@ function Home() {
         onClick={() => {handleNoClickSubject();
           setShowUpdateSubject(false);
           setShowDeleteSubject(false)
+          setShowAddInstructor(false);
+          setShowDeleteInstructor(false);
+          setShowUpdateInstructor(false);
         }}/>
         )}
 
@@ -228,12 +231,20 @@ function Home() {
                     <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickSubject(subject);
                       setShowAddSubject(false);
-                      setShowDeleteSubject(false)}}/>
+                      setShowDeleteSubject(false)
+                      setShowAddInstructor(false);
+                      setShowDeleteInstructor(false);
+                      setShowUpdateInstructor(false);
+                    }}/>
                     
                     <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickSubject(subject);
                       setShowUpdateSubject(false);
-                      setShowAddSubject(false)}}/>
+                      setShowAddSubject(false)
+                      setShowAddInstructor(false);
+                      setShowDeleteInstructor(false);
+                      setShowUpdateInstructor(false);
+                      }}/>
                       
                       </td>
                     )}
@@ -250,6 +261,9 @@ function Home() {
               onClick={() => {handleNoClickInstructor();
                 setShowUpdateInstructor(false);
                 setShowDeleteInstructor(false)
+                setShowAddSubject(false);
+                setShowDeleteSubject(false);
+                setShowUpdateSubject(false);
               }}/>
             )}
             </div>
@@ -273,12 +287,20 @@ function Home() {
                     <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickInstructor(instructor);
                       setShowAddInstructor(false);
-                      setShowDeleteInstructor(false)}}/>
+                      setShowDeleteInstructor(false)
+                      setShowAddSubject(false);
+                      setShowDeleteSubject(false)
+                      setShowUpdateSubject(false);}}
+                      />
+
                     
                     <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickInstructor(instructor);
                       setShowUpdateInstructor(false);
-                      setShowAddInstructor(false)}}/>
+                      setShowAddInstructor(false)
+                      setShowAddSubject(false);
+                      setShowDeleteSubject(false)
+                      setShowUpdateSubject(false)}}/>
                       
                       </td>
                     )}

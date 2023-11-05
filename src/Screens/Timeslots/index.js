@@ -104,7 +104,6 @@ function Timeslots() {
                 setShowDeleteTimeslot(false)}}/>
                 )}
               {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot={handleNoClickTimeslot} /> : null}
-              {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
 
             </div>
             <div>
@@ -128,7 +127,7 @@ function Timeslots() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickTimeslot(timeslot);
                               setShowAddTimeslot(false);
@@ -139,7 +138,7 @@ function Timeslots() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleNoDeleteClickTimeslot(timeslot);
                               setShowUpdateTimeslot(false);
@@ -154,9 +153,6 @@ function Timeslots() {
                 </tbody>
               </table>
             </div>
-            
-            {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot={handleNoDeleteClickTimeslot} /> : null}
-            {showUpdateTimeslot ? <UpdateTimeslot setShowUpdateTimeslot={setShowUpdateTimeslot} handleCancelClickTimeslot={handleCancelClickTimeslot} /> : null}
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -169,18 +165,12 @@ function Timeslots() {
                   setShowUpdateTimeslot(false);
                   setShowDeleteTimeslot(false)}}/>
             )}
-                {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot2={handleNoClickTimeslot2} /> : null}
-
-              {showDeleteTimeslot ? <DeleteTimeslot setShowDeleteTimeslot={setShowDeleteTimeslot} handleNoDeleteClickTimeslot2={handleNoDeleteClickTimeslot2} /> : null}
             </div>
 
-            
             <div>
               <table className="schedule-table">
                 <thead>
-                  <tr>
-                    
-                    
+                  <tr> 
                   </tr>
                 </thead>
                 <tbody>
@@ -198,7 +188,7 @@ function Timeslots() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickTimeslot2(timeslot);
                               setShowAddTimeslot(false);
@@ -209,7 +199,7 @@ function Timeslots() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleNoDeleteClickTimeslot2(timeslot);
                               setShowUpdateTimeslot(false);

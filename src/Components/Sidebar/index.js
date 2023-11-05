@@ -25,6 +25,13 @@ function Sidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const closeAllPopups = () => {
+    setShowAdd(false);
+    setShowUpdate(false);
+    setShowDelete(false);
+    setShowAutomate(false);
+  };
+
   const handleYearClick = (year) => {
     dispatch(selectYear(year));
     const formattedYear = year.replace(/\s+/g, '-'); // Replace spaces with hyphens
@@ -39,20 +46,24 @@ function Sidebar() {
   };
 
   const handleNoClick = () => {
+    closeAllPopups();
     setShowAdd(prevShow => !prevShow);
   };
 
   const handleCancelClick = (course) => {
     dispatch(selectCourse(course.courseID));
+    closeAllPopups();
     setShowUpdate(prevShow => !prevShow);
   }
 
   const handleNoDeleteClick = (course) => {
     dispatch(selectCourse(course.courseID));
+    closeAllPopups();
     setShowDelete(prevShow => !prevShow);
   }  
   const handleAutomateClick = (course) => {
     dispatch(selectCourse(course.courseID));
+    closeAllPopups();
     setShowAutomate(prevShow => !prevShow);
   }  
 
@@ -107,12 +118,10 @@ function Sidebar() {
                     style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
                     onClick={() => { 
                       handleAutomateClick(course);    
-                      setShowAdd(false)
-                      setShowDelete(false)
                     }}
                   />
                   )}
-                  {showUpdate  ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
+                  
                   {isAdmin && (
 
                     <img 
@@ -120,29 +129,22 @@ function Sidebar() {
                       alt="edit icon" 
                       style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
                       onClick={() => { 
-                        handleCancelClick(course);  
-                        setShowAdd(false)
-                        setShowDelete(false)
+                        handleCancelClick(course);
                       }}
                     />
                     )}
-                  {showAutomate  ? <AutomateSchedule setShowAutomate={setShowAutomate} handleNoClick={handleAutomateClick} /> : null}
+                  
                   {isAdmin && (
-
-                    
-
                   <img 
                     src={add} 
                     alt="add icon" 
                     style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '12.4%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)', marginTop: '-0.5%' }}
                     onClick={() => {
                       handleNoDeleteClick(course)
-                      setShowAdd(false)
-                      setShowUpdate(false)
                   }}  
                   />
                   )}
-                  {showDelete  ? <DeleteCourse setShowDelete={setShowDelete} handleNoClick={handleNoDeleteClick} /> : null}
+                   
                 </div>
   
                 {/* Show years only if the course is selected */}
@@ -163,6 +165,9 @@ function Sidebar() {
           }
         })}
       </ul>
+      {showAutomate  ? <AutomateSchedule setShowAutomate={setShowAutomate} handleNoClick={handleAutomateClick} /> : null}
+      {showUpdate  ? <UpdateCourse setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
+      {showDelete  ? <DeleteCourse setShowDelete={setShowDelete} handleNoClick={handleNoDeleteClick} /> : null}
     </div>
   );
 }

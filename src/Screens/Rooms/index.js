@@ -82,8 +82,8 @@ function Rooms() {
                 setShowUpdateRooms(false);
                 setShowDeleteRooms(false)}}/>
                 )}
-              {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms} /> : null}
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
+              
+              
 
             </div>
 
@@ -108,7 +108,7 @@ function Rooms() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '20%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickRooms(room);
                               setShowAddRooms(false);
@@ -119,7 +119,7 @@ function Rooms() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {handleNoDeleteClickRooms(room);
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
@@ -134,14 +134,11 @@ function Rooms() {
               </table>
             </div>
 
-            {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms} /> : null}
-            {showUpdateRooms ? <UpdateRooms setShowUpdateRooms={setShowUpdateRooms} handleCancelClickRooms={handleCancelClickRooms} /> : null}
         </div>
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
 
-
-              {/* Laboratory */}
+            {/* Laboratory */}
             <h3>Laboratory</h3>
             {isAdmin && ( 
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
@@ -151,7 +148,7 @@ function Rooms() {
             )}
                 {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms2} /> : null}
 
-              {showDeleteRooms ? <DeleteRooms setShowDeleteRooms={setShowDeleteRooms} handleNoDeleteClickRooms={handleNoDeleteClickRooms2} /> : null}
+              
             </div>
 
             <div>
@@ -175,7 +172,7 @@ function Rooms() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickRooms2(room);
                               setShowAddRooms(false);
@@ -186,7 +183,7 @@ function Rooms() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginRigh: '80%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {handleNoDeleteClickRooms2(room);
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,40 @@ const UpdateSubject = (props) => {
   const [subjectcode, setSubjectcode] = useState('');
   const [subjectname, setSubjectname] = useState('');
   const [error, setError] = useState('');
+
+  // State for tracking dragging functionality
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({
+    x: (window.innerWidth - 400) / 2, // 400 is the width of the component
+    y: (window.innerHeight - 300) / 2, // 300 is the height of the component
+  });
+  
+  const dragStartPos = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    dragStartPos.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    dragStartPos.current = null;
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      const deltaX = e.clientX - dragStartPos.current.x;
+      const deltaY = e.clientY - dragStartPos.current.y;
+    
+      setPosition({
+        x: position.x + deltaX,
+        y: position.y + deltaY,
+      });
+    
+      dragStartPos.current = { x: e.clientX, y: e.clientY };
+    }
+  };
+
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -88,9 +122,8 @@ const UpdateSubject = (props) => {
     <div style={{
       backgroundColor: 'white',
       position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
+      left: position.x + 'px',
+      top: position.y + 'px',
       height: '300px',
       width: '400px',
       padding: '20px',
@@ -99,7 +132,13 @@ const UpdateSubject = (props) => {
       flexDirection: 'column',
       borderRadius: '10px',
       border: '1px solid black',
-    }}>
+      zIndex: '999',
+      cursor: isDragging ? 'grabbing' : 'grab',
+    }}
+    onMouseDown={handleMouseDown}
+    onMouseUp={handleMouseUp}
+    onMouseMove={handleMouseMove}
+    >
 
       <div style={{
       backgroundColor: '#060E57', 

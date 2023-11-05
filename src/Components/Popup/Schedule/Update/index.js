@@ -12,8 +12,8 @@ const UpdateSchedule = (props) => {
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({
-    x: (window.innerWidth - 400) / 2, // 400 is the width of the component
-    y: (window.innerHeight - 300) / 2, // 300 is the height of the component
+    x: (window.innerWidth - 600) / 2, // 400 is the width of the component
+    y: (window.innerHeight - 500) / 2, // 300 is the height of the component
   });
   
   const dragStartPos = useRef(null);

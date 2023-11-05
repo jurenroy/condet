@@ -162,7 +162,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Timeslot</h2>
+        <h2 style={{ marginTop: '-2px',color:'white'}}>Update Timeslot ({selectedType})</h2>
       </div>
 
       <div style={{

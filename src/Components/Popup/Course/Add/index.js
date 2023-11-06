@@ -17,7 +17,7 @@ const AddCourse = (props) => {
       x: (window.innerWidth - 400) / 2, // 400 is the width of the component
       y: (window.innerHeight - 300) / 2, // 300 is the height of the component
     });
-    
+
     const dragStartPos = useRef(null);
   
     const handleMouseDown = (e) => {
@@ -102,7 +102,7 @@ const AddCourse = (props) => {
         flexDirection: 'column',
         border: '1px solid black',
         borderRadius: '10px',
-        zIndex: '10',
+        zIndex: '999',
         cursor: isDragging ? 'grabbing' : 'grab',
       }}
       onMouseDown={handleMouseDown}

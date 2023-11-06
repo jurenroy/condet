@@ -120,7 +120,7 @@ const UpdateCourse = (props) => {
       flexDirection: 'column',
       borderRadius: '10px',
       border: '1px solid black',
-      zIndex: '10',
+      zIndex: '999',
       cursor: isDragging ? 'grabbing' : 'grab',
     }}
     onMouseDown={handleMouseDown}

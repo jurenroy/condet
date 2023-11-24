@@ -323,7 +323,7 @@ const UpdateSchedule = (props) => {
     if (labDay && labStartTime && labEndTime && labBuildingNumber && labRoomName) {
       setLabDetailsFilled(true);
       // Fetch roomslot data to check availability
-      axios.get('http://classscheeduling.pythonanywhere.com/get_roomslot_json/')
+      axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
         .then(response => {
           const roomslotData = response.data;
           if (roomslotData) {

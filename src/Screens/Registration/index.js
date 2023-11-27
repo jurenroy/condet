@@ -170,7 +170,7 @@ const Registration = () => {
                       <option value="" disabled selected style={{ fontSize: '20px', color: 'white' }}>Select</option>
                       {collegeList.map((college) => (
                         <option key={college.id} value={college.collegeID} style={{ fontSize: '20px', color: 'black' }}>
-                          {college.college_name}
+                          {college.college}
                         </option>
                       ))}
                     </select>

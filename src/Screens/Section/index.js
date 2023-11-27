@@ -116,23 +116,96 @@ function Sections() {
       })
       .catch(error => console.error('Error deleting section:', error));
   };  
+  // eslint-disable-next-line
+  const columnsPerRow = 5;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', marginBottom: '30px' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginBottom: '30px',
+      }}
+    >
       {filteredSections.map((section, index) => (
-        <div key={section.sectionnumber} style={{ background: section.sectionnumber === selectedSection ? 'yellow' : 'gold', marginRight: '1px', padding: '5px', width: '100px', borderRadius: '10px', display: 'flex', alignItems: 'center' }} >
-          <span onClick={() =>{handleClick(section)}} style={{ fontSize: '17px', fontWeight: 'bold', marginRight: '5px', cursor: 'pointer' }}>
-            {courseAbbreviation}{yearValue}S{section.sectionnumber}
+        <div
+          key={section.sectionnumber}
+          style={{
+            background:
+              section.sectionnumber === selectedSection
+                ? 'yellow'
+                : 'gold',
+            marginRight: '10px', // Adjust the margin between columns
+            marginBottom: '10px', // Adjust the margin between rows
+            padding: '5px',
+            width: '100px',
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <span
+            onClick={() => {
+              handleClick(section);
+            }}
+            style={{
+              fontSize: '17px',
+              fontWeight: 'bold',
+              marginRight: '5px',
+              cursor: 'pointer',
+            }}
+          >
+            {courseAbbreviation}
+            {yearValue}S{section.sectionnumber}
           </span>
-          {index === filteredSections.length - 1 && filteredSections.length !== 1 && (
-            <img src={add} alt="add icon" onClick={deleteSection} style={{ width: '10px', height: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginLeft: 'auto', transform: 'rotate(45deg)' }} />
-          )}
+          {index === filteredSections.length - 1 &&
+            filteredSections.length !== 1 && (
+              <img
+                src={add}
+                alt="add icon"
+                onClick={deleteSection}
+                style={{
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  border: '2px solid black',
+                  cursor: 'pointer',
+                  marginLeft: 'auto',
+                  transform: 'rotate(45deg)',
+                }}
+              />
+            )}
         </div>
       ))}
-      {filteredSections.length === 0 || (filteredSections.length > 0 && filteredSections[filteredSections.length - 1].sectionnumber !== 1) ? (
-        <img src={add} alt="add icon" onClick={addSection} style={{ width: '15px', height: '15px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '7px', marginLeft: '3px' }} />
+      {filteredSections.length === 0 ||
+      (filteredSections.length > 0 &&
+        filteredSections[filteredSections.length - 1].sectionnumber !== 1) ? (
+        <img
+          src={add}
+          alt="add icon"
+          onClick={addSection}
+          style={{
+            width: '15px',
+            height: '15px',
+            borderRadius: '50%',
+            border: '2px solid black',
+            cursor: 'pointer',
+            marginTop: '7px',
+            marginLeft: '3px',
+          }}
+        />
       ) : (
-        <span style={{ fontSize: '17px', fontWeight: 'bold', marginTop: '7px', marginLeft: '5px' }}>1 section default</span>
+        <span
+          style={{
+            fontSize: '17px',
+            fontWeight: 'bold',
+            marginTop: '7px',
+            marginLeft: '5px',
+          }}
+        >
+          1 section default
+        </span>
       )}
     </div>
   );

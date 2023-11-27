@@ -113,7 +113,7 @@ function Subjects() {
                   <img
                     src={editicon}
                     alt="edit icon"
-                    style={{ width: '20px', height: '20px', cursor: 'pointer', marginRight: '20%' }}
+                    style={{ width: '0px', height: '0px', cursor: 'pointer', marginRight: '30%' }}
                     onClick={() => {
                       handleCancelClickSubject(subject);
                       setShowAddSubject(false);

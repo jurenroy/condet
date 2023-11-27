@@ -8,7 +8,7 @@ import deleteicon from '../../Assets/delete.png';
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCourse, selectYear, setAdmin, setCollege, selectSubject, selectInstructor } from '../../Components/Redux/Auth/AuthSlice';
+import { selectCourse, selectYear, setAdmin, setCollege, selectSubject, selectInstructor, setSemester } from '../../Components/Redux/Auth/AuthSlice';
 import axios from 'axios';
 import AddSubject2 from '../../Components/Popup/Subjects/Add2';
 import DeleteSubject from '../../Components/Popup/Subjects/Delete';
@@ -27,6 +27,7 @@ function Home() {
   const [collegee, setCollegee] = useState([]);
   const [courses, setCourses] = useState([]);
   const isAdmin = useSelector(state => state.auth.isAdmin);
+  const college = useSelector(state => state.auth.college);
   const [showAddSubject , setShowAddSubject] = useState(false)
   const [showUpdateSubject , setShowUpdateSubject] = useState(false)
   const [showDeleteSubject , setShowDeleteSubject] = useState(false)
@@ -81,9 +82,7 @@ function Home() {
         // Fetch user data from the API using Axios
     axios.get('https://classscheeduling.pythonanywhere.com/users/')
   .then(response => {
-    console.log('Fetched data:', response.data);
     const userData = response.data.find(user => user.email === storedUsername);
-    console.log('User data:', userData);
     if (userData) {
       dispatch(setAdmin(userData.isAdmin));
       dispatch(setCollege(userData.college));
@@ -93,6 +92,17 @@ function Home() {
   .catch(error => console.log('Error fetching data:', error));
   }, [dispatch, location.pathname, storedUsername]);
 
+  useEffect(() => {
+    // Fetch college data from the API using Axios
+    axios.get('https://classscheeduling.pythonanywhere.com/get_college_json/')
+      .then(response => {
+        const collegeData = response.data.find(college => parseInt(college.collegeID) === parseInt(collegee));
+        if (collegeData) {
+          dispatch(setSemester(collegeData.semester));
+        }
+      })
+      .catch(error => console.log('Error fetching college data:', error));
+  }, [dispatch, college, collegee]);
 
   useEffect(() => {
     // Step 1: Fetch courses

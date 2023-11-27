@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 const DeleteRoom = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const selectedCollege= useSelector(state => state.auth.college)
   const selectedRoom = useSelector(state => state.auth.room);
   const selectedType = useSelector(state => state.auth.type);
   const [roomData, setRoomData] = useState(null);
@@ -48,7 +49,7 @@ const DeleteRoom = (props) => {
         if (roomData) {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
           const foundRoom = roomData.find(room => 
-            room.course === selectedCourseAbbreviation &&
+            room.college === parseInt(selectedCollege) &&
             room.roomtype === selectedType &&
             room.roomID === selectedRoom
           );
@@ -59,7 +60,7 @@ const DeleteRoom = (props) => {
         }
       })
       .catch(error => console.log(error));
-  }, [selectedCourseAbbreviation, selectedRoom, selectedType]);
+  }, [selectedCollege, selectedRoom, selectedType]);
 
   const handleDelete = () => {
     // Check if roomData is available before proceeding with the delete request
@@ -69,7 +70,7 @@ const DeleteRoom = (props) => {
     }
 
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
-    axios.delete(`https://classscheeduling.pythonanywhere.com/delete_room/${selectedCourseAbbreviation}/${selectedRoom}/`)
+    axios.delete(`https://classscheeduling.pythonanywhere.com/delete_room/${selectedCollege}/${selectedRoom}/`)
       .then((response) => {
         console.log(response.data);
         // Handle the response or perform any additional actions

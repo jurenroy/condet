@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import home from '../../Assets/homeicon2.png';
+import edit1 from '../../Assets/edit1.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
+import EditSemester from '../Popup/Semester';
 
 function Navbar() {
   const selectedCourse = useSelector((state) => state.auth.course);
   const selectedYear = useSelector((state) => state.auth.year);
+  const selectedSemester = useSelector((state) => state.auth.semester);
+  const [showUpdate  , setShowUpdate] = useState(false)
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleCancelClick = () => {
+    setShowUpdate(prevShow => !prevShow);
+    console.log('agay')
+  }
 
   const handleNavigateToHome = () => {
     navigate('/');
@@ -52,6 +61,8 @@ function Navbar() {
     }
     // eslint-disable-next-line
   }, [selectedCourse]);
+
+  
 
   return (
     <div
@@ -106,6 +117,24 @@ function Navbar() {
           <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>Subject</h3>
         </>
       )}
+
+      {selectedSemester && (
+                      <><div style={{position: 'absolute', width: 'auto', display: 'flex', flexDirection: 'row', right: '15px'}}>
+                        <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedSemester}</h3>
+                        <button style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}>
+                          <img
+                            src={edit1} // Replace with the actual path to your edit2 image
+                            alt="Edit1"
+                            style={{ height: '20px', width: 'auto', marginTop: '-7px', marginLeft: '5px' }}
+                            onClick={() => { 
+                              handleCancelClick();
+                            }}
+                          />
+                        </button> 
+                        </div>
+                      </>
+                    )}
+                    {showUpdate  ? <EditSemester setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
     </div>
   );
 }

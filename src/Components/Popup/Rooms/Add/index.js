@@ -1,14 +1,40 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const AddRooms = (props) => {
   const [roomname, setRoomname] = useState('');
   const [buildingNumber, setBuildingNumber] = useState('');
+  const [buildings, setBuildings] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [error, setError] = useState('');
+  const [roomDropdownEnabled, setRoomDropdownEnabled] = useState(false);
+  const [buildingz, setBuildingz] = useState('');
+  const [excludedRooms, setExcludedRooms] = useState([]);
 
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const selectedType = useSelector(state => state.auth.type);
+
+  useEffect(() => {
+    // Fetch building data
+    axios.get('https://classscheeduling.pythonanywhere.com/get_buildinglist_json/')
+      .then((response) => {
+        setBuildings(response.data); // Assuming the API returns an array of buildings
+      })
+      .catch((error) => {
+        console.error('Error fetching buildings:', error);
+      });
+
+    // Fetch room data
+    axios.get('https://classscheeduling.pythonanywhere.com/get_roomlist_json/')
+      .then((response) => {
+        setRooms(response.data); // Assuming the API returns an array of rooms
+      })
+      .catch((error) => {
+        console.error('Error fetching rooms:', error);
+      });
+  }, []); // Run only once when the component mounts
 
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
@@ -79,7 +105,7 @@ const AddRooms = (props) => {
 
     // Send the room data to the Django backend
     axios
-      .post(`https://classscheeduling.pythonanywhere.com/add_room/${selectedCourse}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/add_room/${selectedCollege}/`, formData)
       .then((response) => {
         console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddRooms(false); // Close the add room form
@@ -95,6 +121,17 @@ const AddRooms = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    // Fetch room data from the excluded API
+    axios.get('https://classscheeduling.pythonanywhere.com/get_room_json/')
+      .then((response) => {
+        setExcludedRooms(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching excluded rooms:', error);
+      });
+  }, []); // Run only once when the component mounts
   
   return (
     <div style={{
@@ -142,25 +179,44 @@ const AddRooms = (props) => {
       borderBottomRightRadius:'8px',
       borderBottomLeftRadius:'8px',
       }}/>
-      <h3 style={{marginTop:'50px'}}>Building:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
-        type="text" 
-        value={buildingNumber} 
-        onChange={e => setBuildingNumber(e.target.value)}
-        onKeyDown={handleKeyPress}
+      <h3 style={{ marginTop: '50px' }}>Building:</h3>
+      <select
+        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
+        value={buildingNumber}
+        onChange={(e) => {
+          setBuildingNumber(e.target.value);
+          setRoomDropdownEnabled(true);
+          setRoomname(''); // Reset room name when building changes
+          setBuildingz(buildings.find(building => building.name === e.target.value)?.buildinglistID || '');
+        }}
         required
-      />
+      >
+        <option value="" disabled>Select a building</option>
+        {buildings.map((building) => (
+          <option key={building.buildinglistID} value={building.name}>
+            {building.name}
+          </option>
+        ))}
+      </select>
 
-      <h3 style={{marginTop:'12px'}}>Room Name:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize: '20px'}}
-        type="text" 
-        value={roomname} 
-        onChange={e => setRoomname(e.target.value)}
-        onKeyDown={handleKeyPress}
+      <h3 style={{ marginTop: '12px' }}>Room Name:</h3>
+      <select
+        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
+        value={roomname}
+        onChange={(e) => setRoomname(e.target.value) }
         required
-      />
+        disabled={!roomDropdownEnabled}
+      >
+        <option value="" disabled>Select a room</option>
+        {rooms
+          .filter((room) => room.building === buildingz && !excludedRooms.some(excludedRoom => excludedRoom.roomname === room.name))
+          .map((room) => (
+            <option key={room.roomlistID} value={room.name}>
+              {room.name}
+            </option>
+          ))}
+      </select>
+
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

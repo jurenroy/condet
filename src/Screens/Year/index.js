@@ -7,11 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import Subjects from '../Subjects';
 import Sections from '../Section';
 import Schedule from '../Schedule';
+import edit from '../../Assets/edit1.png';
+import EditSection from '../../Components/Popup/Section';
 
 function Year() {
   const selectedCourse = useSelector(state => state.auth.course);
   const selectedYear = useSelector(state => state.auth.year);
   const selectedSection = useSelector(state => state.auth.sectionnumber);
+  const [showUpdate  , setShowUpdate] = useState(false)
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
 
     const navigate = useNavigate();
@@ -59,6 +62,11 @@ function Year() {
     // eslint-disable-next-line
     }, [selectedCourse]);
 
+    const handleCancelClick = (course) => {
+      setShowUpdate(prevShow => !prevShow);
+    }
+
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -67,7 +75,18 @@ function Year() {
       <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column', width: '100%' }}>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation} - {selectedYear}</h1>
+          <img 
+            src={edit} 
+            alt="edit icon" 
+            style={{ width: '25px', height: '25px', marginLeft: '20px',marginTop: '25px' , cursor: 'pointer' }} 
+            onClick={() => { 
+              handleCancelClick();
+            }}
+          />
+          {showUpdate  ? <EditSection setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
+          </div>
           <Sections/>
           {selectedSection ? <Schedule /> : <Subjects />}
         </div>

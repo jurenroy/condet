@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import list from '../../Assets/listicon.png';
 import add from '../../Assets/addicon.png';
+import add2 from '../../Assets/addicon2.png';
 import edit from '../../Assets/edit1.png';
 import generate from '../../Assets/generate-icon.png';
 import AddCourse from '../Popup/Course/Add';
@@ -102,7 +103,7 @@ function Sidebar() {
       <ul style={{ listStyleType: 'none', marginLeft: '-40%', width: '60%' }}>
         {courseData.map(course => {
           // Check if the college of the course matches the college in the Redux state
-          const isMatchingCollege = course.college === selectedCollege;
+          const isMatchingCollege = course.college === parseInt(selectedCollege);
 
           if (isMatchingCollege) {
             return (
@@ -127,7 +128,7 @@ function Sidebar() {
                     <img 
                       src={edit} 
                       alt="edit icon" 
-                      style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
+                      style={{ width: '0px', height: '0px', marginRight: '10px', cursor: 'pointer' }} 
                       onClick={() => { 
                         handleCancelClick(course);
                       }}
@@ -136,9 +137,9 @@ function Sidebar() {
                   
                   {isAdmin && (
                   <img 
-                    src={add} 
+                    src={add2} 
                     alt="add icon" 
-                    style={{ position: 'absolute', width: '15px', height: '15px', marginLeft: '12.4%', marginBottom: '45px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', transform: 'rotate(45deg)', marginTop: '-0.5%' }}
+                    style={{width: '25px', height: '25px', marginRight: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', transform: 'rotate(45deg)' }}
                     onClick={() => {
                       handleNoDeleteClick(course)
                   }}  

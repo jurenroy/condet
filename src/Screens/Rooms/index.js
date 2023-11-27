@@ -15,6 +15,7 @@ function Rooms() {
   const [showDeleteRooms , setShowDeleteRooms] = useState(false)
   const [roomsData, setRoomsData] = useState([]);
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const isAdmin = useSelector(state => state.auth.isAdmin);
 
   const handleNoClickRooms = () => {
@@ -58,11 +59,11 @@ function Rooms() {
       .then(response => response.json())
       .then(data => {
         // Filter the data based on the selected course
-        const filteredRooms = data.filter(room => room.course === selectedCourse);
+        const filteredRooms = data.filter(room => room.college === parseInt(selectedCollege));
         setRoomsData(filteredRooms);
       })
       .catch(error => console.log(error));
-  }, [selectedCourse]);
+  }, [selectedCollege]);
 
   const lectureRooms = roomsData.filter(room => room.roomtype === 'Lecture');
   const laboratoryRooms = roomsData.filter(room => room.roomtype === 'Laboratory');
@@ -108,7 +109,7 @@ function Rooms() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '0px', height: '0px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickRooms(room);
                               setShowAddRooms(false);
@@ -119,7 +120,7 @@ function Rooms() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                             onClick={() => {handleNoDeleteClickRooms(room);
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
@@ -172,7 +173,7 @@ function Rooms() {
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '0px', height: '0px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
                             onClick={() => {
                               handleCancelClickRooms2(room);
                               setShowAddRooms(false);
@@ -183,7 +184,7 @@ function Rooms() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                             onClick={() => {handleNoDeleteClickRooms2(room);
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);

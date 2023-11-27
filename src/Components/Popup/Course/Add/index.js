@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -10,6 +10,55 @@ const AddCourse = (props) => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const college = useSelector(state => state.auth.college);
+    const [cabbreviation, setCabbreviation] = useState('');
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('https://classscheeduling.pythonanywhere.com/get_college_json/');
+          const selectedCollege = response.data.find(collegeItem => collegeItem.collegeID === parseInt(college));
+          console.log(selectedCollege.abbreviation)
+          setCabbreviation(selectedCollege.abbreviation)
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }, [college, setCabbreviation]);
+
+
+    const [courselist, setCourselist] = useState([]);
+    // eslint-disable-next-line
+    const [courselang, setCourselang] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const courselistResponse = await axios.get('https://classscheeduling.pythonanywhere.com/get_courselist_json/');
+          const courselangResponse = await axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/');
+        
+          const courselistData = courselistResponse.data.filter(courseItem => courseItem.college === parseInt(college));
+          const courselangData = courselangResponse.data.filter(courseItem => courseItem.college === parseInt(college));
+        
+          // Extract course names from courselangData
+          const courselangNames = courselangData.map(courseItem => courseItem.coursename);
+        
+          // Filter out courses from courselistData that are already in courselangNames
+          const filteredCourses = courselistData.filter(courseItem => !courselangNames.includes(courseItem.coursename));
+        
+          console.log(filteredCourses);
+          setCourselist(filteredCourses);
+        
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+    
+      fetchData();
+    }, [college, setCourselist, setCourselang]);
+
+
 
     // State for tracking dragging functionality
     const [isDragging, setIsDragging] = useState(false);
@@ -69,7 +118,8 @@ const AddCourse = (props) => {
       const formData = new FormData();
       formData.append('coursename', coursename);
       formData.append('abbreviation', abbreviation);
-      formData.append('college', college);
+      formData.append('college', parseInt(college));
+      
   
       axios
         .post('https://classscheeduling.pythonanywhere.com/add_course/', formData)
@@ -121,7 +171,7 @@ const AddCourse = (props) => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Add Course</h2>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Add Course ({cabbreviation})</h2>
       </div>
 
       <div style={{
@@ -135,21 +185,40 @@ const AddCourse = (props) => {
       borderBottomLeftRadius:'8px',
       }}/>
 
-      <h3 style={{marginTop:'50px'}}>Course Name:</h3>
-      <input
-        style={{ height: '40px', borderRadius: '10px', fontSize:'20px' }}
-        type="text" 
-        value={coursename} 
-        onChange={e => setCoursename(e.target.value)}
+      <h3 style={{ marginTop: '50px' }}>Course Name:</h3>
+      <select
+        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
+        value={coursename}
+        onChange={(e) => {
+          const selectedCourse = e.target.value;
+          setCoursename(selectedCourse);
+        
+          // Find the course in courselist based on the selected course name
+          const selectedCourseData = courselist.find(course => course.coursename === selectedCourse);
+        
+          // Set the abbreviation based on the selected course data
+          if (selectedCourseData) {
+            setAbbreviation(selectedCourseData.abbreviation);
+          } else {
+            setAbbreviation('');
+          }
+        }}
         onKeyDown={handleKeyPress}
-      />
-
-      <h3 style={{marginTop:'12px'}}>Abbreviation:</h3>
+      >
+        <option value="" disabled style={{ fontSize: '20px', color: 'white' }}>Select</option>
+        {courselist.map(course => (
+          <option key={course.id} value={course.coursename} style={{ fontSize: '20px', color: 'black' }}>
+            {course.coursename}
+          </option>
+        ))}
+      </select>
+        
+      <h3 style={{ marginTop: '12px' }}>Abbreviation:</h3>
       <input
-        style={{ height: '40px', borderRadius: '10px', fontSize: '20px'}}
-        type="text" 
-        value={abbreviation} 
-        onChange={e => setAbbreviation(e.target.value)}
+        style={{ height: '40px', borderRadius: '10px', fontSize: '20px' }}
+        type="text"
+        value={abbreviation}
+        readOnly // Set the input as read-only
         onKeyDown={handleKeyPress}
       />
 

@@ -55,6 +55,28 @@ const Registration = () => {
         setMsg(' ');
     };
 
+    const handleCollegeChange = (e) => {
+      const newValue = e.target.value;
+      setData((prevState) => ({
+        ...prevState,
+        college: newValue,
+        first_name: newValue, // Update first_name along with college
+      }));
+    };
+
+    const [collegeList, setCollegeList] = useState([]);
+    useEffect(() => {
+      // Fetch college list using Axios
+      axios.get('https://classscheeduling.pythonanywhere.com/get_college_json/')
+        .then(response => {
+          setCollegeList(response.data);
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.error('Error fetching college list:', error);
+        });
+    }, []); // Empty dependency array means this effect runs once after the initial render
+
     useEffect(() => {
       // Fetch user data from the server when the component mounts
       axios.get('https://classscheeduling.pythonanywhere.com/users/')
@@ -137,24 +159,22 @@ const Registration = () => {
                             top:'0px'
                             }}>Register an account </h1>
 
-                    <input 
-                        className="dept"
-                        type="text"
-                        name="college"
-                        value={data.college}
-                        onChange={(e) => {
-                            const newValue = e.target.value;
-                            setData(prevState => ({
-                                ...prevState,
-                                college: newValue,
-                                first_name: newValue, // Update first_name along with college
-                            }));
-                            setErrormsg(' ');
-                            setMsg(' ');
-                        }}
-                        onKeyDown={handleKeyPress}
-                        required/>
-                        <span className="department">College</span>
+                    <select
+                      className="dept"
+                      name="college"
+                      value={data.college}
+                      onChange={handleCollegeChange}
+                      onKeyDown={handleKeyPress}
+                      required
+                    >
+                      <option value="" disabled selected style={{ fontSize: '20px', color: 'white' }}>Select</option>
+                      {collegeList.map((college) => (
+                        <option key={college.id} value={college.collegeID} style={{ fontSize: '20px', color: 'black' }}>
+                          {college.college_name}
+                        </option>
+                      ))}
+                    </select>
+                    <span className="department">College</span>
 
                     <input 
                         className="emailLog"

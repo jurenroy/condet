@@ -261,25 +261,17 @@ Headed {
     color: white;
 }
 .department{
-    position: absolute;
-    left: 21%;
-    top: 21.5%;
-    font-size: 20px;
-    transition: 0.5s;
-    color: white;
-}
-.dept:valid ~ .department,
-.dept:focus ~ .department{
     color: white;
     border: 1.2px solid #fff;
     background: #4B8DF8;
-    transform: translate(50px,-27px) scale(0.88);
+    transform: translate(-230px, -115px) scale(0.88);
     border-radius: 6px;
     font-size: 1em;
     padding: 0 8px ;
     top: 20.6%;
     left: -1.7%;
 }
+
 .role{
     position: absolute;
     left: 52%;

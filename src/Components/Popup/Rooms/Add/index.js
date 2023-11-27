@@ -68,19 +68,7 @@ const AddRooms = (props) => {
       dragStartPos.current = { x: e.clientX, y: e.clientY };
     }
   };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleAddRoom();
-    }
-    if (e.key === 'Escape') {
-      props.setShowAddRooms(false)
   
-  };
-
-  };
-  
-
   const handleAddRoom = () => {
     setError(''); // Clear any previous errors
 
@@ -211,7 +199,7 @@ const AddRooms = (props) => {
         {rooms
           .filter((room) => room.building === buildingz && !excludedRooms.some(excludedRoom => excludedRoom.roomname === room.name))
           .map((room) => (
-            <option key={room.roomlistID} value={room.name}>
+            <option key={room.roomlistID} value={room.name}> 
               {room.name}
             </option>
           ))}

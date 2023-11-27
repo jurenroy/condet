@@ -14,7 +14,6 @@ function Rooms() {
   const [showUpdateRooms , setShowUpdateRooms] = useState(false)
   const [showDeleteRooms , setShowDeleteRooms] = useState(false)
   const [roomsData, setRoomsData] = useState([]);
-  const selectedCourse = useSelector(state => state.auth.course);
   const selectedCollege = useSelector(state => state.auth.college);
   const isAdmin = useSelector(state => state.auth.isAdmin);
 

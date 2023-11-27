@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const DeleteRoom = (props) => {
-  const selectedCourseAbbreviation = useSelector(state => state.auth.course);
   const selectedCollege= useSelector(state => state.auth.college)
   const selectedRoom = useSelector(state => state.auth.room);
   const selectedType = useSelector(state => state.auth.type);

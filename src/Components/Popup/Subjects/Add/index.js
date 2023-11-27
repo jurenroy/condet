@@ -8,6 +8,7 @@ const AddSubject = (props) => {
   const selectedCourse = useSelector(state => state.auth.course);
     const selectedYear = useSelector(state => state.auth.year)
     const selectedSemester = useSelector(state => state.auth.semester)
+    // eslint-disable-next-line
     const [course, setCourse] = useState('');
     const [coursename, setCoursename] = useState('');
 
@@ -15,8 +16,11 @@ const AddSubject = (props) => {
     const [selectedSubjectCode, setSelectedSubjectCode] = useState('');
     const [selectedSubjectName, setSelectedSubjectName] = useState('');
 
+    const [hagas, setHagas] = useState('');
+
     useEffect(() => {
       const fetchData = async () => {
+        setHagas(" Loading!")
         try {
           // Fetch courses
           const courseResponse = await axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/');
@@ -71,8 +75,8 @@ const AddSubject = (props) => {
     
             // Set subject list state
             setSubjectList(newSubjects);
+            setHagas("")
           } else {
-            console.error('Courselist not found for:', coursename);
           }
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -81,7 +85,6 @@ const AddSubject = (props) => {
     
       fetchData();
     }, [selectedCourse, coursename, selectedYear, selectedSemester]);
-    
     
 
     // Handle subject code change
@@ -147,16 +150,6 @@ const handleSubjectNameChange = e => {
       }
     };
 
-    const handleKeyPress = (e) => {
-      if (e.key === 'Enter') {
-        handleAddSubject();
-      }
-
-      if (e.key === 'Escape') {
-        props.setShowAddSubject(false)
-      }
-    };
-
   const handleAddSubject = () => {
     setError(''); // Clear any previous errors
 
@@ -197,7 +190,7 @@ const handleSubjectNameChange = e => {
     }
   };
 
-  console.log('subjects',subjectList)
+  
   
   return (
     <div style={{
@@ -232,7 +225,7 @@ const handleSubjectNameChange = e => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Add Subject</h2>
+         <h2 style={{marginTop:'-2px',color:'white'}}>Add Subject{hagas}</h2>
       </div>
 
       <div style={{

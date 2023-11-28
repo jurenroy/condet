@@ -28,6 +28,7 @@ function Roomslots() {
   };
   
   const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
 
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
 
@@ -83,7 +84,7 @@ function Roomslots() {
 
   // Filtered data based on selected roomslot type and room
   const filteredRoomslots = roomslotsData.filter(roomslot =>
-    roomslot.course === selectedCourse && 
+    roomslot.college === parseInt(selectedCollege) && 
     (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) &&
     (!selectedDay || roomslot.day === selectedDay) &&
     (!selectedRoom || `${roomslot.building_number} - ${roomslot.roomname}` === selectedRoom)&&

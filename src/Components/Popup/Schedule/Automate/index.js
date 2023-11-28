@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const AutomateSchedule = (props) => {
   const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const [selectedCourse, setSelectedCourse] = useState(null);
   // eslint-disable-next-line
   const [availableRoomSlots, setAvailableRoomSlots] = useState([]);
@@ -61,11 +62,11 @@ const AutomateSchedule = (props) => {
     // Fetch available room slots
     axios.get('https://classscheeduling.pythonanywhere.com/get_roomslot_json/')
       .then(response => {
-        const roomSlots = response.data.filter(roomslot => roomslot.course === selectedCourseAbbreviation && roomslot.availability === true);
+        const roomSlots = response.data.filter(roomslot => roomslot.college === parseInt(selectedCollege) && roomslot.availability === true);
         setAvailableRoomSlots(roomSlots);
-        const roomSlotsLab = response.data.filter(roomslot => roomslot.course === selectedCourseAbbreviation && roomslot.availability === true && roomslot.roomslottype === 'Laboratory');
+        const roomSlotsLab = response.data.filter(roomslot => roomslot.college === parseInt(selectedCollege) && roomslot.availability === true && roomslot.roomslottype === 'Laboratory');
         setAvailableLabRoomSlots(roomSlotsLab);
-        const roomSlotsLecture = response.data.filter(roomslot => roomslot.course === selectedCourseAbbreviation && roomslot.availability === true && roomslot.roomslottype === 'Lecture');
+        const roomSlotsLecture = response.data.filter(roomslot => roomslot.college === parseInt(selectedCollege) && roomslot.availability === true && roomslot.roomslottype === 'Lecture');
         setAvailableLectureRoomSlots(roomSlotsLecture);
       })
       .catch(error => console.log(error));
@@ -77,7 +78,7 @@ const AutomateSchedule = (props) => {
         setScheduleCount(schedules.length);
       })
       .catch(error => console.log(error));
-  }, [selectedCourseAbbreviation]);
+  }, [selectedCourseAbbreviation, selectedCollege]);
 
   const handleAutomate = () => {
     if (selectedCourse) {

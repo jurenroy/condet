@@ -9,6 +9,8 @@ const UpdateInstructor = (props) => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [selectedInstructorName, setSelectedInstructorName] = useState('');
+  const [instructors, setInstructors] = useState([]);
 
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
@@ -53,22 +55,35 @@ const UpdateInstructor = (props) => {
   };
 
   useEffect(() => {
-    axios.get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
-      .then(response => {
-        const instructor = response.data;
-        const foundInstructor = instructor.find(instructor => instructor.instructorID === selectedInstructor);
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        const instructorList = response.data;
+        setInstructors(instructorList);
+
+        const foundInstructor = instructorList.find(
+          (instructor) => instructor.instructorID === selectedInstructor
+        );
         if (foundInstructor) {
           setName(foundInstructor.name);
+          setSelectedInstructorName(foundInstructor.name);
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }, [selectedInstructor]);
 
-  const handleFormSubmit = (event) => {
-
-    if (name.trim() === '' ) {
-      setErrorMessage('Please provide a Instructor');
-    }else{
+  const handleFormSubmit = () => {
+    if (name.trim() === '') {
+      setErrorMessage('Please provide an Instructor');
+    } else {
+      if (name !== selectedInstructorName) {
+        // Check for duplicate names only if the name has been edited
+        const isDuplicateName = instructors.some((instructor) => instructor.name === name);
+        if (isDuplicateName) {
+          setErrorMessage('Instructor with this name already exists');
+          return;
+        }
+      }
       
   
     const formData = new FormData();

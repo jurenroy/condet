@@ -14,7 +14,7 @@ function Timeslots() {
   const [showUpdateTimeslot , setShowUpdateTimeslot] = useState(false)
   const [showDeleteTimeslot , setShowDeleteTimeslot] = useState(false)
   const [timeslotData, setTimeslotData] = useState([]);
-  const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const isAdmin = useSelector(state => state.auth.isAdmin);
 
   const handleNoClickTimeslot = () => {
@@ -59,14 +59,14 @@ function Timeslots() {
     fetch('https://classscheeduling.pythonanywhere.com/get_timeslot_json/')
       .then(response => response.json())
       .then(data => {
-        // Filter the data based on the selected course
-        const filteredTimeslot = data.filter(timeslot => timeslot.course === selectedCourse);
+        // Filter the data based on the selected college
+        const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCollege));
         // Sort the filteredTimeslot array based on starttime (earliest timeslot first)
         filteredTimeslot.sort((a, b) => a.starttime.localeCompare(b.starttime));
         setTimeslotData(filteredTimeslot);
       })
       .catch(error => console.log(error));
-  }, [selectedCourse]);
+  }, [selectedCollege]);
 
   const lectureTimeslots = timeslotData.filter(timeslot => timeslot.timeslottype === 'Lecture');
   const laboratoryTimeslots = timeslotData.filter(timeslot => timeslot.timeslottype === 'Laboratory');

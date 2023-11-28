@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import TimePicker from '../../../TimePicker/index'
@@ -8,8 +8,13 @@ const AddTimeslot = (props) => {
   const [endtime, setEndtime] = useState('');
   const [error, setError] = useState('');
 
-  const selectedCourse = useSelector(state => state.auth.course);
+  const selectedCollege = useSelector(state => state.auth.college);
   const selectedType = useSelector(state => state.auth.type);
+
+  useEffect(() => {
+    // Reset error to an empty string when starttime or endtime changes
+    setError('');
+  }, [starttime, endtime]);
 
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
@@ -52,16 +57,54 @@ const AddTimeslot = (props) => {
         setEndtime(militaryTime);
     };
 
+
+    const [timeslotData, setTimeslotData] = useState([]);
+
+    useEffect(() => {
+      // Fetch data from the API
+      fetch('https://classscheeduling.pythonanywhere.com/get_timeslot_json/')
+        .then(response => response.json())
+        .then(data => {
+          // Filter the data based on the selected college
+          const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCollege));
+          // Sort the filteredTimeslot array based on starttime (earliest timeslot first)
+          console.log(data)
+          console.log(selectedCollege)
+          filteredTimeslot.sort((a, b) => a.starttime.localeCompare(b.starttime));
+          setTimeslotData(filteredTimeslot);
+        })
+        .catch(error => console.log(error));
+    }, [selectedCollege]);
+
    
 
   const handleAddTimeslot = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
-    if (!starttime || !endtime || !selectedCourse || !selectedType) {
+    if (!starttime || !endtime || !selectedCollege || !selectedType) {
       setError('All fields are required to fill in.');
       return;
+    } else if (starttime >= endtime){
+      setError('Invalid Time Range');
+      return;
     }
+
+    const bufferMinutes = 1;
+
+    // Check if the new timeslot overlaps with existing timeslots
+    const isOverlap = timeslotData.some(existingTimeslot =>
+      (starttime >= existingTimeslot.starttime && starttime < existingTimeslot.endtime - bufferMinutes) ||
+      (endtime - bufferMinutes > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
+      (starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
+      (starttime === existingTimeslot.endtime - bufferMinutes) ||
+      (endtime - bufferMinutes === existingTimeslot.starttime)
+    );
+
+  if (isOverlap) {
+    setError('Cannot insert between an existing time range.');
+    return;
+  }
 
     // Create FormData object
     const formData = new FormData();
@@ -71,7 +114,7 @@ const AddTimeslot = (props) => {
 
     // Send the room data to the Django backend
     axios
-      .post(`https://classscheeduling.pythonanywhere.com/add_timeslot/${selectedCourse}/`, formData)
+      .post(`https://classscheeduling.pythonanywhere.com/add_timeslot/${selectedCollege}/`, formData)
       .then((response) => {
         console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddTimeslot(false); // Close the add room form
@@ -140,7 +183,7 @@ const AddTimeslot = (props) => {
       <h3 style={{marginTop:'12px'}}>End Time:</h3>
       <TimePicker onMilitaryTimeChange={handleMilitaryTimeChange2} />
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: 'red', marginBottom: '-30px', marginTop: '-0px' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddTimeslot}>Add</button>

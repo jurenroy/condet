@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import TimePicker from '../../../TimePicker';
 
 const UpdateTimeslot = (props) => {
-  const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const selectedCourseAbbreviation = useSelector(state => state.auth.college);
+  const selectedCourse = useSelector(state => state.auth.course);
   const selectedType = useSelector(state => state.auth.type);
   const selectedTime = useSelector(state => state.auth.time);
   const selectedStarttime = useSelector(state => state.auth.starttime)
@@ -15,6 +16,11 @@ const UpdateTimeslot = (props) => {
   const [starttime, setStarttime] = useState('');
   const [endtime, setEndtime] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Reset error to an empty string when starttime or endtime changes
+    setError('');
+  }, [starttime, endtime]);
 
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
@@ -64,7 +70,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
         if (timeslotData) {
           // Find the room based on selectedCourseAbbreviation, selectedType, and selectedRoom
           const foundTimeslot = timeslotData.find(timeslot => 
-            timeslot.course === selectedCourseAbbreviation &&
+            timeslot.college === selectedCourseAbbreviation &&
             timeslot.timeslottype === selectedType &&
             timeslot.timeslotID === selectedTime &&
             timeslot.starttime === selectedStarttime && 
@@ -80,12 +86,50 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       .catch(error => console.log(error));
   }, [selectedCourseAbbreviation, selectedType, selectedTime, selectedStarttime, selectedEndtime]);
 
+
+  const [timeslotData, setTimeslotData] = useState([]);
+
+    useEffect(() => {
+      // Fetch data from the API
+      fetch('https://classscheeduling.pythonanywhere.com/get_timeslot_json/')
+        .then(response => response.json())
+        .then(data => {
+          // Filter the data based on the selected college
+          const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCourseAbbreviation));
+          // Sort the filteredTimeslot array based on starttime (earliest timeslot first)
+          console.log(data)
+          console.log(selectedCourseAbbreviation)
+          filteredTimeslot.sort((a, b) => a.starttime.localeCompare(b.starttime));
+          setTimeslotData(filteredTimeslot);
+        })
+        .catch(error => console.log(error));
+    }, [selectedCourseAbbreviation]);
+
   const handleFormSubmit = () => {
     setError(''); // Clear any previous errors
 
     // Perform form validation (check if fields are not empty)
     if (!starttime || !endtime) {
       setError('All fields are required to fill in.');
+      return;
+    }else if (starttime >= endtime){
+      setError('Invalid Time Range');
+      return;
+    }
+
+    const bufferMinutes = 1;
+
+    // Check if the new timeslot overlaps with existing timeslots
+    const isOverlap = timeslotData.some(existingTimeslot =>
+      (starttime >= existingTimeslot.starttime && starttime < existingTimeslot.endtime - bufferMinutes) ||
+      (endtime - bufferMinutes > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
+      (starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
+      (starttime === existingTimeslot.endtime - bufferMinutes) ||
+      (endtime - bufferMinutes === existingTimeslot.starttime)
+    );
+
+    if (isOverlap) {
+      setError('Cannot insert between an existing time range.');
       return;
     }
 
@@ -103,7 +147,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
         window.location.reload();
         // Handle the response or perform any additional actions
         props.setShowUpdate(false); // Close the update room form
-        navigate(`/${selectedCourseAbbreviation}`);
+        navigate(`/${selectedCourse}`);
         
       })
       .catch((error) => {

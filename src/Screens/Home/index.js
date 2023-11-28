@@ -108,8 +108,9 @@ function Home() {
     // Step 1: Fetch courses
     axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then((response) => {
-        const filteredData = response.data.filter((course) => course.college === collegee);
+        const filteredData = response.data.filter((course) => course.college === parseInt(collegee));
         setCourses(filteredData);
+        console.log(filteredData)
       })
       .catch((error) => {
         console.error('Error fetching courses:', error);
@@ -155,7 +156,7 @@ function Home() {
       .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
       .then((response) => {
         // Filter instructors by college
-        const filteredInstructors = response.data.filter((instructor) => instructor.college === collegee);
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(collegee));
         setInstructors(filteredInstructors); // Store the filtered instructor names in state
       })
       .catch((error) => {
@@ -238,7 +239,7 @@ function Home() {
                   
                   {isAdmin && (
                   <td>
-                    <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    <img src={editicon} alt="edit icon" style={{ widths: '0px', height: '0px', marginLeft: '10px', cursor: 'pointer' }} 
                     onClick={() => {handleCancelClickSubject(subject);
                       setShowAddSubject(false);
                       setShowDeleteSubject(false)
@@ -247,7 +248,7 @@ function Home() {
                       setShowUpdateInstructor(false);
                     }}/>
                     
-                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '5px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickSubject(subject);
                       setShowUpdateSubject(false);
                       setShowAddSubject(false)

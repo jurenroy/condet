@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 const DeleteTimeslot = (props) => {
-  const selectedCourseAbbreviation = useSelector(state => state.auth.course);
+  const selectedCourseAbbreviation = useSelector(state => state.auth.college);
   const selectedTime = useSelector(state => state.auth.time)
   const selectedType = useSelector(state => state.auth.type);
   const [timeslotData, setTimeslotData] = useState(null);
@@ -48,7 +48,7 @@ const DeleteTimeslot = (props) => {
         if (timeslotData) {
           // Find the room based on selectedCourseAbbreviation and selectedRoom
           const foundTimeslot = timeslotData.find(timeslot => 
-            timeslot.course === selectedCourseAbbreviation &&
+            timeslot.college === parseInt(selectedCourseAbbreviation) &&
             timeslot.timeslotID === selectedTime &&
             timeslot.timeslottype === selectedType
           );

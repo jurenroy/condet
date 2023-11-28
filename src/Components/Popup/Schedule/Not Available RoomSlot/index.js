@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 const NotAvailableRoomslot = (props) => {
   const selectedRoomslot = useSelector((state) => state.auth.roomslot);
   const [roomslotData, setRoomslotData] = useState(null);
-  const [scheduleData, setScheduleData] = useState(null);
+  const [scheduleData, setScheduleData] = useState(null);  
 
   useEffect(() => {
     // Fetch roomslot data where selectedRoomslot matches roomslot.roomslotID
@@ -39,7 +39,7 @@ const NotAvailableRoomslot = (props) => {
         const matchingSchedules = data.filter((schedule) => {
             if (roomslotData.roomslottype === 'Lecture') {
               const isMatch = (
-                schedule.course === roomslotData.course &&
+                schedule.college === roomslotData.college &&
                 schedule.lecture_day === roomslotData.day &&
                 schedule.lecture_starttime === roomslotData.starttime &&
                 schedule.lecture_endtime === roomslotData.endtime &&
@@ -65,6 +65,7 @@ const NotAvailableRoomslot = (props) => {
   
 
         setScheduleData(matchingSchedules);
+
       } catch (error) {
         console.error('Error fetching schedule data:', error);
       }
@@ -168,8 +169,8 @@ const NotAvailableRoomslot = (props) => {
             <table>
               <thead>
                 <tr>
-                  <th>Section Year</th>
-                  <th>Section Number</th>
+                  <th>Course</th>
+                  <th>Section</th>
                   <th>Subject Code</th>
                   <th>Subject Name</th>
                   <th>Roomslot Type</th>
@@ -178,8 +179,8 @@ const NotAvailableRoomslot = (props) => {
               <tbody>
                 {scheduleData.map((schedule, index) => (
                   <tr key={index}>
-                    <td>{schedule.section_year}</td>
-                    <td>{schedule.section_number}</td>
+                    <td>{schedule.course}</td>
+                    <td>{schedule.section_year} - Section {schedule.section_number}</td>
                     <td>{schedule.subject_code}</td>
                     <td>{schedule.subject_name}</td>
                     <td>{roomslotData.roomslottype}</td>

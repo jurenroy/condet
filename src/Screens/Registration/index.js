@@ -44,6 +44,7 @@ const Registration = () => {
             inputElement.classList.remove('error');
             setErrormsg(' ');
             setMsg(' ');
+            setError2(false)
         }
     };
 
@@ -53,10 +54,12 @@ const Registration = () => {
         setData((prevState) => ({ ...prevState, isAdmin, last_name: value }));
         setErrormsg(' ');
         setMsg(' ');
+        setError2(false)
     };
 
     const handleCollegeChange = (e) => {
       const newValue = e.target.value;
+      setError2(false)
       setData((prevState) => ({
         ...prevState,
         college: newValue,
@@ -96,6 +99,8 @@ const Registration = () => {
         submit();
       }
     };
+
+    const [error2, setError2] = useState(false);
     
       const submit = () => {
         if (data.college === '' || data.email === '' || data.password === '') {
@@ -111,7 +116,8 @@ const Registration = () => {
           setErrormsg('Enter your Password');
           return;
         } else if (passvalid.test(data.password) === false) {
-          setErrormsg('Enter a valid Password');
+          setErrormsg('Password must be at least 8 characters');
+          setError2(true)
           return;
         }
     
@@ -246,8 +252,9 @@ const Registration = () => {
                             style={{ position:'absolute', width: '35px', height: '35px', top: '7px', left:'75%', }}/>
                     </button>
 
-                    <p className="signuperror">{errormsg}</p>
+                    <p className="signuperror" style={{marginLeft: '-35px'}}>{errormsg}</p>
                     <p className="message">{msg}</p>
+                    {error2 && <p className="signuperror" style={{ marginTop: '50px', marginLeft: '-25px', fontSize: '16px' }}>include at least one uppercase, lowercase, and digit.</p>}
 
                     <h4 style={{position:'absolute', 
                             // textAlign:'center',

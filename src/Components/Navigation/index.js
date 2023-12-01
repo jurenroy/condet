@@ -10,6 +10,7 @@ function Navbar() {
   const selectedCourse = useSelector((state) => state.auth.course);
   const selectedYear = useSelector((state) => state.auth.year);
   const selectedSemester = useSelector((state) => state.auth.semester);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
   const [showUpdate  , setShowUpdate] = useState(false)
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
   const dispatch = useDispatch();
@@ -118,7 +119,7 @@ function Navbar() {
         </>
       )}
 
-      {selectedSemester && (
+      {selectedSemester && isAdmin && (
                       <><div style={{position: 'absolute', width: 'auto', display: 'flex', flexDirection: 'row', right: '15px'}}>
                         <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedSemester}</h3>
                         <button style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}>

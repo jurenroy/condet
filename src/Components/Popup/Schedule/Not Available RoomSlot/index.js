@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const NotAvailableRoomslot = (props) => {
   const selectedRoomslot = useSelector((state) => state.auth.roomslot);
+
   const [roomslotData, setRoomslotData] = useState(null);
   const [scheduleData, setScheduleData] = useState(null);  
+
+  const [courseList, setCourseList] = useState([]);
+  const selectedCollege = useSelector((state) => state.auth.college);
+
+  useEffect(() => {
+    // Make Axios GET request when selectedCollege changes
+    if (selectedCollege) {
+      axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/', {
+        params: {
+          college: parseInt(selectedCollege)
+        }
+      })
+      .then(response => {
+        // Update the courseList state with the response data
+        setCourseList(response.data);
+      })
+      .catch(error => {
+        // Handle errors here
+        console.error(error);
+      });
+    }
+  }, [selectedCollege]);
+
 
   useEffect(() => {
     // Fetch roomslot data where selectedRoomslot matches roomslot.roomslotID
@@ -177,15 +202,17 @@ const NotAvailableRoomslot = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {scheduleData.map((schedule, index) => (
+                {scheduleData.map((schedule, index) => {
+                  const matchedCourse = courseList.find(course => course.courseID === schedule.course);
+                  return(
                   <tr key={index}>
-                    <td>{schedule.course}</td>
+                    <td>{matchedCourse ? matchedCourse.abbreviation : 'No matching course'}</td>
                     <td>{schedule.section_year} - Section {schedule.section_number}</td>
                     <td>{schedule.subject_code}</td>
                     <td>{schedule.subject_name}</td>
                     <td>{roomslotData.roomslottype}</td>
                   </tr>
-                ))}
+                  )})}
               </tbody>
             </table>
           </div>

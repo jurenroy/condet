@@ -107,7 +107,7 @@ const UpdateSchedule = (props) => {
       .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
       .then((response) => {
         // Filter instructors by college
-        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
         setInstructors(filteredInstructors); // Store the filtered instructor names in state
       })
       .catch((error) => {
@@ -240,8 +240,8 @@ const UpdateSchedule = (props) => {
       .then(response => {
         const roomslotData = response.data;
         if (roomslotData) {
-          const lectureRoomslots = roomslotData.filter(slot => slot.course === course && slot.roomslottype === 'Lecture');
-          const labRoomslots = roomslotData.filter(slot => slot.course === course && slot.roomslottype === 'Laboratory');
+          const lectureRoomslots = roomslotData.filter(slot => slot.college === parseInt(selectedCollege) && slot.roomslottype === 'Lecture');
+          const labRoomslots = roomslotData.filter(slot => slot.college === parseInt(selectedCollege) && slot.roomslottype === 'Laboratory');
           
           // Populate dropdown options for lecture days
           const lectureDayOptions = [...new Set(lectureRoomslots.map(slot => slot.day))];
@@ -269,7 +269,7 @@ const UpdateSchedule = (props) => {
         }
       })
       .catch(error => console.log(error));
-  }, [course]);
+  }, [selectedCollege]);
 
   const [isLectureModified, setIsLectureModified]=useState();
   const [lectureDetailsFilled, setLectureDetailsFilled] = useState(false);
@@ -285,7 +285,7 @@ const UpdateSchedule = (props) => {
           const roomslotData = response.data;
           if (roomslotData) {
             const matchingRoomslot = roomslotData.find(slot =>
-              slot.course === selectedCourse &&
+              slot.college === parseInt(selectedCollege) &&
               slot.roomslottype === 'Lecture' &&
               slot.day === lectureDay &&
               slot.starttime === lectureStartTime &&
@@ -311,7 +311,7 @@ const UpdateSchedule = (props) => {
     } else {
       setLectureDetailsFilled(false);
     }
-  }, [selectedCourse ,lectureDay, lectureStartTime, lectureEndTime, lectureBuildingNumber, lectureRoomName]);
+  }, [selectedCollege ,lectureDay, lectureStartTime, lectureEndTime, lectureBuildingNumber, lectureRoomName]);
 
 
   const [isLabModified, setIsLabModified]=useState();
@@ -328,7 +328,7 @@ const UpdateSchedule = (props) => {
           const roomslotData = response.data;
           if (roomslotData) {
             const matchingRoomslot = roomslotData.find(slot =>
-              slot.course === selectedCourse &&
+              slot.college === selectedCollege &&
               slot.roomslottype === 'Laboratory' &&
               slot.day === labDay &&
               slot.starttime === labStartTime &&
@@ -353,7 +353,7 @@ const UpdateSchedule = (props) => {
     } else {
       setLabDetailsFilled(false);
     }
-  }, [selectedCourse, labDay, labStartTime, labEndTime, labBuildingNumber, labRoomName]);
+  }, [selectedCollege, labDay, labStartTime, labEndTime, labBuildingNumber, labRoomName]);
 
   const isDisabled = 
     ((parseInt(selectedLabRoomslot) !== parseInt(labRoomslotNumber) && isLabModified === false &&labRoomslotAvailability === false) &&

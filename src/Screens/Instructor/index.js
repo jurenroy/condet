@@ -33,7 +33,7 @@ function Instructor() {
       .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
       .then((response) => {
         // Filter instructors by college
-        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
         setInstructors(filteredInstructors); // Store the filtered instructor names in state
         console.log('Instructors:', filteredInstructors);
       })
@@ -56,7 +56,7 @@ async function fetchCourseData(selectedCollege) {
       const data = await response.json();
   
       // Filter the data based on selectedCollege
-      const filteredData = data.filter(course => course.college === selectedCollege);
+      const filteredData = data.filter(course => course.college === parseInt(selectedCollege));
   
       return filteredData;
     } catch (error) {

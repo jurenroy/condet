@@ -26,13 +26,16 @@ function SubjectSchedule() {
 
   const [instructors, setInstructors] = useState([]);
 
+  const [selectedFilterCourse, setSelectedFilterCourse] = useState('');
+  const [courseList, setCourseList] = useState([]);
+
   useEffect(() => {
     // Fetch instructor data from the API
     axios
       .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
       .then((response) => {
         // Filter instructors by college
-        const filteredInstructors = response.data.filter((instructor) => instructor.college === selectedCollege);
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
         setInstructors(filteredInstructors); // Store the filtered instructor names in state
       })
       .catch((error) => {
@@ -54,13 +57,18 @@ async function fetchCourseData(selectedCollege) {
       const data = await response.json();
   
       // Filter the data based on selectedCollege
-      const filteredData = data.filter(course => course.college === selectedCollege);
+      const filteredData = data.filter(course => course.college === parseInt(selectedCollege));
+      setCourseList(filteredData)
   
       return filteredData;
     } catch (error) {
       return [];
     }
   }  
+
+  const handleFilterChange = (e) => {
+    setSelectedFilterCourse(e.target.value);
+  };
   
   // Fetch schedule data and add course abbreviation
   // Fetch schedule data and add course abbreviation
@@ -175,6 +183,8 @@ async function fetchScheduleDataForSearch(searchQuery) {
     navigate(`/subject/${subject_name}`);
   };
 
+  
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -185,6 +195,17 @@ async function fetchScheduleDataForSearch(searchQuery) {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div>
             <h2 style={{ textAlign: 'center' }}>Schedule for Subject: {subject_name}</h2>
+            <div>
+        <label htmlFor="courseFilter">Filter by Course:</label>
+        <select id="courseFilter" value={selectedFilterCourse} onChange={handleFilterChange}>
+          <option value="">All Courses</option>
+          {courseList.map((course) => (
+            <option key={course.courseID} value={course.abbreviation}>
+              {course.abbreviation}
+            </option>
+          ))}
+        </select>
+      </div>
 
             <div>
               <input
@@ -220,53 +241,75 @@ async function fetchScheduleDataForSearch(searchQuery) {
                 </tr>
               </thead>
               <tbody>
-                {scheduleData.map(schedule => {
-                  let yearValue = '1';
-                  if (schedule.section_year === 'Second Year') {
-                    yearValue = '2';
-                  } else if (schedule.section_year === 'Third Year') {
-                    yearValue = '3';
-                  } else if (schedule.section_year === 'Fourth Year') {
-                    // eslint-disable-next-line
-                    yearValue = '4';
-                  }
+                {scheduleData
+                  .filter((schedule) => !selectedFilterCourse || schedule.abbreviation === selectedFilterCourse)
+                  .map((schedule) => {
+                    let yearValue = '1';
+                    if (schedule.section_year === 'Second Year') {
+                      yearValue = '2';
+                    } else if (schedule.section_year === 'Third Year') {
+                      yearValue = '3';
+                    } else if (schedule.section_year === 'Fourth Year') {
+                      yearValue = '4';
+                    }
+                  
+                    const isConflict = schedule.lecture_day === schedule.lab_day && schedule.lecture_day && schedule.lab_day;
+                  
+                    // Parse the start and end times into Date objects
+                    const lectureStartTime = new Date(`1970-01-01T${schedule.lecture_starttime}`);
+                    const lectureEndTime = new Date(`1970-01-01T${schedule.lecture_endtime}`);
+                    const labStartTime = new Date(`1970-01-01T${schedule.lab_starttime}`);
+                    const labEndTime = new Date(`1970-01-01T${schedule.lab_endtime}`);
 
-                  const isConflict = schedule.lecture_day === schedule.lab_day && schedule.lecture_day && schedule.lab_day;
+                    // Check if there is a time overlap
+                    const isTimeConflict = isConflict && lectureStartTime < labEndTime && lectureEndTime > labStartTime;
 
-                  // Parse the start and end times into Date objects
-                  const lectureStartTime = new Date(`1970-01-01T${schedule.lecture_starttime}`);
-                  const lectureEndTime = new Date(`1970-01-01T${schedule.lecture_endtime}`);
-                  const labStartTime = new Date(`1970-01-01T${schedule.lab_starttime}`);
-                  const labEndTime = new Date(`1970-01-01T${schedule.lab_endtime}`);
-
-                  // Check if there is a time overlap
-                  const isTimeConflict = isConflict && lectureStartTime < labEndTime && lectureEndTime > labStartTime;
-
-                  return (
-                    <tr key={schedule.scheduleID}>
-                      <td>{schedule.abbreviation}{yearValue}S{schedule.section_number}</td>
-                      <td>{schedule.subject_code} - {schedule.subject_name}</td>
-                      <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}>{instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name || 'Unknown Instructor'}</p></td>
-                      <td>{schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]</td>
-                      <td>{schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]</td>
-                      <td>
-                        {isConflict && <p style={{color: 'red'}}>Lecture and Lab on the same day</p>}
-                        {isTimeConflict && <p style={{color: 'red'}}>Time Conflict</p>}
-                        {!isConflict && !isTimeConflict && <p>No conflict</p>}
-                      </td>
+                    return (
+                      <tr key={schedule.scheduleID}>
+                        <td>{schedule.abbreviation}{yearValue}S{schedule.section_number}</td>
+                        <td>{schedule.subject_code} - {schedule.subject_name}</td>
+                        <td>
+                          <p
+                            style={{ textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold' }}
+                            onClick={() => {
+                              navigate(`/instructor/${schedule.instructor}`);
+                            }}
+                          >
+                            {instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name ||
+                              'Unknown Instructor'}
+                          </p>
+                        </td>
+                        <td>
+                          {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[
+                          {schedule.lecture_starttime}-{schedule.lecture_endtime}]
+                        </td>
+                        <td>
+                          {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[
+                          {schedule.lab_starttime}-{schedule.lab_endtime}]
+                        </td>
+                        <td>
+                          {isConflict && <p style={{ color: 'red' }}>Lecture and Lab on the same day</p>}
+                          {isTimeConflict && <p style={{ color: 'red' }}>Time Conflict</p>}
+                          {!isConflict && !isTimeConflict && <p>No conflict</p>}
+                        </td>
 
                         {!isAdmin && (
-                      <td>
-
-                        <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
-                          onClick={() => { handleCancelClickSchedule(schedule); }} />
-                      </td>
-                      )}
-                      
-                    </tr>
-                  );
-                })}
+                          <td>
+                            <img
+                              src={editicon}
+                              alt="edit icon"
+                              style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
+                              onClick={() => {
+                                handleCancelClickSchedule(schedule);
+                              }}
+                            />
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
               </tbody>
+
             </table>
             {showUpdateSchedule ? <UpdateSchedule setShowUpdateSchedule={setShowUpdateSchedule} handleCancelClickSchedule={handleCancelClickSchedule} /> : null}
           </div>

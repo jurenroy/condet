@@ -74,7 +74,7 @@ const NotAvailableRoomslot = (props) => {
               return isMatch;
             } else if (roomslotData.roomslottype === 'Laboratory') {
               const isMatch = (
-                schedule.course === roomslotData.course &&
+                schedule.college === roomslotData.college &&
                 schedule.lab_day === roomslotData.day &&
                 schedule.lab_starttime === roomslotData.starttime &&
                 schedule.lab_endtime === roomslotData.endtime &&

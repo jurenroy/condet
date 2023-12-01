@@ -7,6 +7,7 @@ import AddRooms from '../../Components/Popup/Rooms/Add';
 import DeleteRooms from '../../Components/Popup/Rooms/Delete';
 import UpdateRooms from '../../Components/Popup/Rooms/Update';
 import { selectType, selectRoom} from '../../Components/Redux/Auth/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Rooms() {
   const dispatch = useDispatch();
@@ -16,6 +17,12 @@ function Rooms() {
   const [roomsData, setRoomsData] = useState([]);
   const selectedCollege = useSelector(state => state.auth.college);
   const isAdmin = useSelector(state => state.auth.isAdmin);
+
+  const navigate = useNavigate();
+
+  const handleRoomClick = (roomID) => {
+    navigate(`/room/${roomID}`);
+  };
 
   const handleNoClickRooms = () => {
     setShowAddRooms(prevShow => !prevShow);
@@ -99,7 +106,7 @@ function Rooms() {
                   {lectureRooms.map((room) => (
                     <tr key={room.roomID}>
                       <td>
-                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }} onClick={() => handleRoomClick(room.roomID)}>
                           {room.building_number} - {room.roomname}
                         </span>
                       </td>
@@ -163,7 +170,7 @@ function Rooms() {
                   {laboratoryRooms.map((room) => (
                     <tr key={room.roomID}>
                       <td>
-                        <span style={{ fontSize: '17px', fontWeight: 'bold' }}>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold' }} onClick={() => handleRoomClick(room.roomID)}>
                           {room.building_number} - {room.roomname}
                         </span>
                       </td>

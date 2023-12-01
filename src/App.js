@@ -9,6 +9,7 @@ import Year from './Screens/Year';
 import Registration from './Screens/Registration'
 import Instructor from './Screens/Instructor'
 import SubjectSchedule from './Screens/SubjectSchedule';
+import RoomSchedule from './Screens/RoomSchedule';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/:course/:year" element={<Year/>} />
             <Route path="/instructor/:instructor" element={<Instructor/>} />
             <Route path="/subject/:subject_name" element={<SubjectSchedule/>} />
+            <Route path="/room/:room" element={<RoomSchedule/>} />
             <Route path="/registration" element={<Registration />} />
           </Routes>
         </Router>

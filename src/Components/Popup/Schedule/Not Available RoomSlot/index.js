@@ -11,6 +11,22 @@ const NotAvailableRoomslot = (props) => {
   const [courseList, setCourseList] = useState([]);
   const selectedCollege = useSelector((state) => state.auth.college);
 
+  const [instructors, setInstructors] = useState([]);
+
+  useEffect(() => {
+    // Fetch instructor data from the API
+    axios
+      .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
+      .then((response) => {
+        // Filter instructors by college
+        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
+        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+      })
+      .catch((error) => {
+        console.error('Error fetching instructor data:', error);
+      });
+  }, [selectedCollege]);
+
   useEffect(() => {
     // Make Axios GET request when selectedCollege changes
     if (selectedCollege) {
@@ -29,6 +45,8 @@ const NotAvailableRoomslot = (props) => {
       });
     }
   }, [selectedCollege]);
+
+
 
 
   useEffect(() => {
@@ -58,7 +76,6 @@ const NotAvailableRoomslot = (props) => {
       try {
         const response = await fetch('https://classscheeduling.pythonanywhere.com/get_schedule_json/');
         const data = await response.json();
-        console.log(data)
 
         // Filter the data to find schedules matching the course and roomslot details
         const matchingSchedules = data.filter((schedule) => {
@@ -100,6 +117,25 @@ const NotAvailableRoomslot = (props) => {
       fetchRoomslotData();
     }
   }, [selectedRoomslot]);
+
+  const [instructorName, setInstructorName] = useState(null);
+
+  useEffect(() => {
+    const getInstructorName = (instructorId) => {
+      const matchedInstructor = instructors.find(
+        (instructor) => parseInt(instructor.instructorID) === parseInt(instructorId)
+      );
+      return matchedInstructor ? matchedInstructor.name : null;
+    };
+
+    const instructorId = parseInt(scheduleData?.[0]?.instructor);
+    if (instructorId !== undefined && instructorId !== null) {
+      const name = getInstructorName(instructorId);
+      setInstructorName(name);
+    } else {
+      setInstructorName(null);
+    }
+  }, [scheduleData, instructors]);
 
   return (
     <div
@@ -190,7 +226,14 @@ const NotAvailableRoomslot = (props) => {
 
         {scheduleData ? (
           <div>
-            <h3 style={{ marginTop: '12px' }}>Schedule Details</h3>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <h3 style={{ marginTop: '12px', marginRight: '10px' }}>Schedule Details Instructor:</h3>
+      {scheduleData[0].instructor ? (
+        <h3>{instructorName || 'Not Assigned'}</h3>
+      ) : (
+        <h3>Not Assigned</h3>
+      )}
+    </div>
             <table>
               <thead>
                 <tr>

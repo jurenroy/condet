@@ -165,10 +165,18 @@ if (conflicts.length > 0) {
   }
 } 
 
+const handleButtonClick = () => {
+  const formattedYear = selectedYear.replace(/\s+/g, '-'); // Replace spaces with hyphens
+  // Navigate to the specified route
+  navigate(`/schedule/${selectedCourse}/${formattedYear}/${selectedSection}`);
+};
 
   return (
     <div>
-      <h2 style={{textAlign: 'center'}}>Schedule for {courseAbbreviation.substring(2)}{yearvalue}S{selectedSection}</h2>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+      <h2 style={{textAlign: 'center'}}>Schedule for {courseAbbreviation.substring(2)}{yearvalue}S{selectedSection}</h2> 
+      <button style={{height: '15', cursor: conflex.length > 0 ? 'not-allowed' : 'pointer',}} disabled={conflex.length > 0} onClick={handleButtonClick}>View Visualization</button>
+      </div>
       <table className="schedule-table">
         <thead>
           <tr>

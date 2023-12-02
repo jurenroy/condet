@@ -10,6 +10,8 @@ import Registration from './Screens/Registration'
 import Instructor from './Screens/Instructor'
 import SubjectSchedule from './Screens/SubjectSchedule';
 import RoomSchedule from './Screens/RoomSchedule';
+import ScheduleView from './Screens/ScheduleView';
+import InstructorSchedule from './Screens/InstructorSchedule';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
             <Route path="/instructor/:instructor" element={<Instructor/>} />
             <Route path="/subject/:subject_name" element={<SubjectSchedule/>} />
             <Route path="/room/:room" element={<RoomSchedule/>} />
+            <Route path="/schedule/:course/:year/:section" element={<ScheduleView/>} />
+            <Route path="/schedule/instructor/:instructor" element={<InstructorSchedule/>} />
             <Route path="/registration" element={<Registration />} />
           </Routes>
         </Router>

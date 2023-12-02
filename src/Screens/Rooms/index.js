@@ -106,7 +106,7 @@ function Rooms() {
                   {lectureRooms.map((room) => (
                     <tr key={room.roomID}>
                       <td>
-                        <span style={{ fontSize: '17px', fontWeight: 'bold' }} onClick={() => handleRoomClick(room.roomID)}>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => handleRoomClick(room.roomID)}>
                           {room.building_number} - {room.roomname}
                         </span>
                       </td>
@@ -170,7 +170,7 @@ function Rooms() {
                   {laboratoryRooms.map((room) => (
                     <tr key={room.roomID}>
                       <td>
-                        <span style={{ fontSize: '17px', fontWeight: 'bold' }} onClick={() => handleRoomClick(room.roomID)}>
+                        <span style={{ fontSize: '17px', fontWeight: 'bold', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => handleRoomClick(room.roomID)}>
                           {room.building_number} - {room.roomname}
                         </span>
                       </td>

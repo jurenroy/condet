@@ -217,7 +217,7 @@ const handleButtonClick = () => {
               <tr key={schedule.scheduleID}>
                 <td>{schedule.subject_code}</td>
                 <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/subject/${schedule.subject_name}`);}}>{schedule.subject_name}</p></td>
-                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}> {instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name || 'Unknown Instructor'}</p></td>
+                <td><p style={{textDecoration: 'underline', cursor: 'pointer', fontStyle: 'italic', fontWeight: 'bold'}} onClick={() => {navigate(`/instructor/${schedule.instructor}`);}}> {instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name || 'Not Assigned'}</p></td>
                 <td>
                   <p style={{
                     color: conflex.some(conflict =>

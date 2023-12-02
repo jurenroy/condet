@@ -276,7 +276,7 @@ async function fetchScheduleDataForSearch(searchQuery) {
                             }}
                           >
                             {instructors.find((instructor) => parseInt(instructor.instructorID) === parseInt(schedule.instructor))?.name ||
-                              'Unknown Instructor'}
+                              'Not Assigned'}
                           </p>
                         </td>
                         <td>

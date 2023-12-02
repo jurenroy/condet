@@ -220,6 +220,12 @@ if (conflicts.length > 0) {
 // Find the instructor object based on the instructor ID from the URL params
 const instructorName = instructors.find((instructor) => instructor.instructorID === instructorID)?.name || 'Unknown Instructor';
 
+
+const handleButtonClick = () => {
+  // Navigate to the specified route
+  navigate(`/schedule/instructor/${instructorID}`);
+};
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -230,7 +236,9 @@ const instructorName = instructors.find((instructor) => instructor.instructorID 
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
           <div>
             <h2 style={{ textAlign: 'center' }}>Schedule for Instructor: {instructorName}</h2>
-
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <button style={{height: '15', cursor: conflex.length > 0 ? 'not-allowed' : 'pointer',}} disabled={conflex.length > 0} onClick={handleButtonClick}>View Visualization</button>
+            </div>
             <div>
               <input
                 type="text"

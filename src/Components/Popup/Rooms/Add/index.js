@@ -114,12 +114,16 @@ const AddRooms = (props) => {
     // Fetch room data from the excluded API
     axios.get('https://classscheeduling.pythonanywhere.com/get_room_json/')
       .then((response) => {
-        setExcludedRooms(response.data);
+        // Filter the data based on the selected college
+        const filteredRooms = response.data.filter(room => room.college === parseInt(selectedCollege));
+        
+        // Set the filtered rooms in the state
+        setExcludedRooms(filteredRooms);
       })
       .catch((error) => {
         console.error('Error fetching excluded rooms:', error);
       });
-  }, []); // Run only once when the component mounts
+}, [selectedCollege]); // Run whenever selectedCollege changes
   
   return (
     <div style={{

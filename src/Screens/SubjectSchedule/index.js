@@ -183,6 +183,19 @@ async function fetchScheduleDataForSearch(searchQuery) {
     navigate(`/subject/${subject_name}`);
   };
 
+  const formattedTime = (timeString) => {
+    const timeParts = timeString.split(':');
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+  
+    const formattedTime = new Date(2000, 0, 1, hours, minutes).toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  
+    return formattedTime;
+  };
   
 
   return (
@@ -281,11 +294,11 @@ async function fetchScheduleDataForSearch(searchQuery) {
                         </td>
                         <td>
                           {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[
-                          {schedule.lecture_starttime}-{schedule.lecture_endtime}]
+                          {formattedTime(schedule.lecture_starttime)}-{formattedTime(schedule.lecture_endtime)}]
                         </td>
                         <td>
                           {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[
-                          {schedule.lab_starttime}-{schedule.lab_endtime}]
+                          {formattedTime(schedule.lab_starttime)}-{formattedTime(schedule.lab_endtime)}]
                         </td>
                         <td>
                           {isConflict && <p style={{ color: 'red' }}>Lecture and Lab on the same day</p>}

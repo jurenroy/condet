@@ -66,7 +66,7 @@ const AddTimeslot = (props) => {
         .then(response => response.json())
         .then(data => {
           // Filter the data based on the selected college
-          const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCollege));
+          const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCollege) && timeslot.timeslottype === selectedType);
           // Sort the filteredTimeslot array based on starttime (earliest timeslot first)
           console.log(data)
           console.log(selectedCollege)
@@ -74,7 +74,7 @@ const AddTimeslot = (props) => {
           setTimeslotData(filteredTimeslot);
         })
         .catch(error => console.log(error));
-    }, [selectedCollege]);
+    }, [selectedCollege, selectedType]);
 
    
 

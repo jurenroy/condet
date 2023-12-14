@@ -93,7 +93,7 @@ function Roomslots() {
 
   const uniqueRooms = Array.from(new Set(
     roomslotsData
-    .filter(roomslot => roomslot.course === selectedCourse && (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) )
+    .filter(roomslot => roomslot.college === parseInt(selectedCollege) && (!selectedRoomslotType || roomslot.roomslottype === selectedRoomslotType) )
       .map(roomslot => `${roomslot.building_number} - ${roomslot.roomname}`)
   ));
 

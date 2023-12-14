@@ -226,6 +226,21 @@ const handleButtonClick = () => {
   navigate(`/schedule/instructor/${instructorID}`);
 };
 
+const formattedTime = (timeString) => {
+  const timeParts = timeString.split(':');
+  const hours = parseInt(timeParts[0], 10);
+  const minutes = parseInt(timeParts[1], 10);
+
+  const formattedTime = new Date(2000, 0, 1, hours, minutes).toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+
+  return formattedTime;
+};
+
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -308,7 +323,7 @@ const handleButtonClick = () => {
                             conflict.roomname === schedule.lecture_roomname
                           ) ? 'red' : 'black'
                         }}>
-                          {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{schedule.lecture_starttime}-{schedule.lecture_endtime}]
+                          {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{formattedTime(schedule.lecture_starttime)}-{formattedTime(schedule.lecture_endtime)}]
                         </p>
                       </td>
                       <td>
@@ -321,7 +336,7 @@ const handleButtonClick = () => {
                             conflict.roomname === schedule.lab_roomname
                           ) ? 'red' : 'black'
                         }}>
-                          {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{schedule.lab_starttime}-{schedule.lab_endtime}]
+                          {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{formattedTime(schedule.lab_starttime)}-{formattedTime(schedule.lab_endtime)}]
                         </p>
                       </td>
                       
@@ -377,14 +392,14 @@ const handleButtonClick = () => {
                 <p>Building Number: {conflict[0].building_number}</p>
                 <p>Room Name: {conflict[0].roomname}</p>
                 <p>Day: {conflict[0].day}</p>
-                <p>time: {conflict[0].starttime} - {conflict[0].endtime}</p>
+                <p>time: {formattedTime(conflict[0].starttime)} - {formattedTime(conflict[0].endtime)}</p>
                 {/* Render other properties as needed */}
                 {/* Conflict 2 */}
                 <br/>
                 <p>Building Number: {conflict[1].building_number}</p>
                 <p>Room Name: {conflict[1].roomname}</p>
                 <p>Day: {conflict[1].day}</p>
-                <p>time: {conflict[1].starttime} - {conflict[1].endtime}</p>
+                <p>time: {formattedTime(conflict[1].starttime)} - {formattedTime(conflict[1].endtime)}</p>
                 {/* Render other properties as needed */}
               </div>
             ))}

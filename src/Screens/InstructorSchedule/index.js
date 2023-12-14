@@ -158,6 +158,29 @@ function InstructorSchedule() {
 
   const instructorName = instructorList.find((instructor) => instructor.instructorID === instructorID)?.name || 'Unknown Instructor';
 
+  const [selectedRoomType, setSelectedRoomType] = useState('Lecture');
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setSelectedRoomType(value);
+    // Call a function or perform actions here based on the selected value if needed
+    console.log('Selected Room Type:', value);
+  };
+
+  const formattedTime = (timeString) => {
+    const timeParts = timeString.split(':');
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+  
+    const formattedTime = new Date(2000, 0, 1, hours, minutes).toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  
+    return formattedTime;
+  };
+
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -169,7 +192,13 @@ function InstructorSchedule() {
           <div>
 
             <h2 style={{ textAlign: 'center' }}>Schedule for Instructor:  {instructorName}</h2>
-
+            <div style={{marginBottom: '20px'}}>
+              <label htmlFor="roomType">Select Room Type: </label>
+              <select id="roomType" value={selectedRoomType} onChange={handleSelectChange}>
+                <option value="Lecture">Lecture</option>
+                <option value="Laboratory">Laboratory</option>
+              </select>
+            </div>
             {error ? (
   <p>{error}</p>
 ) : matchedRoomSlots.length === 0 ? (
@@ -190,9 +219,9 @@ function InstructorSchedule() {
     <tbody>
       {timeSlots.map((timeSlot, index) => (
         <tr key={index}>
-          <td>{timeSlot}</td>
+          <td>{formattedTime(timeSlot)}</td>
           {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
-            const matchingRoomSlot = matchedRoomSlots.find(slot => slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
+            const matchingRoomSlot = matchedRoomSlots.find(slot => slot.roomSlot.roomslottype === selectedRoomType && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
 
             return (
               <td
@@ -200,7 +229,15 @@ function InstructorSchedule() {
                 onMouseEnter={() => handleMouseEnter(matchingRoomSlot?.roomSlot?.roomslotID)}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                  backgroundColor: matchingRoomSlot ? (matchingRoomSlot.roomSlot.availability ? 'green' : 'red') : 'white',
+                  backgroundColor: matchingRoomSlot
+                    ? matchingRoomSlot.roomSlot.availability
+                      ? 'green'
+                      : matchingRoomSlot.roomSlot.roomslottype === 'Lecture'
+                        ? 'orange'
+                        : matchingRoomSlot.roomSlot.roomslottype === 'Laboratory'
+                          ? 'red'
+                          : 'white'
+                    : 'white',
                 }}
               >
                 {matchingRoomSlot ? (matchingRoomSlot.roomSlot.availability ? 'Available' : 'Hover for Info') : null}

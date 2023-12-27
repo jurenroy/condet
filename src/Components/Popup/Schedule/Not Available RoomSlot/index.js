@@ -19,22 +19,17 @@ const NotAvailableRoomslot = (props) => {
       .get('https://classscheeduling.pythonanywhere.com/get_instructor_json/')
       .then((response) => {
         // Filter instructors by college
-        const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
-        setInstructors(filteredInstructors); // Store the filtered instructor names in state
+        setInstructors(response.data); // Store the filtered instructor names in state
       })
       .catch((error) => {
         console.error('Error fetching instructor data:', error);
       });
-  }, [selectedCollege]);
+  }, []);
 
   useEffect(() => {
     // Make Axios GET request when selectedCollege changes
     if (selectedCollege) {
-      axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/', {
-        params: {
-          college: parseInt(selectedCollege)
-        }
-      })
+      axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
       .then(response => {
         // Update the courseList state with the response data
         setCourseList(response.data);
@@ -44,10 +39,7 @@ const NotAvailableRoomslot = (props) => {
         console.error(error);
       });
     }
-  }, [selectedCollege]);
-
-
-
+  },);
 
   useEffect(() => {
     // Fetch roomslot data where selectedRoomslot matches roomslot.roomslotID
@@ -81,7 +73,6 @@ const NotAvailableRoomslot = (props) => {
         const matchingSchedules = data.filter((schedule) => {
             if (roomslotData.roomslottype === 'Lecture') {
               const isMatch = (
-                schedule.college === roomslotData.college &&
                 schedule.lecture_day === roomslotData.day &&
                 schedule.lecture_starttime === roomslotData.starttime &&
                 schedule.lecture_endtime === roomslotData.endtime &&
@@ -91,7 +82,6 @@ const NotAvailableRoomslot = (props) => {
               return isMatch;
             } else if (roomslotData.roomslottype === 'Laboratory') {
               const isMatch = (
-                schedule.college === roomslotData.college &&
                 schedule.lab_day === roomslotData.day &&
                 schedule.lab_starttime === roomslotData.starttime &&
                 schedule.lab_endtime === roomslotData.endtime &&
@@ -103,9 +93,6 @@ const NotAvailableRoomslot = (props) => {
             return false;
           });
           
-  
-  
-
         setScheduleData(matchingSchedules);
 
       } catch (error) {
@@ -121,13 +108,20 @@ const NotAvailableRoomslot = (props) => {
   const [instructorName, setInstructorName] = useState(null);
 
   useEffect(() => {
+    console.log(scheduleData);
+  
+    // Check if scheduleData is not null before proceeding
+    if (!scheduleData) {
+      setScheduleData()
+    }
+  
     const getInstructorName = (instructorId) => {
       const matchedInstructor = instructors.find(
         (instructor) => parseInt(instructor.instructorID) === parseInt(instructorId)
       );
       return matchedInstructor ? matchedInstructor.name : null;
     };
-
+  
     const instructorId = parseInt(scheduleData?.[0]?.instructor);
     if (instructorId !== undefined && instructorId !== null) {
       const name = getInstructorName(instructorId);
@@ -136,6 +130,7 @@ const NotAvailableRoomslot = (props) => {
       setInstructorName(null);
     }
   }, [scheduleData, instructors]);
+  
 
   return (
     <div
@@ -224,16 +219,16 @@ const NotAvailableRoomslot = (props) => {
           <p>Loading roomslot data...</p>
         )}
 
-        {scheduleData ? (
+        {!scheduleData ? (
+          <p>Loading schedule data...</p>
+        ):(
+          <div>
+        {scheduleData && scheduleData[0] && scheduleData[0].instructor ? (
           <div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <h3 style={{ marginTop: '12px', marginRight: '10px' }}>Schedule Details Instructor:</h3>
-      {scheduleData[0].instructor ? (
-        <h3>{instructorName || 'Not Assigned'}</h3>
-      ) : (
-        <h3>Not Assigned</h3>
-      )}
-    </div>
+              <h3 style={{ marginTop: '12px', marginRight: '10px' }}>Schedule Details Instructor:</h3>
+              <h3>{instructorName || 'Not Assigned'}</h3>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -247,21 +242,25 @@ const NotAvailableRoomslot = (props) => {
               <tbody>
                 {scheduleData.map((schedule, index) => {
                   const matchedCourse = courseList.find(course => course.courseID === schedule.course);
-                  return(
-                  <tr key={index}>
-                    <td>{matchedCourse ? matchedCourse.abbreviation : 'No matching course'}</td>
-                    <td>{schedule.section_year} - Section {schedule.section_number}</td>
-                    <td>{schedule.subject_code}</td>
-                    <td>{schedule.subject_name}</td>
-                    <td>{roomslotData.roomslottype}</td>
-                  </tr>
-                  )})}
+                  return (
+                    <tr key={index}>
+                      <td>{matchedCourse ? matchedCourse.abbreviation : 'No matching course'}</td>
+                      <td>{schedule.section_year} - Section {schedule.section_number}</td>
+                      <td>{schedule.subject_code}</td>
+                      <td>{schedule.subject_name}</td>
+                      <td>{roomslotData.roomslottype}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         ) : (
-          <p>Loading schedule data...</p>
+          <h1>Occupied by Another College</h1>
         )}
+      </div>
+        ) 
+        }
       </div>
     </div>
   );

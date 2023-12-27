@@ -446,7 +446,7 @@ const UpdateSchedule = (props) => {
           onChange={(e) => {
             const combinedValue = e.target.value;
             if (combinedValue) {
-            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-'); 
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split(' - '); 
             setLectureBuildingNumber(selectedBuildingNumber.trim());
             setLectureRoomName(selectedRoomName.trim());
             }else{

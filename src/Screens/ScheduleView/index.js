@@ -168,20 +168,6 @@ function ScheduleView() {
     console.log('Selected Room Type:', value);
   };
 
-  const formattedTime = (timeString) => {
-    const timeParts = timeString.split(':');
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
-  
-    const formattedTime = new Date(2000, 0, 1, hours, minutes).toLocaleTimeString([], {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  
-    return formattedTime;
-  };
-
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -200,7 +186,6 @@ function ScheduleView() {
                 <option value="Laboratory">Laboratory</option>
               </select>
             </div>
-
             {error ? (
   <p>{error}</p>
 ) : matchedRoomSlots.length === 0 ? (
@@ -219,36 +204,35 @@ function ScheduleView() {
       </tr>
     </thead>
     <tbody>
-      {timeSlots.map((timeSlot, index) => (
-        <tr key={index}>
-          <td>{formattedTime(timeSlot)}</td>
-          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
-            const matchingRoomSlot = matchedRoomSlots.find(slot => slot.roomSlot.roomslottype === selectedRoomType && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
-
-            return (
-              <td
-                key={dayIndex}
-                onMouseEnter={() => handleMouseEnter(matchingRoomSlot?.roomSlot?.roomslotID)}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: matchingRoomSlot
-                    ? matchingRoomSlot.roomSlot.availability
-                      ? 'green'
-                      : matchingRoomSlot.roomSlot.roomslottype === 'Lecture'
-                        ? 'orange'
-                        : matchingRoomSlot.roomSlot.roomslottype === 'Laboratory'
-                          ? 'red'
-                          : 'white'
-                    : 'white',
-                }}
-              >
-                {matchingRoomSlot ? (matchingRoomSlot.roomSlot.availability ? 'Available' : 'Hover for Info') : null}
-                {showNotAvailableRoomslot && hoveredRoomslotID === matchingRoomSlot?.roomSlot?.roomslotID && matchingRoomSlot && !matchingRoomSlot.roomSlot.availability ? <NotAvailableRoomslot setNotAvailableRoomslot={setNotAvailableRoomslot} /> : null}
-              </td>
-            );
-          })}
-        </tr>
-      ))}
+    {timeSlots.map((timeSlot, index) => (
+      <tr key={index}>
+        <td>{timeSlot}</td>
+        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
+          const matchingRoomSlot = matchedRoomSlots.find(slot =>slot.roomSlot.college === parseInt(selectedCollege) && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
+        
+          // Check if the matchingRoomSlot belongs to the selected college
+          const isSameCollege = matchingRoomSlot?.scheduleData?.college === parseInt(selectedCollege);
+        
+          return (
+            <td
+              key={dayIndex}
+              onMouseEnter={() => handleMouseEnter(matchingRoomSlot?.roomSlot?.roomslotID)}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                backgroundColor: matchingRoomSlot ? (!matchingRoomSlot.roomSlot.availability ? 'red' : 'white') : 'white',
+              }}
+            >
+              {isSameCollege && (
+                <>
+                  {matchingRoomSlot ? (matchingRoomSlot.roomSlot.availability ? 'Available' : 'Hover for Info') : null}
+                  {showNotAvailableRoomslot && hoveredRoomslotID === matchingRoomSlot?.roomSlot?.roomslotID && matchingRoomSlot && !matchingRoomSlot.roomSlot.availability ? <NotAvailableRoomslot setNotAvailableRoomslot={setNotAvailableRoomslot} /> : null}
+                </>
+              )}
+            </td>
+          );
+        })}
+      </tr>
+    ))}
     </tbody>
   </table>
 )}

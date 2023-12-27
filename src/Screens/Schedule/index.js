@@ -185,11 +185,39 @@ const formattedTime = (timeString) => {
   return formattedTime;
 };
 
+const [has, setHas] = useState(false);
+
+useEffect(() => {
+  // Iterate over each scheduleData entry
+  scheduleData.forEach(schedule => {
+    // Check if the specified fields are assigned for each schedule entry
+    if (
+      schedule.lecture_day &&
+      schedule.lecture_building_number &&
+      schedule.lecture_roomname &&
+      schedule.lab_day &&
+      schedule.lab_building_number &&
+      schedule.lab_roomname
+    ) {
+      setHas(true);
+    }
+  });
+}, [scheduleData]); // Trigger the useEffect when scheduleData changes
+
   return (
     <div>
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
       <h2 style={{textAlign: 'center'}}>Schedule for {courseAbbreviation.substring(2)}{yearvalue}S{selectedSection}</h2> 
-      <button style={{height: '15', cursor: conflex.length > 0 ? 'not-allowed' : 'pointer',}} disabled={conflex.length > 0} onClick={handleButtonClick}>View Visualization</button>
+      <button
+        style={{
+          height: '15',
+          cursor: has ? (conflex.length > 0 ? 'not-allowed' : 'pointer') : 'not-allowed',
+        }}
+        disabled={!has || conflex.length > 0}
+        onClick={handleButtonClick}
+      >
+        View Visualization
+      </button>
       </div>
       <table className="schedule-table">
         <thead>
@@ -242,7 +270,10 @@ const formattedTime = (timeString) => {
                       conflict.roomname === schedule.lecture_roomname
                     ) ? 'red' : 'black'
                   }}>
-                    {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{formattedTime(schedule.lecture_starttime)}-{formattedTime(schedule.lecture_endtime)}]
+                    {schedule.lecture_day && schedule.lecture_building_number && schedule.lecture_roomname ?
+                      `${schedule.lecture_day}:${schedule.lecture_building_number}-${schedule.lecture_roomname}[${formattedTime(schedule.lecture_starttime)}-${formattedTime(schedule.lecture_endtime)}]` :
+                      'Not yet assigned'
+                    }
                   </p>
                 </td>
                 <td>
@@ -255,7 +286,10 @@ const formattedTime = (timeString) => {
                       conflict.roomname === schedule.lab_roomname
                     ) ? 'red' : 'black'
                   }}>
-                    {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{formattedTime(schedule.lab_starttime)}-{formattedTime(schedule.lab_endtime)}]
+                    {schedule.lab_day && schedule.lab_building_number && schedule.lab_roomname ?
+                      `${schedule.lab_day}:${schedule.lab_building_number}-${schedule.lab_roomname}[${formattedTime(schedule.lab_starttime)}-${formattedTime(schedule.lab_endtime)}]` :
+                      'Not yet assigned'
+                    }
                   </p>
                 </td>
 

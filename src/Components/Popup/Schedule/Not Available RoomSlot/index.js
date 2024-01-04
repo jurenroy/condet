@@ -6,7 +6,7 @@ const NotAvailableRoomslot = (props) => {
   const selectedRoomslot = useSelector((state) => state.auth.roomslot);
 
   const [roomslotData, setRoomslotData] = useState(null);
-  const [scheduleData, setScheduleData] = useState(null);  
+  const [scheduleData, setScheduleData] = useState([]);  
 
   const [courseList, setCourseList] = useState([]);
   const selectedCollege = useSelector((state) => state.auth.college);
@@ -130,6 +130,19 @@ const NotAvailableRoomslot = (props) => {
       setInstructorName(null);
     }
   }, [scheduleData, instructors]);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const delay = 1500; // 3000 milliseconds (3 seconds)
+
+    const timerId = setTimeout(() => {
+      setIsVisible(true);
+    }, delay);
+
+    // Clean up the timer to avoid memory leaks
+    return () => clearTimeout(timerId);
+  }, []); // Empty dependency array means this effect runs once when the component mounts
   
 
   return (
@@ -219,11 +232,14 @@ const NotAvailableRoomslot = (props) => {
           <p>Loading roomslot data...</p>
         )}
 
-        {!scheduleData ? (
+        {!scheduleData > 0 ? (
           <p>Loading schedule data...</p>
         ):(
           <div>
-        {scheduleData && scheduleData[0] && scheduleData[0].instructor ? (
+        {!scheduleData.length > 0 ? (
+          <h1 style={{display: isVisible ? 'block' : 'none'}}>Occupied by Another College</h1>
+        ) : 
+        (
           <div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <h3 style={{ marginTop: '12px', marginRight: '10px' }}>Schedule Details Instructor:</h3>
@@ -255,9 +271,8 @@ const NotAvailableRoomslot = (props) => {
               </tbody>
             </table>
           </div>
-        ) : (
-          <h1>Occupied by Another College</h1>
-        )}
+        ) 
+        }
       </div>
         ) 
         }

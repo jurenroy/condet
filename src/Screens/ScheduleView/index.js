@@ -60,6 +60,15 @@ function ScheduleView() {
     dispatch(selectRoomslot(''));
   };
 
+  const [selectedRoomType, setSelectedRoomType] = useState('Lecture');
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setSelectedRoomType(value);
+    // Call a function or perform actions here based on the selected value if needed
+    console.log('Selected Room Type:', value);
+  };
+
   useEffect(() => {
     axios.get('https://classscheeduling.pythonanywhere.com/get_schedule_json/')
       .then(response => {
@@ -115,9 +124,10 @@ function ScheduleView() {
   const days = Array.from(new Set(roomSlots.map((slot) => slot.day)));
 
   // Sort the room slots based on start time
-  const sortedRoomSlots = sortRoomSlotsByTime(roomSlots);
+  const sortedRoomSlots = sortRoomSlotsByTime(roomSlots.filter((slot) => slot.roomslottype === selectedRoomType && slot.college === parseInt(selectedCollege)));
 
-  const timeSlots = Array.from(new Set(sortedRoomSlots.map((slot) => `${slot.starttime} - ${slot.endtime}`)));
+  const timeSlots = Array.from(new Set(sortedRoomSlots
+    .map((slot) => `${slot.starttime} - ${slot.endtime}`)));
 
   const matchedCourse = courseList.find(course => course.courseID === courseSeed);
 
@@ -159,14 +169,7 @@ function ScheduleView() {
     matchRoomSlots(roomSlots, scheduleData);
   }, [roomSlots, scheduleData]);
 
-  const [selectedRoomType, setSelectedRoomType] = useState('Lecture');
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setSelectedRoomType(value);
-    // Call a function or perform actions here based on the selected value if needed
-    console.log('Selected Room Type:', value);
-  };
+  
 
   return (
     <div style={{ backgroundColor: '#dcdee4', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -208,7 +211,7 @@ function ScheduleView() {
       <tr key={index}>
         <td>{timeSlot}</td>
         {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
-          const matchingRoomSlot = matchedRoomSlots.find(slot =>slot.roomSlot.college === parseInt(selectedCollege) && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
+          const matchingRoomSlot = matchedRoomSlots.find(slot =>slot.roomSlot.college === parseInt(selectedCollege) && slot.roomSlot.roomslottype === selectedRoomType && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
         
           // Check if the matchingRoomSlot belongs to the selected college
           const isSameCollege = matchingRoomSlot?.scheduleData?.college === parseInt(selectedCollege);

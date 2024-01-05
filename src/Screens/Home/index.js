@@ -174,9 +174,6 @@ function Home() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <div style={{display: 'flex', flexDirection: 'row'}}>
           <h1>Subjects</h1>
-          
-
-          
           {isAdmin && (
         <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px' }}
         onClick={() => {handleNoClickSubject();

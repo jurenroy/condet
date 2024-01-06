@@ -5,6 +5,7 @@ import Sidebar from '../../Components/Sidebar';
 import add from '../../Assets/addicon2.png'
 import editicon from '../../Assets/edit1.png'
 import deleteicon from '../../Assets/delete.png';
+import noCoursesImage from '../../Assets/USTP logo.png';
 import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
@@ -171,49 +172,49 @@ function Home() {
       <Navbar />
       <div style={{ display: 'flex', flexGrow: 1, marginTop: '115px' }}>
         <Sidebar />
+        {courses.length > 0 ? (
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
           <div style={{display: 'flex', flexDirection: 'row'}}>
-          <h1>Subjects</h1>
-          {isAdmin && (
-        <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px' }}
-        onClick={() => {handleNoClickSubject();
-          setShowUpdateSubject(false);
-          setShowDeleteSubject(false)
-          setShowAddInstructor(false);
-          setShowDeleteInstructor(false);
-          setShowUpdateInstructor(false);
-        }}/>
-        )}
-
-          <select
-            style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
-            value={course} // Make sure you have a state variable 'course' to store the selected course ID
-            onChange={(e) => {
-              setCourse(e.target.value); // Update the 'course' state with the selected ID
-              console.log(e.target.value)
-            }}
-          >
+            <h1>Subjects</h1>
+            {isAdmin && (
+            <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px' }}
+            onClick={() => {handleNoClickSubject();
+              setShowUpdateSubject(false);
+              setShowDeleteSubject(false)
+              setShowAddInstructor(false);
+              setShowDeleteInstructor(false);
+              setShowUpdateInstructor(false);
+            }}/>
+            )}
+            <select
+              style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
+              value={course} // Make sure you have a state variable 'course' to store the selected course ID
+              onChange={(e) => {
+                setCourse(e.target.value); // Update the 'course' state with the selected ID
+                console.log(e.target.value)
+              }}
+            >
             <option value="">Course</option>
             {courses.map((course) => (
               <option key={course.courseID} value={course.courseID}>
                 {course.abbreviation}
               </option>
             ))}
-          </select>
-          <select
-            style={{ height: '30px', borderRadius: '10px', fontSize: '20px', marginTop: '30px', marginLeft: '20px' }}
-            value={year}
-            onChange={(e) => {setYear(e.target.value)
-            }}
-          >
-            <option value="">Year Level</option>
-            <option value="First Year">First Year</option>
-            <option value="Second Year">Second Year</option>
-            <option value="Third Year">Third Year</option>
-            <option value="Fourth Year">Fourth Year</option>
-          </select>
-        {showAddSubject ? <AddSubject2 setShowAddSubject={setShowAddSubject} handleNoClickSubject={handleNoClickSubject} /> : null}
-        </div>
+            </select>
+            <select
+              style={{ height: '30px', borderRadius: '10px', fontSize: '20px', marginTop: '30px', marginLeft: '20px' }}
+              value={year}
+              onChange={(e) => {setYear(e.target.value)
+              }}
+            >
+              <option value="">Year Level</option>
+              <option value="First Year">First Year</option>
+              <option value="Second Year">Second Year</option>
+              <option value="Third Year">Third Year</option>
+              <option value="Fourth Year">Fourth Year</option>
+            </select>
+            {showAddSubject ? <AddSubject2 setShowAddSubject={setShowAddSubject} handleNoClickSubject={handleNoClickSubject} /> : null}
+          </div>
           <table className="schedule-table" style={{width: 'auto'}}>
             <thead>
               <tr>
@@ -309,16 +310,20 @@ function Home() {
                       setShowAddSubject(false);
                       setShowDeleteSubject(false)
                       setShowUpdateSubject(false)}}/>
-                      
                       </td>
                     )}
-
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
+        ) : (
+          <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column' }}>
+            <img src={noCoursesImage} alt="No Courses" style={{ width: '350px', height: '500px' }} />
+          </div>
+        )
+        }
         {showDeleteSubject ? <DeleteSubject setShowDeleteSubject={setShowDeleteSubject} handleNoDeleteClickSubject={handleNoDeleteClickSubject} /> : null}
         {showUpdateSubject ? <UpdateSubject2 setShowUpdateSubject={setShowUpdateSubject} handleCancelClickSubject={handleCancelClickSubject} /> : null}
         {showDeleteInstructor ? <DeleteInstructor setShowDeleteInstructor={setShowDeleteInstructor} handleNoDeleteClickInstructor={handleNoDeleteClickInstructor} /> : null}

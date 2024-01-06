@@ -59,6 +59,15 @@ function InstructorSchedule() {
     dispatch(selectRoomslot(''));
   };
 
+  const [selectedRoomType, setSelectedRoomType] = useState('Lecture');
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setSelectedRoomType(value);
+    // Call a function or perform actions here based on the selected value if needed
+    console.log('Selected Room Type:', value);
+  };
+
   useEffect(() => {
     axios.get('https://classscheeduling.pythonanywhere.com/get_schedule_json/')
       .then(response => {
@@ -114,7 +123,7 @@ function InstructorSchedule() {
   const days = Array.from(new Set(roomSlots.map((slot) => slot.day)));
 
   // Sort the room slots based on start time
-  const sortedRoomSlots = sortRoomSlotsByTime(roomSlots);
+  const sortedRoomSlots = sortRoomSlotsByTime(roomSlots.filter((slot) => slot.roomslottype === selectedRoomType && slot.college === parseInt(selectedCollege)));
 
   const timeSlots = Array.from(new Set(sortedRoomSlots.map((slot) => `${slot.starttime} - ${slot.endtime}`)));
 
@@ -158,15 +167,7 @@ function InstructorSchedule() {
 
   const instructorName = instructorList.find((instructor) => instructor.instructorID === instructorID)?.name || 'Unknown Instructor';
 
-  const [selectedRoomType, setSelectedRoomType] = useState('Lecture');
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    setSelectedRoomType(value);
-    // Call a function or perform actions here based on the selected value if needed
-    console.log('Selected Room Type:', value);
-  };
-
+  // eslint-disable-next-line
   const formattedTime = (timeString) => {
     const timeParts = timeString.split(':');
     const hours = parseInt(timeParts[0], 10);
@@ -219,7 +220,7 @@ function InstructorSchedule() {
     <tbody>
       {timeSlots.map((timeSlot, index) => (
         <tr key={index}>
-          <td>{formattedTime(timeSlot)}</td>
+          <td>{timeSlot}</td>
           {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
             const matchingRoomSlot = matchedRoomSlots.find(slot => slot.roomSlot.roomslottype === selectedRoomType && slot.roomSlot.day === day && `${slot.roomSlot.starttime} - ${slot.roomSlot.endtime}` === timeSlot);
 

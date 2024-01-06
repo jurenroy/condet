@@ -22,7 +22,11 @@ const AuthSlice = createSlice({
     labRoomslot: '',
     instructor: '',
     roomslot: '',
-    semester: ''
+    semester: '',
+    logoutModal: false,
+    semesterModal: false,
+    sidebarModal: false,
+    contentModal: false,
     
   },
   reducers: {

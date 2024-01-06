@@ -248,7 +248,7 @@ const UpdateSchedule = (props) => {
           setLectureDays(lectureDayOptions);
 
           // Populate dropdown options for lecture rooms
-          const lectureRoomOptions = [...new Set(lectureRoomslots.map(slot => `${slot.building_number} - ${slot.roomname}`))];
+          const lectureRoomOptions = [...new Set(lectureRoomslots.map(slot => `${slot.building_number} : ${slot.roomname}`))];
           setLectureRooms(lectureRoomOptions);
 
           // Populate dropdown options for lecture times
@@ -260,7 +260,7 @@ const UpdateSchedule = (props) => {
           setLabDays(labDayOptions);
 
           // Populate dropdown options for lab rooms
-          const labRoomOptions = [...new Set(labRoomslots.map(slot => `${slot.building_number} - ${slot.roomname}`))];
+          const labRoomOptions = [...new Set(labRoomslots.map(slot => `${slot.building_number} : ${slot.roomname}`))];
           setLabRooms(labRoomOptions);
 
           // Populate dropdown options for lab times
@@ -442,26 +442,33 @@ const UpdateSchedule = (props) => {
         ))}
       </select>
       <select
-          value={`${lectureBuildingNumber} - ${lectureRoomName}`} 
-          onChange={(e) => {
-            const combinedValue = e.target.value;
-            if (combinedValue) {
-            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split(' - '); 
-            setLectureBuildingNumber(selectedBuildingNumber.trim());
-            setLectureRoomName(selectedRoomName.trim());
-            }else{
-                setLectureBuildingNumber('');
-                setLectureRoomName('');
-            }
-          }}
-        >
-          <option value=" - ">Select Room</option>
-          {lectureRooms.map(room => (
-            <option key={room} value={room}>
-              {room}
-            </option>
-          ))}
-        </select>
+  value={`${lectureBuildingNumber} : ${lectureRoomName}`}
+  onChange={(e) => {
+    const combinedValue = e.target.value;
+    console.log('Combined Value:', combinedValue);
+
+    if (combinedValue) {
+      const [selectedBuildingNumber, selectedRoomName] = combinedValue.split(' : '); 
+      console.log('Selected Building Number:', selectedBuildingNumber);
+      console.log('Selected Room Name:', selectedRoomName);
+      
+      setLectureBuildingNumber(selectedBuildingNumber.trim());
+      setLectureRoomName(selectedRoomName.trim());
+    } else {
+      console.log('No combined value selected');
+      setLectureBuildingNumber('');
+      setLectureRoomName('');
+    }
+  }}
+>
+  <option value=" : ">Select Room</option>
+  {lectureRooms.map(room => (
+    <option key={room} value={room}>
+      {room}
+    </option>
+  ))}
+</select>
+
         <select
           value={`${lectureStartTime} - ${lectureEndTime}`} 
           onChange={(e) => {
@@ -503,11 +510,11 @@ const UpdateSchedule = (props) => {
         ))}
       </select>
       <select
-          value={`${labBuildingNumber} - ${labRoomName}`} 
+          value={`${labBuildingNumber} : ${labRoomName}`} 
           onChange={(e) => {
             const combinedValue = e.target.value;
             if (combinedValue) {
-            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split('-');  
+            const [selectedBuildingNumber, selectedRoomName] = combinedValue.split(' : ');  
             setLabBuildingNumber(selectedBuildingNumber.trim());
             setLabRoomName(selectedRoomName.trim());
             }else{
@@ -516,7 +523,7 @@ const UpdateSchedule = (props) => {
             }
           }}
         >
-          <option value=" - ">Select Room</option>
+          <option value=" : ">Select Room</option>
           {labRooms.map(room => (
             <option key={room} value={room}>
               {room}

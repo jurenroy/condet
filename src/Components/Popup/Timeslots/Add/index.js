@@ -99,7 +99,7 @@ const AddTimeslot = (props) => {
       (starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
       (starttime === existingTimeslot.endtime - bufferMinutes) ||
       (endtime - bufferMinutes === existingTimeslot.starttime) ||
-      (starttime > existingTimeslot.starttime && endtime < existingTimeslot.endtime)
+      (starttime >= existingTimeslot.starttime && endtime <= existingTimeslot.endtime)
     );
 
   if (isOverlap) {

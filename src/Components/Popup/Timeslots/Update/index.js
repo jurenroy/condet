@@ -121,11 +121,11 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
 
     // Check if the new timeslot overlaps with existing timeslots
     const isOverlap = timeslotData.some(existingTimeslot =>
-      (starttime >= existingTimeslot.starttime && starttime < existingTimeslot.endtime - bufferMinutes) ||
-      (endtime - bufferMinutes > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
+      (starttime >= existingTimeslot.starttime && starttime < existingTimeslot.endtime ) ||
+      (endtime > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
       (starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
-      (starttime === existingTimeslot.endtime - bufferMinutes) ||
-      (endtime - bufferMinutes === existingTimeslot.starttime)
+      (starttime === existingTimeslot.endtime ) ||
+      (endtime === existingTimeslot.starttime)
     );
 
     if (isOverlap) {

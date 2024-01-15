@@ -117,6 +117,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       return;
     }
 
+    // eslint-disable-next-line
     const bufferMinutes = 1;
 
     // Check if the new timeslot overlaps with existing timeslots

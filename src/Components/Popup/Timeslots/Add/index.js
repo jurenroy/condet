@@ -102,7 +102,7 @@ const AddTimeslot = (props) => {
         (endtime > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
         // Case 3: New timeslot completely covers the existing timeslot
         (starttime - 1 <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
-        (starttime - 1 < existingTimeslot.endtime)
+        (starttime  < existingTimeslot.endtime && starttime !== existingTimeslot.endtime)
       )
     );
     

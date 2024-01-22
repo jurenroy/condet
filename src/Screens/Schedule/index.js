@@ -228,7 +228,9 @@ useEffect(() => {
             <th>Lecture Schedule</th>
             <th>Laboratory Schedule</th>
             <th>Conflict</th>
+            {!isAdmin && (
             <th>Action</th>
+            )}
           </tr>
         </thead>
         <tbody>

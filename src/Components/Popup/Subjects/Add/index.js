@@ -20,7 +20,7 @@ const AddSubject = (props) => {
 
     useEffect(() => {
       const fetchData = async () => {
-        setHagas(" Loading!")
+        setHagas(" (Loading!)")
         try {
           // Fetch courses
           const courseResponse = await axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/');
@@ -225,7 +225,13 @@ const handleSubjectNameChange = e => {
       borderTopLeftRadius:'8px',
       padding: '20px',
       }}>
-         <h2 style={{marginTop:'-2px',color:'white'}}>Add Subject{hagas}</h2>
+        {hagas ? (
+        <h2 style={{ marginTop: '-2px', color: 'red' }}>Add Subject {hagas}</h2>
+      ) : (
+        <h2 style={{ marginTop: '-2px', color: 'white' }}>Add Subject </h2>
+      )}
+
+          {/* <h2 style={{ marginTop: '-2px', color: 'white' }}>Add Subject <span style={{ color: 'red' }}>{hagas}</span></h2> */}
       </div>
 
       <div style={{

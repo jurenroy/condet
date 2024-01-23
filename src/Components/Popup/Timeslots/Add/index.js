@@ -90,12 +90,17 @@ const AddTimeslot = (props) => {
       return;
     }
 
+    const toMinutes = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
     // eslint-disable-next-line
     const bufferMinutes = 1;
 
     // Check if the new timeslot overlaps with existing timeslots
     const isOverlap = timeslotData.some(existingTimeslot => {
-      const condition1 = starttime >= existingTimeslot.starttime && (starttime + bufferMinutes < existingTimeslot.endtime && starttime !== existingTimeslot.endtime);
+      const condition1 = starttime >= existingTimeslot.starttime && ((toMinutes(starttime) < toMinutes(existingTimeslot.endtime)) && starttime !== existingTimeslot.endtime);
       const condition2 = endtime > existingTimeslot.starttime && endtime < existingTimeslot.endtime;
       const condition3 = starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime;
     

@@ -95,7 +95,7 @@ const AddTimeslot = (props) => {
 
     // Check if the new timeslot overlaps with existing timeslots
     const isOverlap = timeslotData.some(existingTimeslot => {
-      const condition1 = starttime >= existingTimeslot.starttime && (starttime < existingTimeslot.endtime && starttime !== existingTimeslot.endtime);
+      const condition1 = starttime >= existingTimeslot.starttime && (starttime + bufferMinutes < existingTimeslot.endtime && starttime !== existingTimeslot.endtime);
       const condition2 = endtime > existingTimeslot.starttime && endtime < existingTimeslot.endtime;
       const condition3 = starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime;
     

@@ -101,6 +101,9 @@ const AddTimeslot = (props) => {
     
       if (condition1 || condition2 || condition3) {
         console.log('Overlap condition triggered:');
+        if (condition1) console.log('Condition 1: New timeslot starts during the existing timeslot');
+        if (condition2) console.log('Condition 2: New timeslot ends during the existing timeslot');
+        if (condition3) console.log('Condition 3: New timeslot completely covers the existing timeslot');
         console.log('Existing Timeslot:', existingTimeslot);
         console.log('New Timeslot:', { starttime, endtime });
       }

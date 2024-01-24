@@ -202,8 +202,7 @@ const UpdateSchedule = (props) => {
   }
   
     // Send the updated schedule data to the Django backend using POST method
-    axios
-      .post(`https://classscheeduling.pythonanywhere.com/update_schedule/${selectedSchedule}/`, formData)
+    axios.post(`https://classscheeduling.pythonanywhere.com/update_schedule/${parseInt(selectedSchedule)}/`, formData)
       .then((response) => {
         console.log(response.data);
         window.location.reload();
@@ -328,7 +327,7 @@ const UpdateSchedule = (props) => {
           const roomslotData = response.data;
           if (roomslotData) {
             const matchingRoomslot = roomslotData.find(slot =>
-              slot.college === selectedCollege &&
+              slot.college === parseInt(selectedCollege) &&
               slot.roomslottype === 'Laboratory' &&
               slot.day === labDay &&
               slot.starttime === labStartTime &&
@@ -341,7 +340,7 @@ const UpdateSchedule = (props) => {
               setLabRoomslotAvailability(matchingRoomslot.availability);
               setLabRoomslotNumber(matchingRoomslot.roomslotnumber);
             }
-
+            
             if (matchingRoomslot.day === labDay && matchingRoomslot.building_number === labBuildingNumber && matchingRoomslot.roomname === labRoomName && matchingRoomslot.starttime === labStartTime && matchingRoomslot.endtime === labEndTime){
               setIsLabModified(false)
             }else{

@@ -12,12 +12,14 @@ import SubjectSchedule from './Screens/SubjectSchedule';
 import RoomSchedule from './Screens/RoomSchedule';
 import ScheduleView from './Screens/ScheduleView';
 import InstructorSchedule from './Screens/InstructorSchedule';
+import UpdateAvailability from './Components/Magic';
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
+        <UpdateAvailability />  {/*Include the UpdateAvailability component */}
           <Routes>
             <Route path="/" element={<Index/>} />
             <Route path="/:course/" element={<Course/>} /> 

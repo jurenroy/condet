@@ -5,6 +5,7 @@ import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ClearScheduleComponent from '../../Components/Popup/Schedule/Clear';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
@@ -275,6 +276,9 @@ useEffect(() => {
                       'Not yet assigned'
                     }
                   </p>
+                  {schedule.lecture_day && schedule.lecture_building_number && schedule.lecture_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Lecture"/>:
+                  null }
                 </td>
                 <td>
                   <p style={{
@@ -291,6 +295,9 @@ useEffect(() => {
                       'Not yet assigned'
                     }
                   </p>
+                  {schedule.lab_day && schedule.lab_building_number && schedule.lab_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Laboratory"/> :
+                  null }
                 </td>
 
                 <td>

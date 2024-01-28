@@ -237,7 +237,7 @@ const NotAvailableRoomslot = (props) => {
         ):(
           <div>
         {!scheduleData.length > 0 ? (
-          <h1 style={{display: isVisible ? 'block' : 'none'}}>Occupied by Another College</h1>
+          <h1 style={{display: isVisible ? 'block' : 'none'}}>Loading schedule data...</h1>
         ) : 
         (
           <div>
@@ -260,7 +260,7 @@ const NotAvailableRoomslot = (props) => {
                   const matchedCourse = courseList.find(course => course.courseID === schedule.course);
                   return (
                     <tr key={index}>
-                      <td>{matchedCourse ? matchedCourse.abbreviation : 'No matching course'}</td>
+                      <td>{matchedCourse ? matchedCourse.abbreviation : 'Loading course...'}</td>
                       <td>{schedule.section_year} - Section {schedule.section_number}</td>
                       <td>{schedule.subject_code}</td>
                       <td>{schedule.subject_name}</td>

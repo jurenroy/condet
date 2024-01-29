@@ -9,6 +9,7 @@ import { selectCourse, selectSchedule, selectYear } from '../../Components/Redux
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import ClearScheduleComponent from '../../Components/Popup/Schedule/Clear';
 
 function Instructor() {
   const location = useLocation();
@@ -325,6 +326,9 @@ const formattedTime = (timeString) => {
                         }}>
                           {schedule.lecture_day}:{schedule.lecture_building_number}-{schedule.lecture_roomname}[{formattedTime(schedule.lecture_starttime)}-{formattedTime(schedule.lecture_endtime)}]
                         </p>
+                            {schedule.lecture_day && schedule.lecture_building_number && schedule.lecture_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Lecture"/>:
+                  null }
                       </td>
                       <td>
                         <p style={{
@@ -338,6 +342,9 @@ const formattedTime = (timeString) => {
                         }}>
                           {schedule.lab_day}:{schedule.lab_building_number}-{schedule.lab_roomname}[{formattedTime(schedule.lab_starttime)}-{formattedTime(schedule.lab_endtime)}]
                         </p>
+                            {schedule.lab_day && schedule.lab_building_number && schedule.lab_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Laboratory"/> :
+                  null }
                       </td>
                       
                       <td>

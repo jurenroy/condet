@@ -7,6 +7,7 @@ import { selectType, selectTime, selectTimeslots} from '../../Components/Redux/A
 import AddTimeslot from '../../Components/Popup/Timeslots/Add';
 import DeleteTimeslot from '../../Components/Popup/Timeslots/Delete';
 import UpdateTimeslot from '../../Components/Popup/Timeslots/Update';
+import YourComponent from '../../Components/Popup/Timeslots/Interval';
 
 function Timeslots() {
   const dispatch = useDispatch();
@@ -152,6 +153,9 @@ function Timeslots() {
                   ))}
                 </tbody>
               </table>
+              {lectureTimeslots.length > 0 ?
+              <YourComponent selectedCollege={selectedCollege} selectedType="Lecture"/> :
+              null }
             </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -213,6 +217,9 @@ function Timeslots() {
                   ))}
                 </tbody>
               </table>
+              {laboratoryTimeslots.length > 0 ?
+              <YourComponent selectedCollege={selectedCollege} selectedType="Laboratory"/> :
+              null }
             </div>
 
 

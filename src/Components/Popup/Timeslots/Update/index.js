@@ -117,17 +117,31 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       return;
     }
 
+    const toMinutes = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
     // eslint-disable-next-line
     const bufferMinutes = 1;
 
     // Check if the new timeslot overlaps with existing timeslots
-    const isOverlap = timeslotData.some(existingTimeslot =>
-      (starttime >= existingTimeslot.starttime && starttime < existingTimeslot.endtime ) ||
-      (endtime > existingTimeslot.starttime && endtime <= existingTimeslot.endtime) ||
-      (starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime) ||
-      (starttime === existingTimeslot.endtime ) ||
-      (endtime === existingTimeslot.starttime)
-    );
+    const isOverlap = timeslotData.some(existingTimeslot => {
+      const condition1 = starttime >= existingTimeslot.starttime && ((toMinutes(starttime) < toMinutes(existingTimeslot.endtime)) && starttime !== existingTimeslot.endtime);
+      const condition2 = endtime > existingTimeslot.starttime && endtime < existingTimeslot.endtime;
+      const condition3 = starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime;
+    
+      if (condition1 || condition2 || condition3) {
+        console.log('Overlap condition triggered:');
+        if (condition1) console.log('Condition 1: New timeslot starts during the existing timeslot');
+        if (condition2) console.log('Condition 2: New timeslot ends during the existing timeslot');
+        if (condition3) console.log('Condition 3: New timeslot completely covers the existing timeslot');
+        console.log('Existing Timeslot:', existingTimeslot);
+        console.log('New Timeslot:', { starttime, endtime });
+      }
+    
+      return condition1 || condition2 || condition3;
+    });
 
     if (isOverlap) {
       setError('Cannot insert between an existing time range.');

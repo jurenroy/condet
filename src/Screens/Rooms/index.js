@@ -87,7 +87,8 @@ function Rooms() {
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
               onClick={() => {handleNoClickRooms();
                 setShowUpdateRooms(false);
-                setShowDeleteRooms(false)}}/>
+                setShowDeleteRooms(false)}}
+                title='Add Room'/>
                 )}
               
               
@@ -131,6 +132,7 @@ function Rooms() {
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
                             }}
+                            title='Delete Room'
                           />
                           </td>
                       )}
@@ -151,7 +153,8 @@ function Rooms() {
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
                  onClick={() => {handleNoClickRooms2();
                   setShowUpdateRooms(false);
-                  setShowDeleteRooms(false)}}/>
+                  setShowDeleteRooms(false)}}
+                  title='Add Room'/>
             )}
                 {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms2} /> : null}
 
@@ -195,6 +198,7 @@ function Rooms() {
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
                             }}
+                            title='Delete Room'
                           />
                           </td>
                       )}

@@ -84,6 +84,7 @@ function Year() {
             onClick={() => { 
               handleCancelClick();
             }}
+            title='Edit Section'
           />
           {showUpdate  ? <EditSection setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
           </div>

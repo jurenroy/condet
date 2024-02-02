@@ -243,13 +243,11 @@ const AddSubject2 = (props) => {
         zIndex: '999',
         cursor: isDragging ? 'grabbing' : 'grab',
       }}>
-        {/* <h2 style={{ marginTop: '-2px', color: 'white' }}>Add Subject {hagas}</h2> */}
         {hagas ? (
         <h2 style={{ marginTop: '-2px', color: 'red' }}>Add Subject {hagas}</h2>
       ) : (
         <h2 style={{ marginTop: '-2px', color: 'white' }}>Add Subject </h2>
       )}
-      
       </div>
 
       <div style={{

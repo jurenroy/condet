@@ -174,6 +174,7 @@ function Sections() {
                   marginLeft: 'auto',
                   transform: 'rotate(45deg)',
                 }}
+                title='Delete Section' 
               />
             )}
         </div>
@@ -194,6 +195,7 @@ function Sections() {
             marginTop: '7px',
             marginLeft: '3px',
           }}
+          title='Add Section'
         />
       ) : (
         <span

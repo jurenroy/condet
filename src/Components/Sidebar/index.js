@@ -96,6 +96,7 @@ function Sidebar() {
           alt="add icon" 
           style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '110px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', position: 'absolute' }} 
           onClick={handleNoClick}
+          title='Add Program'
         />
         )}
         {showAdd  ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
@@ -120,6 +121,7 @@ function Sidebar() {
                     onClick={() => { 
                       handleAutomateClick(course);    
                     }}
+                    title='Generate Schedule'
                   />
                   )}
                   
@@ -132,6 +134,7 @@ function Sidebar() {
                       onClick={() => { 
                         handleCancelClick(course);
                       }}
+                      title='Edit'
                     />
                     )}
                   
@@ -143,6 +146,7 @@ function Sidebar() {
                     onClick={() => {
                       handleNoDeleteClick(course)
                   }}  
+                  title='Delete Program'
                   />
                   )}
                    

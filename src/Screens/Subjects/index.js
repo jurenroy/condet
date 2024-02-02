@@ -81,6 +81,7 @@ function Subjects() {
               setShowUpdateSubject(false);
               setShowDeleteSubject(false);
             }}
+            title='Add Subjects'
           />
         )}
         {showAddSubject ? (
@@ -129,6 +130,7 @@ function Subjects() {
                       setShowUpdateSubject(false);
                       setShowAddSubject(false);
                     }}
+                    title='Delete Subjects'
                   />
                 </td>
               )}

@@ -5,6 +5,7 @@ import { selectLabRoomslot, selectLectureRoomslot, selectSchedule } from '../../
 import UpdateSchedule from '../../Components/Popup/Schedule/Update';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ClearScheduleComponent from '../../Components/Popup/Schedule/Clear';
 
 function Schedule() {
   const [scheduleData, setScheduleData] = useState([]);
@@ -277,6 +278,9 @@ useEffect(() => {
                       'Not yet assigned'
                     }
                   </p>
+                  {schedule.lecture_day && schedule.lecture_building_number && schedule.lecture_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Lecture"/>:
+                  null }
                 </td>
                 <td>
                   <p style={{
@@ -293,6 +297,9 @@ useEffect(() => {
                       'Not yet assigned'
                     }
                   </p>
+                  {schedule.lab_day && schedule.lab_building_number && schedule.lab_roomname ?
+                  <ClearScheduleComponent selectedSchedule={schedule.scheduleID} selectedType="Laboratory"/> :
+                  null }
                 </td>
 
                 <td>
@@ -326,10 +333,14 @@ useEffect(() => {
                             conflict.roomname === schedule.lecture_roomname
                           ) &&  !isConflict && !isTimeConflict && <p>No conflict</p>}
                 </td>
-                <td>{!isAdmin && (
+                {!isAdmin && (
+                  <td>
                     <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
-                    onClick={() => {handleCancelClickSchedule(schedule);}}/>
-                    )}</td>
+                    onClick={() => {handleCancelClickSchedule(schedule);}}
+                    title='Edit Schedule'
+                    />
+                    </td>
+                    )}
               </tr>
             );
           })}

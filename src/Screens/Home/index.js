@@ -184,7 +184,8 @@ function Home() {
               setShowAddInstructor(false);
               setShowDeleteInstructor(false);
               setShowUpdateInstructor(false);
-            }}/>
+            }}
+            title='Add Subject'/>
             )}
             <select
               style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
@@ -244,7 +245,8 @@ function Home() {
                       setShowAddInstructor(false);
                       setShowDeleteInstructor(false);
                       setShowUpdateInstructor(false);
-                    }}/>
+                    }}
+                    title='Edit Subject'/>
                     
                     <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '5px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickSubject(subject);
@@ -253,7 +255,8 @@ function Home() {
                       setShowAddInstructor(false);
                       setShowDeleteInstructor(false);
                       setShowUpdateInstructor(false);
-                      }}/>
+                      }}
+                      title='Delete Subject'/>
                       
                       </td>
                     )}
@@ -273,7 +276,8 @@ function Home() {
                 setShowAddSubject(false);
                 setShowDeleteSubject(false);
                 setShowUpdateSubject(false);
-              }}/>
+              }}
+              title='Add Instructor'/>
             )}
             </div>
             {showAddInstructor ? <AddInstructor setShowAddInstructor={setShowAddInstructor} handleNoClickInstructor={handleNoClickInstructor} /> : null}
@@ -300,6 +304,7 @@ function Home() {
                       setShowAddSubject(false);
                       setShowDeleteSubject(false)
                       setShowUpdateSubject(false);}}
+                      title='Edit Instructor'
                       />
 
                     
@@ -309,7 +314,8 @@ function Home() {
                       setShowAddInstructor(false)
                       setShowAddSubject(false);
                       setShowDeleteSubject(false)
-                      setShowUpdateSubject(false)}}/>
+                      setShowUpdateSubject(false)}}
+                      title='Delete Instructor'/>
                       </td>
                     )}
                   </tr>

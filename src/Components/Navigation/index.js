@@ -130,6 +130,7 @@ function Navbar() {
                             onClick={() => { 
                               handleCancelClick();
                             }}
+                            title='Edit Semester'
                           />
                         </button> 
                         </div>

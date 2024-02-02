@@ -7,6 +7,7 @@ import { selectType, selectTime, selectTimeslots} from '../../Components/Redux/A
 import AddTimeslot from '../../Components/Popup/Timeslots/Add';
 import DeleteTimeslot from '../../Components/Popup/Timeslots/Delete';
 import UpdateTimeslot from '../../Components/Popup/Timeslots/Update';
+import YourComponent from '../../Components/Popup/Timeslots/Interval';
 
 function Timeslots() {
   const dispatch = useDispatch();
@@ -101,7 +102,8 @@ function Timeslots() {
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
               onClick={() => {handleNoClickTimeslot();
                 setShowUpdateTimeslot(false);
-                setShowDeleteTimeslot(false)}}/>
+                setShowDeleteTimeslot(false)}}
+                title='Add Time'/>
                 )}
               {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot={handleNoClickTimeslot} /> : null}
 
@@ -133,6 +135,7 @@ function Timeslots() {
                               setShowAddTimeslot(false);
                               setShowDeleteTimeslot(false);
                             }}
+                            title='Edit Time'
                           />
 
                           <img
@@ -144,6 +147,7 @@ function Timeslots() {
                               setShowUpdateTimeslot(false);
                               setShowAddTimeslot(false);
                             }}
+                            title='Delete Time'
                           />
                           </td>
                       )}
@@ -152,6 +156,9 @@ function Timeslots() {
                   ))}
                 </tbody>
               </table>
+              {lectureTimeslots.length > 0 ?
+              <YourComponent selectedCollege={selectedCollege} selectedType="Lecture"/> :
+              null }
             </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -163,8 +170,10 @@ function Timeslots() {
               <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
                  onClick={() => {handleNoClickTimeslot2();
                   setShowUpdateTimeslot(false);
-                  setShowDeleteTimeslot(false)}}/>
-            )}
+                  setShowDeleteTimeslot(false)}}
+                  title='Add Time'
+                  />
+            )} 
             </div>
 
             <div>
@@ -194,6 +203,7 @@ function Timeslots() {
                               setShowAddTimeslot(false);
                               setShowDeleteTimeslot(false);
                             }}
+                            title='Edit Time'
                           />
 
                           <img
@@ -205,6 +215,7 @@ function Timeslots() {
                               setShowUpdateTimeslot(false);
                               setShowAddTimeslot(false);
                             }}
+                            title='Delete Time'
                           />
                           </td>
                       )}
@@ -213,6 +224,9 @@ function Timeslots() {
                   ))}
                 </tbody>
               </table>
+              {laboratoryTimeslots.length > 0 ?
+              <YourComponent selectedCollege={selectedCollege} selectedType="Laboratory"/> :
+              null }
             </div>
 
 

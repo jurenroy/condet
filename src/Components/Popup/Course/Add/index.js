@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 const AddCourse = (props) => {
     const [coursename, setCoursename] = useState('');
     const [abbreviation, setAbbreviation] = useState('');
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
     // eslint-disable-next-line
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -115,6 +117,9 @@ const AddCourse = (props) => {
       
       }else{
 
+        setButtonDisabled(true); // Disable the button
+        setLoading(true);
+
       const formData = new FormData();
       formData.append('coursename', coursename);
       formData.append('abbreviation', abbreviation);
@@ -133,6 +138,10 @@ const AddCourse = (props) => {
           console.error('Error:', error);
           setErrorMessage('Error adding course');
           setSuccessMessage('');
+        })
+        .finally(() => {
+          setButtonDisabled(false); // Re-enable the button after request completion
+          setLoading(false); // Re-enable the button after request completion
         });
       }
     };
@@ -226,7 +235,9 @@ const AddCourse = (props) => {
       {errorMessage && <p>{errorMessage}</p>}
       
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddCourse}>Add</button>
+      
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddCourse} disabled={isButtonDisabled}> {isLoading ? 'Adding...' : 'Add'} </button>
+      
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAdd(false)}>Cancel</button>
       </div>
     </div>

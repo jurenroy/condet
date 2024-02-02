@@ -7,6 +7,8 @@ const AddInstructor = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const college = useSelector((state) => state.auth.college);
   const [instructors, setInstructors] = useState([]);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   // State for tracking dragging functionality
   const [isDragging, setIsDragging] = useState(false);
@@ -70,6 +72,9 @@ const AddInstructor = (props) => {
     } else if (instructors.some((instructor) => instructor.name === name.trim())) {
       setErrorMessage('Instructor with the same name already exists');
     } else {
+      setButtonDisabled(true); // Disable the button
+      setLoading(true); // Set loading to true
+
       const formData = new FormData();
       formData.append('name', name);
       formData.append('college', college);
@@ -84,6 +89,11 @@ const AddInstructor = (props) => {
         .catch((error) => {
           console.error('Error:', error);
           setErrorMessage('Error adding instructor');
+
+        })
+        .finally(() => {
+          setButtonDisabled(false); // Re-enable the button after request completion
+          setLoading(false); 
         });
     }
   };
@@ -155,8 +165,9 @@ const AddInstructor = (props) => {
         <button
           style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }}
           onClick={handleAddCourse}
+          disabled={isButtonDisabled} 
         >
-          Add
+           {isLoading ? 'Adding...' : 'Add'}
         </button>
         <button
           style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }}

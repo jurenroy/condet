@@ -7,6 +7,8 @@ const AddTimeslot = (props) => {
   const [starttime, setStarttime] = useState('');
   const [endtime, setEndtime] = useState('');
   const [error, setError] = useState('');
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const selectedCollege = useSelector(state => state.auth.college);
   const selectedType = useSelector(state => state.auth.type);
@@ -89,6 +91,8 @@ const AddTimeslot = (props) => {
       setError('Invalid Time Range');
       return;
     }
+      setButtonDisabled(true);
+      setLoading(true);
 
     const toMinutes = (time) => {
       const [hours, minutes] = time.split(':').map(Number);
@@ -119,6 +123,8 @@ const AddTimeslot = (props) => {
 
   if (isOverlap) {
     setError('Cannot insert between an existing time range.');
+    setButtonDisabled(false); // Disable the button
+    setLoading(false);
     return;
   }
 
@@ -143,6 +149,10 @@ const AddTimeslot = (props) => {
         } else {
           setError('An error occurred.');
         }
+      })
+      .finally(() => {
+        setButtonDisabled(false); // Re-enable the button after request completion
+        setLoading(false);
       });
   };
   
@@ -202,7 +212,9 @@ const AddTimeslot = (props) => {
       {error && <p style={{ color: 'red', marginBottom: '-30px', marginTop: '-0px' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddTimeslot}>Add</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddTimeslot} disabled={isButtonDisabled}
+      >
+        {isLoading ? 'Adding...' : 'Add'}</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddTimeslot(false)}>Cancel</button>
       </div>
     </div>

@@ -8,6 +8,8 @@ const AddSubject = (props) => {
   const selectedCourse = useSelector(state => state.auth.course);
     const selectedYear = useSelector(state => state.auth.year)
     const selectedSemester = useSelector(state => state.auth.semester)
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
     // eslint-disable-next-line
     const [course, setCourse] = useState('');
     const [coursename, setCoursename] = useState('');
@@ -164,6 +166,8 @@ const handleSubjectNameChange = e => {
         setError('Please input a valid Subject Name');
 
     }else{
+      setButtonDisabled(true); // Disable the button
+      setLoading(true);
 
     // Create FormData object
     const formData = new FormData();
@@ -186,6 +190,10 @@ const handleSubjectNameChange = e => {
         } else {
           setError('An error occurred.');
         }
+      })
+      .finally(() => {
+        setButtonDisabled(false); // Re-enable the button after request completion
+        setLoading(false); 
       });
     }
   };
@@ -283,7 +291,9 @@ const handleSubjectNameChange = e => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddSubject}>Add</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddSubject} disabled={isButtonDisabled} // Disable the button based on state
+      >
+        {isLoading ? 'Adding...' : 'Add'}</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddSubject(false)}>Cancel</button>
       </div>
     </div>

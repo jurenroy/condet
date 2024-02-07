@@ -77,15 +77,21 @@ function Year() {
         <div style={{ flex: '1', backgroundColor: 'white', marginLeft: '1%', marginRight: '1%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'column', width: '100%' }}>
           <div style={{display: 'flex', flexDirection: 'row'}}>
           <h1 style={{ marginTop: '15px', fontSize: '30px'}}>{courseAbbreviation} - {selectedYear}</h1>
+
+          <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'7px',left:'20px'}}>
+                   Edit
+                 </label>
           <img 
             src={edit} 
             alt="edit icon" 
-            style={{ width: '25px', height: '25px', marginLeft: '20px',marginTop: '25px' , cursor: 'pointer' }} 
+            style={{ width: '25px', height: '25px', marginLeft: '20px',marginTop: '7px' , cursor: 'pointer' }} 
             onClick={() => { 
               handleCancelClick();
             }}
             title='Edit Section'
           />
+          </div>
           {showUpdate  ? <EditSection setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
           </div>
           <Sections/>

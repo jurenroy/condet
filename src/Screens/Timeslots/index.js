@@ -99,11 +99,16 @@ function Timeslots() {
               {/* Lecture */}
               <h3>Lecture</h3>
               {isAdmin && (
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
+                <div style={{display:'flex',flexDirection:'column'}}>
+                <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'-5px',left:'5px'}}>
+                  Add
+                </label>
+              <img src={add} alt="add icon" style={{top:'-5px',position:'relative', width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
               onClick={() => {handleNoClickTimeslot();
                 setShowUpdateTimeslot(false);
                 setShowDeleteTimeslot(false)}}
                 title='Add Time'/>
+                </div>
                 )}
               {showAddTimeslot ? <AddTimeslot setShowAddTimeslot={setShowAddTimeslot} handleNoClickTimeslot={handleNoClickTimeslot} /> : null}
 
@@ -126,10 +131,18 @@ function Timeslots() {
                       </td>
                       {isAdmin && (
                       <td>
+                         <div style={{top:'-2px',position:'relative',flex:'1',display:'flex',flexDirection:'row'}}>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative',marginRight:'12px'}}>
+                      Edit
+                    </label>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative'}}>
+                      Delete
+                    </label>
+                    </div>
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '19px', height: '19px', cursor: 'pointer', marginTop: '10px' }}
                             onClick={() => {
                               handleCancelClickTimeslot(timeslot);
                               setShowAddTimeslot(false);
@@ -141,7 +154,7 @@ function Timeslots() {
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '30%' }}
                             onClick={() => {
                               handleNoDeleteClickTimeslot(timeslot);
                               setShowUpdateTimeslot(false);
@@ -167,12 +180,17 @@ function Timeslots() {
             {/* Laboratory */}
             <h3>Laboratory</h3>
             {isAdmin && ( 
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
+              <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'-5px',left:'5px'}}>
+                   Add
+                 </label>
+              <img src={add} alt="add icon" style={{top:'-5px',position:'relative' ,width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
                  onClick={() => {handleNoClickTimeslot2();
                   setShowUpdateTimeslot(false);
                   setShowDeleteTimeslot(false)}}
                   title='Add Time'
                   />
+                  </div>
             )} 
             </div>
 
@@ -193,11 +211,20 @@ function Timeslots() {
                       
                       {isAdmin && (
                         <td>
-                        
+                          <div style={{top:'-2px',position:'relative',flex:'1',display:'flex',flexDirection:'row'}}>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative',marginRight:'12px'}}>
+                      Edit
+                    </label>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative'}}>
+                      Delete
+                    </label>
+                    </div>
+
+
                           <img
                             src={editicon}
                             alt="edit icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '19px', height: '19px', cursor: 'pointer', marginTop: '5px' }}
                             onClick={() => {
                               handleCancelClickTimeslot2(timeslot);
                               setShowAddTimeslot(false);
@@ -205,11 +232,10 @@ function Timeslots() {
                             }}
                             title='Edit Time'
                           />
-
                           <img
                             src={deleteicon}
                             alt="delete icon"
-                            style={{ width: '20px', height: '20px', cursor: 'pointer', marginTop: '10px', marginLeft: '25%' }}
+                            style={{ width: '19px', height: '19px', cursor: 'pointer', marginTop: '10px', marginLeft: '30%' }}
                             onClick={() => {
                               handleNoDeleteClickTimeslot2(timeslot);
                               setShowUpdateTimeslot(false);

@@ -284,7 +284,9 @@ const formattedTime = (timeString) => {
                 <th>Lecture Schedule</th>
                 <th>Laboratory Schedule</th>
                 <th>Conflict</th>
+                {!isAdmin &&(
                 <th>Action</th>
+                )}
                 </tr>
               </thead>
               <tbody>
@@ -378,10 +380,23 @@ const formattedTime = (timeString) => {
                             conflict.roomname === schedule.lecture_roomname
                           ) &&  !isConflict && !isTimeConflict && <p>No conflict</p>}
                       </td>
-                      <td>{!isAdmin && (
-                          <img src={editicon} alt="edit icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
-                          onClick={() => {handleCancelClickSchedule(schedule);}}/>
-                          )}</td>
+
+                      {!isAdmin && (
+                        <td>
+                           <div style={{top:'-2px',position:'relative',flex:'1',display:'flex',flexDirection:'row'}}>
+                    <label style={{fontWeight:'bold',fontSize:'15px',position:'relative',left:'10px'}}>
+                      Edit
+                    </label>
+
+                    </div>
+
+                    <img src={editicon} alt="edit icon" style={{ width: '23px', height: '23px', marginLeft: '10px', cursor: 'pointer' }} 
+                    onClick={() => {handleCancelClickSchedule(schedule);}}
+                    title='Edit Schedule'
+                    />
+                    </td>
+                          )}
+
                     </tr>
                   );
                 })}

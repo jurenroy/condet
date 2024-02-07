@@ -213,13 +213,13 @@ Headed {
     border-collapse: collapse;
     width: 100%;
     border: 1px solid #ccc;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   
   .schedule-table th,
   .schedule-table td {
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 5px;
     text-align: left;
   }
   

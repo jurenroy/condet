@@ -89,18 +89,26 @@ function Sidebar() {
     <div style={{ backgroundColor: '#060e57', width: '15%', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
         <img src={list} alt="list icon" style={{ width: '25px', height: '25px', position: 'absolute', marginLeft: '-100px' }} />
-        <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '10px' }}>Courses</h3>
+        <h3 style={{ color: 'white', marginTop: '0px', marginLeft: '35px' }}>Courses</h3>
         {isAdmin && (
+         
         <img 
           src={add}
           alt="add icon" 
-          style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '110px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', position: 'absolute' }} 
+          style={{ width: '20px', height: '20px', marginTop: '1px', marginLeft: '10px', borderRadius: '50%', border: '2px solid white', cursor: 'pointer', position: 'relative' }} 
           onClick={handleNoClick}
           title='Add Program'
         />
         )}
         {showAdd  ? <AddCourse setShowAdd={setShowAdd} handleNoClick={handleNoClick} /> : null}
       </div>
+        {isAdmin &&(
+        <label style={{cursor:'pointer',fontSize:'12px',position:'relative',top:'-60px',left:'57px',fontWeight:'bold',color:'white'}}>
+          Add 
+        </label>
+      )}
+
+
       <ul style={{ listStyleType: 'none', marginLeft: '-40%', width: '60%' }}>
         {courseData.map(course => {
           // Check if the college of the course matches the college in the Redux state
@@ -109,24 +117,30 @@ function Sidebar() {
           if (isMatchingCollege) {
             return (
               <li key={course.courseID}  style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '140%', marginLeft: '0%'}}>
-                  <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>
-                  
-                  {!isAdmin && (
 
-                  <img 
+                 
+  
+                <div style={{ backgroundColor: selectedCourse === course.id ? 'yellow' : 'gold', marginBottom: '20px', borderRadius: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px', width: '140%', marginLeft: '0%'}}>
+                  <span style={{ cursor: 'pointer', fontSize: '20px', fontWeight: 'bold' }} onClick={() => [navigateToRooms(course), handleYearClick('')]}>{course.abbreviation}</span>               
+                  {!isAdmin && (
+                    <div style={{display:'flex',flexDirection:'column'}}>
+                    <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold'}}>
+                      Generate
+                    </label>
+
+                    <img 
                     src={generate} 
                     alt="generate icon" 
-                    style={{ width: '25px', height: '25px', marginRight: '10px', cursor: 'pointer' }} 
+                    style={{ width: '25px', height: '25px', marginLeft: '15px', cursor: 'pointer' }} 
                     onClick={() => { 
                       handleAutomateClick(course);    
                     }}
                     title='Generate Schedule'
                   />
+                  </div>
                   )}
                   
                   {isAdmin && (
-
                     <img 
                       src={edit} 
                       alt="edit icon" 
@@ -137,21 +151,27 @@ function Sidebar() {
                       title='Edit'
                     />
                     )}
-                  
+
                   {isAdmin && (
+                    <div style={{display:'flex',flexDirection:'column'}}>
+                    <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold'}}>
+                      Delete
+                    </label>
+
                   <img 
                     src={add2} 
                     alt="add icon" 
-                    style={{width: '25px', height: '25px', marginRight: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', transform: 'rotate(45deg)' }}
+                    style={{width: '25px', height: '25px', marginLeft: '5px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', transform: 'rotate(45deg)' }}
                     onClick={() => {
                       handleNoDeleteClick(course)
                   }}  
                   title='Delete Program'
                   />
+                  </div>
                   )}
                    
                 </div>
-  
+               
                 {/* Show years only if the course is selected */}
                 {selectedCourse === course.courseID && (
                   <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: '-17px', marginBottom: '15px', marginLeft: '25%' }}>

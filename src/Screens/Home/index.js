@@ -177,7 +177,11 @@ function Home() {
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <h1>Subjects</h1>
             {isAdmin && (
-            <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px' }}
+              <div style={{display:'flex',flexDirection:'column'}}>
+              <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'15px',left:'15px'}}>
+                Add
+              </label>
+            <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '17px', marginLeft: '15px' }}
             onClick={() => {handleNoClickSubject();
               setShowUpdateSubject(false);
               setShowDeleteSubject(false)
@@ -185,8 +189,12 @@ function Home() {
               setShowDeleteInstructor(false);
               setShowUpdateInstructor(false);
             }}
-            title='Add Subject'/>
+            title='Add Subject'/> 
+            </div>
             )}
+
+            
+
             <select
               style={{ height: '30px', borderRadius: '10px', fontSize: '18px', marginTop: '30px', marginLeft: '20px' }}
               value={course} // Make sure you have a state variable 'course' to store the selected course ID
@@ -248,7 +256,11 @@ function Home() {
                     }}
                     title='Edit Subject'/>
                     
-                    <img src={deleteicon} alt="delete icon" style={{ width: '20px', height: '20px', marginLeft: '5px', cursor: 'pointer' }} 
+                    <div style={{top:'-10px',position:'relative',flex:'1',display:'flex',flexDirection:'column', width:'1px'}}>
+                    <label style={{fontWeight:'bold',fontSize:'10px',left:'10px',position:'relative'}}>
+                      Delete
+                    </label>
+                    <img src={deleteicon} alt="delete icon" style={{ width: '17px', height: '17px', marginLeft: '15px', cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickSubject(subject);
                       setShowUpdateSubject(false);
                       setShowAddSubject(false)
@@ -257,7 +269,7 @@ function Home() {
                       setShowUpdateInstructor(false);
                       }}
                       title='Delete Subject'/>
-                      
+                      </div>
                       </td>
                     )}
                   
@@ -269,7 +281,11 @@ function Home() {
             <div style={{display: 'flex', flexDirection: 'row'}}>
             <h1>Instructor List</h1>
             {isAdmin && (
-              <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '32px', marginLeft: '15px'}}
+              <div style={{display:'flex',flexDirection:'column'}}>
+              <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'15px',left:'15px'}}>
+                Add
+              </label>
+              <img src={add} alt="add icon" style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer', marginTop: '17px', marginLeft: '15px'}}
               onClick={() => {handleNoClickInstructor();
                 setShowUpdateInstructor(false);
                 setShowDeleteInstructor(false)
@@ -278,6 +294,7 @@ function Home() {
                 setShowUpdateSubject(false);
               }}
               title='Add Instructor'/>
+              </div>
             )}
             </div>
             {showAddInstructor ? <AddInstructor setShowAddInstructor={setShowAddInstructor} handleNoClickInstructor={handleNoClickInstructor} /> : null}
@@ -297,7 +314,16 @@ function Home() {
                     
                     {isAdmin && (
                   <td>
-                    <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                    <div style={{top:'-2px',position:'relative',flex:'1',display:'flex',flexDirection:'row'}}>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative',marginRight:'12px'}}>
+                      Edit
+                    </label>
+                    <label style={{fontWeight:'bold',fontSize:'10px',position:'relative'}}>
+                      Delete
+                    </label>
+                    </div>
+                    
+                    <img src={editicon} alt="edit icon" style={{ widths: '15px', height: '15px', cursor: 'pointer',marginRight:'25px'}} 
                     onClick={() => {handleCancelClickInstructor(instructor);
                       setShowAddInstructor(false);
                       setShowDeleteInstructor(false)
@@ -306,9 +332,8 @@ function Home() {
                       setShowUpdateSubject(false);}}
                       title='Edit Instructor'
                       />
-
-                    
-                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }} 
+                   
+                    <img src={deleteicon} alt="delete icon" style={{ width: '15px', height: '15px',top:'10px' ,cursor: 'pointer' }} 
                     onClick={() => {handleNoDeleteClickInstructor(instructor);
                       setShowUpdateInstructor(false);
                       setShowAddInstructor(false)
@@ -316,7 +341,9 @@ function Home() {
                       setShowDeleteSubject(false)
                       setShowUpdateSubject(false)}}
                       title='Delete Instructor'/>
+                    
                       </td>
+
                     )}
                   </tr>
                 ))}

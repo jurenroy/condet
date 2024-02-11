@@ -142,7 +142,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
     
       return condition1 || condition2 || condition3;
     });
-
+// 
     if (isOverlap) {
       setError('Cannot insert between an existing time range.');
       return;

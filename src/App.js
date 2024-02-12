@@ -13,6 +13,7 @@ import RoomSchedule from './Screens/RoomSchedule';
 import ScheduleView from './Screens/ScheduleView';
 import InstructorSchedule from './Screens/InstructorSchedule';
 import UpdateAvailability from './Components/Magic';
+import BulkAdd from './Components/BulkAdd';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/schedule/:course/:year/:section" element={<ScheduleView/>} />
             <Route path="/schedule/instructor/:instructor" element={<InstructorSchedule/>} />
             <Route path="/registration" element={<Registration />} />
+            <Route path="/bulk" element={<BulkAdd />} />
           </Routes>
         </Router>
     </PersistGate>

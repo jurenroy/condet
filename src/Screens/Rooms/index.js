@@ -84,10 +84,17 @@ function Rooms() {
               {/* Lecture */}
               <h3>Lecture</h3>
               {isAdmin && (
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
+                 <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'-5px',left:'5px'}}>
+                   Add
+                 </label>
+   
+              <img src={add} alt="add icon" style={{top:'-5px',position:'relative' ,width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}} 
               onClick={() => {handleNoClickRooms();
                 setShowUpdateRooms(false);
-                setShowDeleteRooms(false)}}/>
+                setShowDeleteRooms(false)}}
+                title='Add Room'/>
+                </div>
                 )}
               
               
@@ -122,7 +129,10 @@ function Rooms() {
                       setShowDeleteRooms(false);
                             }}
                           />
-
+                          <div style={{top:'-10px',position:'relative',flex:'1',display:'flex',flexDirection:'column', width:'25px'}}>
+                            <label style={{fontWeight:'bold',fontSize:'10px',left:'-2px',position:'relative'}}>
+                              Delete
+                            </label>
                           <img
                             src={deleteicon}
                             alt="delete icon"
@@ -131,7 +141,9 @@ function Rooms() {
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
                             }}
+                            title='Delete Room'
                           />
+                          </div>
                           </td>
                       )}
                       
@@ -148,10 +160,17 @@ function Rooms() {
             {/* Laboratory */}
             <h3>Laboratory</h3>
             {isAdmin && ( 
-              <img src={add} alt="add icon" style={{ width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
+              <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'12px',position:'relative',fontWeight:'bold',top:'-5px',left:'5px'}}>
+                   Add
+                 </label>
+
+              <img src={add} alt="add icon" style={{top:'-5px',position:'relative', width: '15px', height: '15px', marginLeft: '10px', borderRadius: '50%', border: '2px solid black', cursor: 'pointer'}}
                  onClick={() => {handleNoClickRooms2();
                   setShowUpdateRooms(false);
-                  setShowDeleteRooms(false)}}/>
+                  setShowDeleteRooms(false)}}
+                  title='Add Room'/>
+              </div>
             )}
                 {showAddRooms ? <AddRooms setShowAddRooms={setShowAddRooms} handleNoClickRooms={handleNoClickRooms2} /> : null}
 
@@ -176,6 +195,7 @@ function Rooms() {
                       </td>
                       {isAdmin && (
                       <td>
+
                           <img
                             src={editicon}
                             alt="edit icon"
@@ -186,7 +206,10 @@ function Rooms() {
                       setShowDeleteRooms(false);
                             }}
                           />
-
+                          <div style={{top:'-10px',position:'relative',flex:'1',display:'flex',flexDirection:'column', width:'25px'}}>
+                            <label style={{fontWeight:'bold',fontSize:'10px',left:'-2px',position:'relative'}}>
+                              Delete
+                            </label>
                           <img
                             src={deleteicon}
                             alt="delete icon"
@@ -195,7 +218,9 @@ function Rooms() {
                       setShowUpdateRooms(false);
                       setShowAddRooms(false);
                             }}
+                            title='Delete Room'
                           />
+                          </div>
                           </td>
                       )}
                       

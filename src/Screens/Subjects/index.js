@@ -66,6 +66,10 @@ function Subjects() {
       >
         <h2 style={{ textAlign: 'center', margin: '0 10px' }}>Subjects</h2>
         {isAdmin && (
+          <div style={{display:'flex',flexDirection:'column'}}>
+          <label style={{cursor:'pointer',fontSize:'10px',position:'relative',fontWeight:'bold',top:'-1px',left:'-2px'}}>
+            Add
+          </label>
           <img
             src={add}
             alt="add icon"
@@ -81,7 +85,9 @@ function Subjects() {
               setShowUpdateSubject(false);
               setShowDeleteSubject(false);
             }}
+            title='Add Subjects'
           />
+          </div>
         )}
         {showAddSubject ? (
           <AddSubject setShowAddSubject={setShowAddSubject} handleNoClickSubject={handleNoClickSubject} />
@@ -120,16 +126,22 @@ function Subjects() {
                       setShowDeleteSubject(false);
                     }}
                   />
+                  <div style={{top:'-10px',position:'relative',flex:'1',display:'flex',flexDirection:'column'}}>
+                    <label style={{fontWeight:'bold',fontSize:'10px',left:'10px',position:'relative'}}>
+                      Delete
+                    </label>
                   <img
                     src={deleteicon}
                     alt="delete icon"
-                    style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                    style={{ width: '17px', height: '17px', marginLeft: '15px',cursor: 'pointer' }}
                     onClick={() => {
                       handleNoDeleteClickSubject(subject);
                       setShowUpdateSubject(false);
                       setShowAddSubject(false);
                     }}
+                    title='Delete Subjects'
                   />
+                  </div>
                 </td>
               )}
             </tr>

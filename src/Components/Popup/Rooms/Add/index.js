@@ -8,6 +8,8 @@ const AddRooms = (props) => {
   const [buildings, setBuildings] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState('');
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [roomDropdownEnabled, setRoomDropdownEnabled] = useState(false);
   const [buildingz, setBuildingz] = useState('');
   const [excludedRooms, setExcludedRooms] = useState([]);
@@ -84,6 +86,8 @@ const AddRooms = (props) => {
       if (buildingNumber.trim() === ''|| !selectedCourse || !selectedType) {
         setError('Please input a valid Building Number');
       }else{
+        setButtonDisabled(true); // Disable the button
+        setLoading(true);
 
     // Create FormData object
     const formData = new FormData();
@@ -106,6 +110,10 @@ const AddRooms = (props) => {
         } else {
           setError('An error occurred.');
         }
+      })
+      .finally(() => {
+        setButtonDisabled(false); // Re-enable the button after request completion
+        setLoading(false);
       });
     }
   };
@@ -213,7 +221,9 @@ const AddRooms = (props) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddRoom}>Add</button>
+        <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={handleAddRoom} disabled={isButtonDisabled} // Disable the button based on state
+      >
+        {isLoading ? 'Adding...' : 'Add'}</button>
         <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowAddRooms(false)}>Cancel</button>
       </div>
     </div>

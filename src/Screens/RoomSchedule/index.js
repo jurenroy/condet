@@ -118,6 +118,16 @@ function RoomSchedule() {
           <div>
             <h2 style={{ textAlign: 'center' }}>Schedule for Room:  {roomTitle}</h2>
 
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <label style={{ backgroundColor: 'red', height: '12px', width: '12px', marginRight: '4px',marginTop:'6px' }}></label>
+              <label style={{ marginLeft: '2px', fontWeight:'bold' }}>Not Available</label>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <label style={{ backgroundColor: 'green', height: '12px', width: '12px', marginRight: '4px',marginTop:'6px',marginBottom:'5px' }}></label>
+              <label style={{ marginLeft: '2px' ,marginBottom:'5px', fontWeight:'bold'}}>Available</label>
+            </div>
+
+
             {error ? (
             <p>{error}</p>
           ) : sortedRoomSlots.length === 0 ? (

@@ -161,6 +161,10 @@ function Sections() {
           </span>
           {index === filteredSections.length - 1 &&
             filteredSections.length !== 1 && (
+              <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'10px',position:'relative',fontWeight:'bold',top:'-1px',left:'-3px'}}>
+                   Delete
+                 </label>
               <img
                 src={add}
                 alt="add icon"
@@ -171,16 +175,24 @@ function Sections() {
                   borderRadius: '50%',
                   border: '2px solid black',
                   cursor: 'pointer',
+                  left:'-10px',
+                  position:'relative',
                   marginLeft: 'auto',
                   transform: 'rotate(45deg)',
                 }}
+                title='Delete Section' 
               />
+              </div>
             )}
         </div>
       ))}
       {filteredSections.length === 0 ||
       (filteredSections.length > 0 &&
         filteredSections[filteredSections.length - 1].sectionnumber !== 1) ? (
+          <div style={{display:'flex',flexDirection:'column'}}>
+                 <label style={{cursor:'pointer',fontSize:'10px',position:'relative',fontWeight:'bold',top:'-1px',left:'2px'}}>
+                   Add
+                 </label>
         <img
           src={add}
           alt="add icon"
@@ -191,10 +203,12 @@ function Sections() {
             borderRadius: '50%',
             border: '2px solid black',
             cursor: 'pointer',
-            marginTop: '7px',
+            marginTop: '2px',
             marginLeft: '3px',
           }}
+          title='Add Section'
         />
+        </div>
       ) : (
         <span
           style={{

@@ -315,13 +315,20 @@ async function fetchScheduleDataForSearch(searchQuery) {
 
                         {!isAdmin && (
                           <td>
+                              <div style={{top:'-2px',position:'relative',flex:'1',display:'flex',flexDirection:'row'}}>
+                    <label style={{fontWeight:'bold',fontSize:'15px',position:'relative',left:'10px'}}>
+                      Edit
+                    </label>
+
+                    </div>
                             <img
                               src={editicon}
                               alt="edit icon"
-                              style={{ width: '15px', height: '15px', marginLeft: '10px', cursor: 'pointer' }}
+                              style={{width: '23px', height: '23px', marginLeft: '10px', cursor: 'pointer' }}
                               onClick={() => {
                                 handleCancelClickSchedule(schedule);
                               }}
+                              title='Edit Schedule'
                             />
                           </td>
                         )}

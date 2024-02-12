@@ -23,6 +23,7 @@ function App() {
         <UpdateAvailability />  {/*Include the UpdateAvailability component */}
           <Routes>
             <Route path="/" element={<Index/>} />
+            <Route path="/bulk" element={<BulkAdd />} />
             <Route path="/:course/" element={<Course/>} /> 
             <Route path="/:course/:year" element={<Year/>} />
             <Route path="/instructor/:instructor" element={<Instructor/>} />
@@ -31,7 +32,6 @@ function App() {
             <Route path="/schedule/:course/:year/:section" element={<ScheduleView/>} />
             <Route path="/schedule/instructor/:instructor" element={<InstructorSchedule/>} />
             <Route path="/registration" element={<Registration />} />
-            <Route path="/bulk" element={<BulkAdd />} />
           </Routes>
         </Router>
     </PersistGate>

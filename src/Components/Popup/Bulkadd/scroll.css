@@ -1,0 +1,12 @@
+/* Style the scrollbar track */
+::-webkit-scrollbar {
+    width: 0px; /* Adjust the width of the scrollbar */
+    }
+   
+   ::-webkit-scrollbar-track {
+    background: red; /* Color of the track */
+   }
+   
+
+   
+   

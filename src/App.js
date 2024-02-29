@@ -13,7 +13,8 @@ import RoomSchedule from './Screens/RoomSchedule';
 import ScheduleView from './Screens/ScheduleView';
 import InstructorSchedule from './Screens/InstructorSchedule';
 import UpdateAvailability from './Components/Magic';
-import BulkAdd from './Components/BulkAdd';
+import BulkAdd from '../src/Components/BulkAdd/index'
+
 
 function App() {
   return (

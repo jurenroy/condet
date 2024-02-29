@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { selectCourse, selectYear } from '../Redux/Auth/AuthSlice';
 import EditSemester from '../Popup/Semester';
+import Bulkssss from '../Popup/Bulkadd';
 
 function Navbar() {
   const selectedCourse = useSelector((state) => state.auth.course);
@@ -12,6 +13,7 @@ function Navbar() {
   const selectedSemester = useSelector((state) => state.auth.semester);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
   const [showUpdate  , setShowUpdate] = useState(false)
+  const [showBulkAdd, setShowBulkAdd] = useState(false)
   const [courseAbbreviation, setCourseAbbreviation] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,6 +21,11 @@ function Navbar() {
 
   const handleCancelClick = () => {
     setShowUpdate(prevShow => !prevShow);
+    console.log('agay')
+  }
+
+  const handleCancelBulk = () => {
+    setShowBulkAdd(prevShow => !prevShow);
     console.log('agay')
   }
 
@@ -119,8 +126,16 @@ function Navbar() {
         </>
       )}
 
+    
+
       {selectedSemester && isAdmin && (
-                      <><div style={{position: 'absolute', width: 'auto', display: 'flex', flexDirection: 'row', right: '15px'}}>
+                      <>
+                      <div style={{position: 'absolute', width: 'auto', display: 'flex', flexDirection: 'row', right: '15px'}}>
+                      <div>
+                      <button style={{ marginRight: '10px' ,marginTop: '10px',color: '#AAAAAA',border: 'none', background: 'none', padding: 0, cursor: 'pointer' }} onClick={() => {handleCancelBulk();}}>
+                        Bulk Add
+                      </button>
+                      </div>
                         <h3 style={{ marginLeft: '5px', marginTop: '5px', color: '#AAAAAA' }}>{selectedSemester}</h3>
                         <button style={{ border: 'none', background: 'none', padding: 0, cursor: 'pointer' }}>
                           <img
@@ -137,6 +152,11 @@ function Navbar() {
                       </>
                     )}
                     {showUpdate  ? <EditSemester setShowUpdate={setShowUpdate} handleNoClick={handleCancelClick} /> : null}
+                    {showBulkAdd ? (
+                    <div style={{display: 'flex', position:'relative', left:'-150px', top:'-60px'}}>
+                        <Bulkssss setShowBulkAdd={setShowBulkAdd} handleNoClick={handleCancelBulk} />
+                    </div>
+                    ) : null}
     </div>
   );
 }

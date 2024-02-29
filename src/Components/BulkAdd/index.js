@@ -11,6 +11,7 @@ function BulkAdd() {
 
     // Array for courses
     const [course, setCourse] = useState([]);
+    const [courses, setCourses] = useState([]);
     const [showAddCourses, setShowAddCourses] = useState(false);
     const [showCourses, setShowCourses] = useState(false);
 
@@ -31,6 +32,7 @@ function BulkAdd() {
           const courselistData = courselistResponse.data.filter(courseItem => courseItem.college === parseInt(selectedCollege));
           const courselangData = courselangResponse.data.filter(courseItem => courseItem.college === parseInt(selectedCollege));
           setCoursejud(courselistData);
+          setCourses(courselangData);
           // Extract course names from courselangData
           const courselangNames = courselangData.map(courseItem => courseItem.coursename);
         
@@ -349,20 +351,38 @@ const handleToggleAddSubjects = () => {
     setShowAddSubjects(false);
   };
 
-  const handleCheckboxChangeSubject = (selectedSubject) => {
-    // Check if the course is already in the array
-    if (subjects.includes(selectedSubject)) {
-      // If it is, remove it
-      setSubjects(subjects.filter(item => item !== selectedSubject));
-    } else {
-      // If it's not, add it
-      setSubjects([...subjects, selectedSubject]);
-    }
-  };
+// Function to handle adding or removing a subject
+const handleCheckboxChangeSubject = (selectedSubject) => {
+  // Check if the subject is already added by comparing IDs
+  const isAlreadyAdded = subjects.some(subject => subject === selectedSubject);
 
+  if (isAlreadyAdded) {
+      // If subject is already added, remove it
+      setSubjects(prevSubjects => prevSubjects.filter(subject => subject !== selectedSubject));
+  } else {
+      // If subject is not added, add it
+      setSubjects(prevSubjects => [...prevSubjects, selectedSubject]);
+  }
+};
+
+  
   console.log(subjectlist)
 
- 
+  // Add state variables for showing all subjects or limited subjects
+  const [showExistingSubjects, setShowExistingSubjects] = useState(false);
+
+  // Function to toggle showing all subjects or limited subjects
+  const toggleShowExistingSubjects = () => {
+      setShowExistingSubjects(!showExistingSubjects);
+  };
+
+  // Add state variables for showing all subjects or limited subjects
+  const [showToBeAddedSubjects, setShowToBeAddedSubjects] = useState(false);
+
+  // Function to toggle showing all subjects or limited subjects
+  const toggleShowToBeAddedSubjects = () => {
+      setShowToBeAddedSubjects(!showToBeAddedSubjects);
+  };
 
     
   return (
@@ -696,42 +716,55 @@ const handleToggleAddSubjects = () => {
             ))}
           </div>
         </div>
-        <table>
-  <thead>
-    <tr>
-      <th>Subject</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {subjectlist
-      .filter(subjectItem => subjectItem.year === selectedYear && subjectItem.course === selectedCourse && subjectItem.semester === selectedSemester)
-      .map((subjectItem, index) => (
-        <tr key={index}>
-          <td>{subjectItem.subjectname}</td>
-          <td>
-            <button
-              onClick={() => handleCheckboxChangeSubject(subjectItem.subjectID)}
-            >
-              {subjects.includes(subjectItem.subjectname) ? 'Remove' : 'Add'}
-            </button>
-          </td>
-        </tr>
-      ))}
-  </tbody>
-</table>
-
+        {/* Display subject list */}
+        <table className='schedule-table'>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {subjectlist
+                        .filter(subjectItem => subjectItem.year === selectedYear && subjectItem.course === selectedCourse && subjectItem.semester === selectedSemester)
+                        .filter(subjectItem => !subjectlang.some(langSubject => langSubject.subjectname === subjectItem.subjectname))
+                        .map((subjectItem, index) => (
+                            <tr key={index}>
+                                <td>{subjectItem.subjectname}</td>
+                                <td>
+                                    {/* Button to add or remove subject */}
+                                    <button onClick={() => handleCheckboxChangeSubject(subjectItem.subjectlistID)}>
+                                        {subjects.includes(subjectItem.subjectlistID) ? 'Remove' : 'Add'}
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
         </div>
       )}
       
       {showSubjects && subjectlang.length > 0 && (
+      <div style={{display: 'flex', flexDirection: 'row'}}>
       <h3>Existing Subjects</h3>
+      <button style={{height: '28px', marginTop: '18px', marginLeft: '5px'}}
+      onClick={toggleShowExistingSubjects}>
+                    {showExistingSubjects ? 'Less' : 'More'}
+                </button>
+      </div>
       )}
-       {showSubjects && (
+       {showSubjects && showExistingSubjects && (
   <ul>
-    {combinedCourses.map(combinedCourse => {
+    {courses.map(coursezz => {
       // Find the corresponding courseID from courselang
-      const courseID = courselang.filter(course => course.coursename === combinedCourse)?.courseID;
+      const courseID = coursezz.courseID
+      console.log(courseID)
+      console.log(courses) //all courses of the college nga existing lang
+      console.log(course) //to be added
+      console.log(courselist) //not added yet
+      console.log(coursejud) //all courselists of the college
+      console.log(courselang) //coursename lang sa existing
+      console.log(combinedCourses) //courselistID sa existing and to be added
       
       // Filter subjectlang based on courseID
       return subjectlang
@@ -744,14 +777,22 @@ const handleToggleAddSubjects = () => {
 )}
 
       {showSubjects && subjects.length > 0 && (
+      <div style={{display: 'flex', flexDirection: 'row'}}>
       <h3>To be Added Subjects</h3>
+      <button style={{height: '28px', marginTop: '18px', marginLeft: '5px'}}
+      onClick={toggleShowToBeAddedSubjects}>
+                    {showToBeAddedSubjects ? 'Less' : 'More'}
+                </button>
+      </div>
       )}
-       {showSubjects && (
-      <ul>
-        {subjects.map((subject, index) => (
-          <li key={index}>{subject}</li>
-        ))}
-      </ul>
+       {showSubjects && showToBeAddedSubjects && (
+        <ul>
+        {subjectlist
+            .filter(subject => subjects.some(item => item === subject.subjectlistID))
+            .map((subject, index) => (
+                <li key={index}>{subject.subjectname}</li>
+            ))}
+    </ul>
       )} 
     </div>
 

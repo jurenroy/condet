@@ -6,6 +6,7 @@ import axios from 'axios';
 // Define a functional component called MyComponent using function declaration
 function BulkAdd() {
 
+
     const selectedCollege = useSelector(state => state.auth.college);
     const selectedSemester = useSelector(state => state.auth.semester);
 
@@ -387,6 +388,9 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
     
   return (
     <div>
+      {!courselist.length > 0 && (
+      <h1>Loading pa na sya ulol</h1>
+      )}
     <div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <h2>Courses:</h2>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import exit from '../../../Assets/exit.png';
 import './scroll.css'
 
 
@@ -456,8 +457,18 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                 borderTopRightRadius:'8px',
                 borderTopLeftRadius:'8px',
                 padding: '20px',
+                display:'flex',
+                flexDirection:'row',
+                justifyContent:'space-evenly'
             }}>
                 <h2 style={{marginTop:'-2px',color:'white'}}>Bulk Add </h2>
+                <img 
+                    src={exit} 
+                    alt="add icon" 
+                    style={{width: '25px', height: '25px', marginLeft: '560px', borderRadius: '50%', border: '2px solid white',backgroundColor:'transparent' , cursor: 'pointer' }}
+                    onClick={() => props.setShowBulkAdd(false)}
+                  title='Exit Bulk'
+                  />
             </div>
             
             <div style={{
@@ -473,21 +484,25 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
 
             <div  style={{ overflowY: 'scroll', maxHeight: '412.4px', display:'flex', flexDirection:'column'}}>
                 {!courselist.length > 0 && (
-                    <h1 style={{marginTop:'40px', marginBottom:'-40px'}}>Loading pa na sya ulol</h1>
+                  
+                  <h1 style={{marginTop:'40px', marginBottom:'-40px',color:'red',textAlign:'center',justifyContent:'center'}}>Please wait loading....</h1>
+                  
                 )}
-                <div>
+                
+                <div > 
+                {courselist.length > 0 && (
                     <div style={{marginTop:'40px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Courses:</h2>
                         {showCourses && (
-                        <button style={{}} onClick={handleToggleAddCourses}>
+                        <button style={{height: '30px', marginLeft: '20px'}} onClick={handleToggleAddCourses}>
                             {showAddCourses ? 'Done Adding' : 'Add Courses'}
                         </button>
                         )}
-                        <button style={{  marginLeft: '20px' }} onClick={handleToggleShowCourses}>
+                        <button style={{height: '30px', marginLeft: '20px' }} onClick={handleToggleShowCourses}>
                             {showCourses ? 'Done Managing' : 'Manage Courses'}
                         </button>
                     </div>
-
+                )}
                     {showAddCourses && showCourses && (
                     <div>
                         <table className='schedule-table'>
@@ -550,8 +565,10 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                         )}
                     </div>
                 </div>
+
                 <div>
-                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                {courselist.length > 0 && (
+                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Rooms:</h2>
                         {showRooms && (
                             <button style={{ height: '30px', marginLeft: '20px' }} onClick={handleToggleAddRooms}>
@@ -562,6 +579,7 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                             {showRooms ? 'Done Managing' : 'Manage Rooms'}
                         </button>
                     </div>
+                )}
                     {showAddRooms && (
                         <div>
             
@@ -731,6 +749,7 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                     )}
                 </div>
                 <div>
+                {courselist.length > 0 && (
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Subjects:</h2>
                         {showSubjects && (
@@ -742,6 +761,7 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                         {showSubjects ? 'Done Managing' : 'Manage Subjects'}
                         </button>
                     </div>
+                )}
 
                     {showAddSubjects && showSubjects && (
                     <div>
@@ -874,11 +894,17 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                         </ul>
                         )} 
                 </div>
+              
+                
+                <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'40px'}}>
 
-                <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'30px'}}>
-                    <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowBulkAdd(false)}>Submit</button>       
+                    <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} 
+                    disabled={courselist.length === 0 ? true : false}
+                    onClick={() => props.setShowBulkAdd(false)}>Submit</button>     
+
                     <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowBulkAdd(false)}>Cancel</button>
                 </div>
+                
 
             </div>
         </div>

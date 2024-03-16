@@ -51,6 +51,196 @@ const Bulkssss = (props) => {
       fetchData();
     }, [selectedCollege, setCourselist, setCourselang]);
 
+
+    const submit = () => {
+      // Function to retrieve the course ID based on course name from coursejud
+      function getCourseID(courseName) {
+          return axios.get('https://classscheeduling.pythonanywhere.com/get_course_json/')
+              .then(response => {
+                  const courseID = response.data.filter(courseItem => courseItem.coursename === courseName)[0].courseID;
+                  return courseID;
+              })
+              .catch(error => {
+                  console.error('Error fetching course data:', error);
+                  throw error; // Propagate the error further
+              });
+      }
+  
+      function addCourse(courseItem) {
+        const formData = new FormData();
+        formData.append('course', courseItem);
+    
+        const abbreviation = coursejud.find(course => course.coursename === courseItem)?.abbreviation;
+        formData.append('coursename', courseItem);
+        formData.append('abbreviation', abbreviation);
+        formData.append('college', parseInt(selectedCollege));
+    
+        return axios.post('https://classscheeduling.pythonanywhere.com/add_course/', formData)
+            .then(response => {
+                console.log('Course added successfully:', response.data);
+                // Optionally, return any relevant data from the response
+                return response.data;
+            })
+            .catch(error => {
+                console.error('Error adding course:', error);
+                // Rethrow the error to propagate it further
+                throw error;
+            });
+    }
+    
+  
+      // Function to recursively add courses
+      function addCoursesRecursively(courses) {
+          if (courses.length === 0) {
+              // All courses added, exit recursion
+              return Promise.resolve();
+          } else {
+              const courseItem = courses.shift(); // Get and remove the first course
+              return addCourse(courseItem)
+                  .then(() => {
+                      // Course added successfully, continue adding the rest
+                      return addCoursesRecursively(courses);
+                  })
+                  .catch(error => {
+                      // Handle error
+                      console.error('Error adding course:', error);
+                      // Continue adding the rest of the courses even if one fails
+                      return addCoursesRecursively(courses);
+                  });
+          }
+      }
+  
+      // Function to add a single lecture room
+      function addLectureRoom(roomname) {
+        console.log(toBeAddedLectureRooms)
+        console.log(roomname)
+          const building = roomz.find(room => room.name === roomname)?.building;
+          if (!building) {
+              return Promise.reject('Building not found for the given room');
+          }
+  
+          const buildingID = buildingz.find(buildingItem => buildingItem.buildinglistID === building)?.name;
+          if (!buildingID) {
+              return Promise.reject('Building ID not found in buildingz');
+          }
+  
+          const formData = new FormData();
+          formData.append('roomname', roomname);
+          formData.append('building_number', buildingID);
+          formData.append('roomtype', 'Lecture');
+  
+          return axios.post(`https://classscheeduling.pythonanywhere.com/add_room/${parseInt(selectedCollege)}/`, formData);
+      }
+  
+      // Function to add a single lab room
+      function addLabRoom(roomname) {
+          const building = roomz.find(room => room.name === roomname)?.building;
+          if (!building) {
+              return Promise.reject('Building not found for the given room');
+          }
+  
+          const buildingID = buildingz.find(buildingItem => buildingItem.buildinglistID === building)?.name;
+          if (!buildingID) {
+              return Promise.reject('Building ID not found in buildingz');
+          }
+  
+          const formData = new FormData();
+          formData.append('roomname', roomname);
+          formData.append('building_number', buildingID);
+          formData.append('roomtype', 'Laboratory');
+  
+          return axios.post(`https://classscheeduling.pythonanywhere.com/add_room/${parseInt(selectedCollege)}/`, formData);
+      }
+  
+      // Function to recursively add rooms
+      function addRoomsRecursively(roomList, addRoomFunction) {
+          if (roomList.length === 0) {
+              // All rooms added, exit recursion
+              return Promise.resolve();
+          } else {
+              const room = roomList.shift(); // Get and remove the first room
+              return addRoomFunction(room)
+                  .then(() => {
+                      // Room added successfully, continue adding the rest
+                      return addRoomsRecursively(roomList, addRoomFunction);
+                  })
+                  .catch(error => {
+                      // Handle error
+                      console.error('Error adding room:', error);
+                      // Continue adding the rest of the rooms even if one fails
+                      return addRoomsRecursively(roomList, addRoomFunction);
+                  });
+          }
+      }
+  
+      // Function to process subjects one by one
+async function processSubjectsOneByOne(subjectsArray) {
+  for (const subjectID of subjectsArray) {
+      try {
+          // Find the subject in the subjects array
+          const foundSubject = subjectlist.find(subject => subject.subjectlistID === subjectID);
+          if (!foundSubject) {
+              console.error(`Subject not found for subjectlistID ${subjectID}`);
+              continue; // Skip to the next subject
+          }
+
+          // Find the corresponding course in coursejud
+          const foundCourse = coursejud.find(course => course.courselistID === foundSubject.course);
+          if (!foundCourse) {
+              console.error(`Course not found in coursejud for subjectlistID ${subjectID}`);
+              continue; // Skip to the next subject
+          }
+
+          // Get the course ID from the API
+          const courseID = await getCourseID(foundCourse.coursename);
+
+          // Construct the processed subject object
+          const processedSubject = {
+              year: foundSubject.year,
+              subjectcode: foundSubject.subjectcode,
+              subjectname: foundSubject.subjectname,
+          };
+
+          // Make axios post call to add subject
+          const response = await axios.post(`https://classscheeduling.pythonanywhere.com/add_subject/${courseID}/`, processedSubject);
+          console.log('Subject added successfully:', response.data);
+      } catch (error) {
+          console.error('Error processing subject:', error);
+      }
+  }
+}
+
+  
+      // Call the function to start adding courses
+      addCoursesRecursively(course)
+          .then(() => {
+              console.log('All courses added successfully');
+              // Perform any actions after all courses have been added
+  
+              // Call the function to start adding lecture rooms
+              return addRoomsRecursively(toBeAddedLectureRooms, addLectureRoom);
+          })
+          .then(() => {
+              console.log('All lecture rooms added successfully');
+              // Perform any actions after all lecture rooms have been added
+  
+              // Call the function to start adding lab rooms
+              return addRoomsRecursively(toBeAddedLabRooms, addLabRoom);
+          })
+          .then(() => {
+              console.log('All lab rooms added successfully');
+              // Perform any actions after all lab rooms have been added
+  
+              // Process the subjects
+              const processedSubjects = processSubjectsOneByOne(subjects);
+              console.log('All subjects processed:', processedSubjects);
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+  };
+
+
     const handleToggleAddCourses = () => {
         setShowAddCourses(!showAddCourses);
       };
@@ -120,6 +310,8 @@ const Bulkssss = (props) => {
         });
       };
       
+
+    
 
   const handleToggleAddRooms = () => {
     setShowAddRooms(!showAddRooms);
@@ -483,14 +675,14 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
             }}/>
 
             <div  style={{ overflowY: 'scroll', maxHeight: '412.4px', display:'flex', flexDirection:'column'}}>
-                {!courselist.length > 0 && (
+                {!coursejud.length > 0 && (
                   
                   <h1 style={{marginTop:'40px', marginBottom:'-40px',color:'red',textAlign:'center',justifyContent:'center'}}>Please wait loading....</h1>
                   
                 )}
                 
                 <div > 
-                {courselist.length > 0 && (
+                {coursejud.length > 0 && (
                     <div style={{marginTop:'40px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Courses:</h2>
                         {showCourses && (
@@ -567,7 +759,7 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                 </div>
 
                 <div>
-                {courselist.length > 0 && (
+                {coursejud.length > 0 && (
                     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Rooms:</h2>
                         {showRooms && (
@@ -749,7 +941,7 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                     )}
                 </div>
                 <div>
-                {courselist.length > 0 && (
+                {coursejud.length > 0 && (
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <h2>Subjects:</h2>
                         {showSubjects && (
@@ -899,8 +1091,8 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                 <div style={{display:'flex',flexDirection:'row', justifyContent:'space-evenly', marginTop:'40px'}}>
 
                     <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} 
-                    disabled={courselist.length === 0 ? true : false}
-                    onClick={() => props.setShowBulkAdd(false)}>Submit</button>     
+                    disabled={coursejud.length === 0 ? true : false}
+                    onClick={() => { props.setShowBulkAdd(false); submit(); }}>Submit</button>    
 
                     <button style={{ height: '35px', width: '30%', borderRadius: '10px', cursor: 'pointer' }} onClick={() => props.setShowBulkAdd(false)}>Cancel</button>
                 </div>

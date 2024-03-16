@@ -195,14 +195,16 @@ async function processSubjectsOneByOne(subjectsArray) {
           const courseID = await getCourseID(foundCourse.coursename);
 
           // Construct the processed subject object
-          const processedSubject = {
-              year: foundSubject.year,
-              subjectcode: foundSubject.subjectcode,
-              subjectname: foundSubject.subjectname,
-          };
+          const formData = new FormData();
+            formData.append('subjectcode', foundSubject.subjectcode);
+            formData.append('subjectname', foundSubject.subjectname);
+            formData.append('year', foundSubject.year);
+
+          console.log(formData)
+          console.log(courseID)
 
           // Make axios post call to add subject
-          const response = await axios.post(`https://classscheeduling.pythonanywhere.com/add_subject/${courseID}/`, processedSubject);
+          const response = await axios.post(`https://classscheeduling.pythonanywhere.com/add_subject/${courseID}/`, formData);
           console.log('Subject added successfully:', response.data);
       } catch (error) {
           console.error('Error processing subject:', error);

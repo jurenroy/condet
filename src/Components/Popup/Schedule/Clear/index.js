@@ -143,7 +143,6 @@ const ClearScheduleComponent = ({ selectedSchedule, selectedType }) => {
     // Send the updated schedule data to the Django backend using POST method
     axios.post(`https://classscheeduling.pythonanywhere.com/update_schedule/${parseInt(selectedSchedule)}/`, formData)
       .then((response) => {
-        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         // props.setShowUpdateSubject(false); // Close the update room form

@@ -9,7 +9,6 @@ const UpdateAvailability = () => {
   const updateAvailability = async () => {
     try {
       await axios.get('https://classscheeduling.pythonanywhere.com/update-availability/');
-      console.log('Availability updated successfully');
     } catch (error) {
       console.error('Error updating availability:', error);
     }

@@ -97,8 +97,7 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
           // Filter the data based on the selected college
           const filteredTimeslot = data.filter(timeslot => timeslot.college === parseInt(selectedCourseAbbreviation));
           // Sort the filteredTimeslot array based on starttime (earliest timeslot first)
-          console.log(data)
-          console.log(selectedCourseAbbreviation)
+          
           filteredTimeslot.sort((a, b) => a.starttime.localeCompare(b.starttime));
           setTimeslotData(filteredTimeslot);
         })
@@ -132,12 +131,10 @@ const handleMilitaryTimeChange2 = (militaryTime) => {
       const condition3 = starttime <= existingTimeslot.starttime && endtime >= existingTimeslot.endtime;
     
       if (condition1 || condition2 || condition3) {
-        console.log('Overlap condition triggered:');
-        if (condition1) console.log('Condition 1: New timeslot starts during the existing timeslot');
-        if (condition2) console.log('Condition 2: New timeslot ends during the existing timeslot');
-        if (condition3) console.log('Condition 3: New timeslot completely covers the existing timeslot');
-        console.log('Existing Timeslot:', existingTimeslot);
-        console.log('New Timeslot:', { starttime, endtime });
+        if (condition1)
+        if (condition2) 
+        if (condition3);
+        
       }
     
       return condition1 || condition2 || condition3;

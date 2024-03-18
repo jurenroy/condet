@@ -204,7 +204,6 @@ const UpdateSchedule = (props) => {
     // Send the updated schedule data to the Django backend using POST method
     axios.post(`https://classscheeduling.pythonanywhere.com/update_schedule/${parseInt(selectedSchedule)}/`, formData)
       .then((response) => {
-        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         // props.setShowUpdateSubject(false); // Close the update room form
@@ -416,7 +415,6 @@ const UpdateSchedule = (props) => {
             value={instructor} // Make sure you have a state variable 'course' to store the selected course ID
             onChange={(e) => {
               setInstructor(e.target.value); // Update the 'course' state with the selected ID
-              console.log(e.target.value)
             }}
           >
             <option value="">Select Instructor</option>
@@ -444,17 +442,13 @@ const UpdateSchedule = (props) => {
   value={`${lectureBuildingNumber} : ${lectureRoomName}`}
   onChange={(e) => {
     const combinedValue = e.target.value;
-    console.log('Combined Value:', combinedValue);
 
     if (combinedValue) {
       const [selectedBuildingNumber, selectedRoomName] = combinedValue.split(' : '); 
-      console.log('Selected Building Number:', selectedBuildingNumber);
-      console.log('Selected Room Name:', selectedRoomName);
       
       setLectureBuildingNumber(selectedBuildingNumber.trim());
       setLectureRoomName(selectedRoomName.trim());
     } else {
-      console.log('No combined value selected');
       setLectureBuildingNumber('');
       setLectureRoomName('');
     }

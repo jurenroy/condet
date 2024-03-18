@@ -84,7 +84,6 @@ const EditSemester = (props) => {
                 },
             })
             .then(response => {
-                console.log(response.data);
                 // setSuccessMessage(response.data.message);
                 // setErrorMessage('');
                 navigate('/');

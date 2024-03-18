@@ -91,7 +91,6 @@ const UpdateCourse = (props) => {
   
     axios.post(`https://classscheeduling.pythonanywhere.com/update_course/${selectedCourseAbbreviation}/`, formData)
       .then((response) => {
-        console.log(response.data);
         // Handle the response or perform any additional actions
         
         navigate('/');

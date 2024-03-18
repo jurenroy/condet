@@ -28,9 +28,6 @@ function Subjects() {
   const handleCancelClickSubject = (subject) => {
     setShowUpdateSubject((prevShow) => !prevShow);
     dispatch(selectSubject(subject.subjectID));
-    console.log(subject.subjectID);
-    console.log(selectedCourse);
-    console.log(selectedYear);
   };
 
   const handleNoDeleteClickSubject = (subject) => {

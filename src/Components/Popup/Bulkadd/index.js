@@ -77,7 +77,6 @@ const Bulkssss = (props) => {
     
         return axios.post('https://classscheeduling.pythonanywhere.com/add_course/', formData)
             .then(response => {
-                console.log('Course added successfully:', response.data);
                 // Optionally, return any relevant data from the response
                 return response.data;
             })
@@ -112,8 +111,6 @@ const Bulkssss = (props) => {
   
       // Function to add a single lecture room
       function addLectureRoom(roomname) {
-        console.log(toBeAddedLectureRooms)
-        console.log(roomname)
           const building = roomz.find(room => room.name === roomname)?.building;
           if (!building) {
               return Promise.reject('Building not found for the given room');
@@ -200,12 +197,10 @@ async function processSubjectsOneByOne(subjectsArray) {
             formData.append('subjectname', foundSubject.subjectname);
             formData.append('year', foundSubject.year);
 
-          console.log(formData)
-          console.log(courseID)
 
           // Make axios post call to add subject
+          // eslint-disable-next-line
           const response = await axios.post(`https://classscheeduling.pythonanywhere.com/add_subject/${courseID}/`, formData);
-          console.log('Subject added successfully:', response.data);
       } catch (error) {
           console.error('Error processing subject:', error);
       }
@@ -216,26 +211,23 @@ async function processSubjectsOneByOne(subjectsArray) {
       // Call the function to start adding courses
       addCoursesRecursively(course)
           .then(() => {
-              console.log('All courses added successfully');
               // Perform any actions after all courses have been added
   
               // Call the function to start adding lecture rooms
               return addRoomsRecursively(toBeAddedLectureRooms, addLectureRoom);
           })
           .then(() => {
-              console.log('All lecture rooms added successfully');
               // Perform any actions after all lecture rooms have been added
   
               // Call the function to start adding lab rooms
               return addRoomsRecursively(toBeAddedLabRooms, addLabRoom);
           })
           .then(() => {
-              console.log('All lab rooms added successfully');
               // Perform any actions after all lab rooms have been added
   
               // Process the subjects
+              // eslint-disable-next-line
               const processedSubjects = processSubjectsOneByOne(subjects);
-              console.log('All subjects processed:', processedSubjects);
           })
           .catch(error => {
               console.error('Error:', error);
@@ -411,10 +403,6 @@ const year = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
 const [selectedYear, setSelectedYear] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
 
-  console.log(subjects)
-  console.log(subjectjud)
-  console.log(subjectlist)
-  console.log(subjectlang)
 
 
 // Function to handle selecting a course
@@ -450,6 +438,7 @@ const handleYearSelect = (selectedyear) => {
             const courseNames = data.map(item => item.coursename);
             
             // Filtering out the course names that are in courselang
+            // eslint-disable-next-line
             const filteredCourseNames = courseNames.filter(courseName => course.includes(courseName));
             
             // Filtering the data array to get only the items whose coursenames are included in courselang
@@ -458,8 +447,6 @@ const handleYearSelect = (selectedyear) => {
             // Extracting the courselistIDs from the filtered courses
             const filteredCourseIDs = filteredCourses.map(course => course.courselistID);
             
-            console.log('Filtered Course Names:', filteredCourseNames);
-            console.log('Filtered Course IDs:', filteredCourseIDs);
             
             // Setting the filtered course IDs to courseInt state
             setCourseInt(filteredCourseIDs);
@@ -472,9 +459,11 @@ const handleYearSelect = (selectedyear) => {
           .then(response => response.json())
           .then(data => {
               // Extracting course names from the fetched data
+              // eslint-disable-next-line
           const courseNames = data.map(item => item.coursename);
           
           // Filtering out the course names that are in courselang
+          // eslint-disable-next-line
           const filteredCourseNames = courseNames.filter(courseName => courselang.includes(courseName));
           
           // Filtering the data array to get only the items whose coursenames are included in courselang
@@ -483,9 +472,6 @@ const handleYearSelect = (selectedyear) => {
           // Extracting the courselistIDs from the filtered courses
           const filteredCourseIDs = filteredCourses.map(course => course.courselistID);
           
-          console.log('Filtered Course Names:', filteredCourseNames);
-          console.log('Filtered Course IDssadasd:', filteredCourses);
-          console.log('Filtered Course IDs:', filteredCourseIDs);
           
           // Setting the filtered course IDs to courseInt state
           setCourseIntList(filteredCourseIDs);
@@ -562,7 +548,6 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
 };
 
   
-  console.log(subjectlist)
 
   // Add state variables for showing all subjects or limited subjects
   const [showExistingSubjects, setShowExistingSubjects] = useState(false);
@@ -1051,13 +1036,6 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
                             {courses.map(coursezz => {
                             // Find the corresponding courseID from courselang
                             const courseID = coursezz.courseID
-                            console.log(courseID)
-                            console.log(courses) //all courses of the college nga existing lang
-                            console.log(course) //to be added
-                            console.log(courselist) //not added yet
-                            console.log(coursejud) //all courselists of the college
-                            console.log(courselang) //coursename lang sa existing
-                            console.log(combinedCourses) //courselistID sa existing and to be added
                             
                             // Filter subjectlang based on courseID
                             return subjectlang

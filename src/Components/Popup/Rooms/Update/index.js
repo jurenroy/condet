@@ -105,7 +105,6 @@ const UpdateRoom = (props) => {
     axios
       .post(`https://classscheeduling.pythonanywhere.com/update_room/${selectedCourseAbbreviation}/${selectedRoom}/`, formData)
       .then((response) => {
-        console.log(response.data);
         window.location.reload();
         // Handle the response or perform any additional actions
         props.setShowUpdate(false); // Close the update room form

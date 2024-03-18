@@ -84,7 +84,6 @@ const AutomateSchedule = (props) => {
     if (selectedCourse) {
       axios.delete(`https://classscheeduling.pythonanywhere.com/automate_schedule/${selectedCourseAbbreviation}/`)
         .then((response) => {
-          console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the course list.

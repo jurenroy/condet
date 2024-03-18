@@ -54,7 +54,6 @@ const Login = () => {
         // Fetch user data from the server when the component mounts
         axios.get('https://classscheeduling.pythonanywhere.com/users/')
             .then(response => {
-            console.log(response.data)
             const fetchedUserlist = response.data; // Assuming the response contains user data
             setUserlist(fetchedUserlist);
           })
@@ -91,7 +90,6 @@ const Login = () => {
           })
             .then((response) => {
               // Check if the account is not activated based on the response
-              console.log(response.data.user)
               if (response.data && response.data.user && !response.data.user.is_active) {
                 setErrormsg('Account not activated');
                 // You may want to redirect the user to an activation page or handle it as needed

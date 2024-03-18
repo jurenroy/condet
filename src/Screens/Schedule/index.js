@@ -94,7 +94,6 @@ function Schedule() {
         );
 
         setScheduleData(filteredData);
-        console.log(filteredData)
       } catch (error) {
         console.error('Error fetching data:', error);
       }

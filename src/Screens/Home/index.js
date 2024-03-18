@@ -111,7 +111,6 @@ function Home() {
       .then((response) => {
         const filteredData = response.data.filter((course) => course.college === parseInt(collegee));
         setCourses(filteredData);
-        console.log(filteredData)
       })
       .catch((error) => {
         console.error('Error fetching courses:', error);
@@ -200,7 +199,6 @@ function Home() {
               value={course} // Make sure you have a state variable 'course' to store the selected course ID
               onChange={(e) => {
                 setCourse(e.target.value); // Update the 'course' state with the selected ID
-                console.log(e.target.value)
               }}
             >
             <option value="">Course</option>

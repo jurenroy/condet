@@ -62,7 +62,6 @@ const DeleteInstructor = (props) => {
     if (selectedInstructor) {
       axios.delete(`https://classscheeduling.pythonanywhere.com/delete_instructor/${selectedInstructor}/`)
         .then((response) => {
-          console.log(response.data);
           // Handle the response or perform any additional actions after successful deletion
           // For example, you can show a success message or update the UI to reflect the deletion.
           // You may also redirect the user to another page or update the instructor list.

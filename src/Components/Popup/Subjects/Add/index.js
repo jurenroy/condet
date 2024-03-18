@@ -179,7 +179,6 @@ const handleSubjectNameChange = e => {
     axios
       .post(`https://classscheeduling.pythonanywhere.com/add_subject/${selectedCourse}/`, formData)
       .then((response) => {
-        console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddSubject(false); // Close the add room form
         window.location.reload();
       })

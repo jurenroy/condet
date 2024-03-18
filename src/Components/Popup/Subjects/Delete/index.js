@@ -71,7 +71,6 @@ const DeleteSubject = (props) => {
     // Send the DELETE request to delete the room with the specified course abbreviation and room name
     axios.delete(`https://classscheeduling.pythonanywhere.com/delete_subject/${selectedCourseAbbreviation}/${selectedSubject}/`)
       .then((response) => {
-        console.log(response.data);
         // Handle the response or perform any additional actions
         props.setShowDeleteSubject(false); // Close the delete room form
         window.location.reload(); // Refresh the page after deleting the room

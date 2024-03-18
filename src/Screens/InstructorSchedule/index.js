@@ -65,7 +65,6 @@ function InstructorSchedule() {
     const value = event.target.value;
     setSelectedRoomType(value);
     // Call a function or perform actions here based on the selected value if needed
-    console.log('Selected Room Type:', value);
   };
 
   useEffect(() => {

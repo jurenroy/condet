@@ -82,7 +82,6 @@ const AddInstructor = (props) => {
       axios
         .post('https://classscheeduling.pythonanywhere.com/add_instructor/', formData)
         .then((response) => {
-          console.log(response.data);
           setErrorMessage('');
           window.location.reload();
         })

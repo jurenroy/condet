@@ -73,8 +73,6 @@ function RoomSchedule() {
         const filteredSlots = response.data.filter(slot => 
           slot.roomslottype === roomData.roomtype && slot.roomname === roomData.roomname && slot.building_number === roomData.building_number && slot.college === roomData.college
         );
-        console.log(response.data)
-        console.log(filteredSlots)
   
         setRoomSlots(filteredSlots);
         setError(null);
@@ -102,7 +100,6 @@ function RoomSchedule() {
 
   // Sort the room slots based on start time
   const sortedRoomSlots = sortRoomSlotsByTime(roomSlots);
-  console.log(sortedRoomSlots)
 
   const timeSlots = Array.from(new Set(sortedRoomSlots.map((slot) => `${slot.starttime} - ${slot.endtime}`)));
 
@@ -151,7 +148,6 @@ function RoomSchedule() {
                     <td>{timeSlot}</td>
                     {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => {
                       const slotForDay = sortedRoomSlots.find(slot => slot.day === day && `${slot.starttime} - ${slot.endtime}` === timeSlot);
-                      console.log(slotForDay)
 
                       return (
                         <td

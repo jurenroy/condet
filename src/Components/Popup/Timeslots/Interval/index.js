@@ -77,7 +77,6 @@ const convertToMinutes = (time) => {
       axios.post(`https://classscheeduling.pythonanywhere.com/add_timeslot/${selectedCollege}/`, formData)
         .then(response => {
           // Handle success or update state as needed
-          console.log(response.data);
           setShowConfirmation(true); // Show confirmation after successful addition
           window.location.reload();
         })
@@ -91,7 +90,6 @@ const convertToMinutes = (time) => {
 
   const showlang = () => {
     // Your logic to add timeslot
-    console.log('Adding timeslot...');
     // Once the logic is done, show the confirmation
     setShowConfirmation(true);
   };

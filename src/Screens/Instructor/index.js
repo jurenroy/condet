@@ -36,7 +36,6 @@ function Instructor() {
         // Filter instructors by college
         const filteredInstructors = response.data.filter((instructor) => instructor.college === parseInt(selectedCollege));
         setInstructors(filteredInstructors); // Store the filtered instructor names in state
-        console.log('Instructors:', filteredInstructors);
       })
       .catch((error) => {
         console.error('Error fetching instructor data:', error);

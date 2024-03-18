@@ -73,7 +73,6 @@ const Registration = () => {
       axios.get('https://classscheeduling.pythonanywhere.com/get_college_json/')
         .then(response => {
           setCollegeList(response.data);
-          console.log(response.data)
         })
         .catch(error => {
           console.error('Error fetching college list:', error);
@@ -84,7 +83,6 @@ const Registration = () => {
       // Fetch user data from the server when the component mounts
       axios.get('https://classscheeduling.pythonanywhere.com/users/')
           .then(response => {
-          console.log(response.data)
           const fetchedUserlist = response.data; // Assuming the response contains user data
           setUserlist(fetchedUserlist);
         })
@@ -131,7 +129,6 @@ const Registration = () => {
         setErrormsg('');
           createUserProfile(data)
             .then((response) => {
-              console.log('Registration successful:', response);
               navigate('/');
             })
             .catch((error) => {

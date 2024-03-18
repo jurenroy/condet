@@ -216,10 +216,6 @@ const year = ['First Year', 'Second Year', 'Third Year', 'Fourth Year'];
 const [selectedYear, setSelectedYear] = useState('');
   const [selectedCourse, setSelectedCourse] = useState('');
 
-  console.log(subjects)
-  console.log(subjectjud)
-  console.log(subjectlist)
-  console.log(subjectlang)
 
 
 // Function to handle selecting a course
@@ -255,6 +251,7 @@ const handleYearSelect = (selectedyear) => {
             const courseNames = data.map(item => item.coursename);
             
             // Filtering out the course names that are in courselang
+            // eslint-disable-next-line
             const filteredCourseNames = courseNames.filter(courseName => course.includes(courseName));
             
             // Filtering the data array to get only the items whose coursenames are included in courselang
@@ -263,8 +260,6 @@ const handleYearSelect = (selectedyear) => {
             // Extracting the courselistIDs from the filtered courses
             const filteredCourseIDs = filteredCourses.map(course => course.courselistID);
             
-            console.log('Filtered Course Names:', filteredCourseNames);
-            console.log('Filtered Course IDs:', filteredCourseIDs);
             
             // Setting the filtered course IDs to courseInt state
             setCourseInt(filteredCourseIDs);
@@ -280,6 +275,7 @@ const handleYearSelect = (selectedyear) => {
           const courseNames = data.map(item => item.coursename);
           
           // Filtering out the course names that are in courselang
+          // eslint-disable-next-line
           const filteredCourseNames = courseNames.filter(courseName => courselang.includes(courseName));
           
           // Filtering the data array to get only the items whose coursenames are included in courselang
@@ -288,9 +284,6 @@ const handleYearSelect = (selectedyear) => {
           // Extracting the courselistIDs from the filtered courses
           const filteredCourseIDs = filteredCourses.map(course => course.courselistID);
           
-          console.log('Filtered Course Names:', filteredCourseNames);
-          console.log('Filtered Course IDssadasd:', filteredCourses);
-          console.log('Filtered Course IDs:', filteredCourseIDs);
           
           // Setting the filtered course IDs to courseInt state
           setCourseIntList(filteredCourseIDs);
@@ -367,7 +360,6 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
 };
 
   
-  console.log(subjectlist)
 
   // Add state variables for showing all subjects or limited subjects
   const [showExistingSubjects, setShowExistingSubjects] = useState(false);
@@ -762,13 +754,6 @@ const handleCheckboxChangeSubject = (selectedSubject) => {
     {courses.map(coursezz => {
       // Find the corresponding courseID from courselang
       const courseID = coursezz.courseID
-      console.log(courseID)
-      console.log(courses) //all courses of the college nga existing lang
-      console.log(course) //to be added
-      console.log(courselist) //not added yet
-      console.log(coursejud) //all courselists of the college
-      console.log(courselang) //coursename lang sa existing
-      console.log(combinedCourses) //courselistID sa existing and to be added
       
       // Filter subjectlang based on courseID
       return subjectlang

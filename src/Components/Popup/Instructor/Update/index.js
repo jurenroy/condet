@@ -92,7 +92,7 @@ const UpdateInstructor = (props) => {
   
     axios.post(`https://classscheeduling.pythonanywhere.com/update_instructor/${selectedInstructor}/`, formData)
       .then((response) => {
-        console.log(response.data);
+        
         // Handle the response or perform any additional actions
         
         navigate('/');

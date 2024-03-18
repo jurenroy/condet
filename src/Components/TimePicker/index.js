@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const TimePicker = ({ onMilitaryTimeChange, militaryTimeProp }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
-  console.log('militaryTimeProp:', militaryTimeProp);
 
   const militaryTimePropValid = /^(\d{1,2}:\d{2} (AM|PM))$/.test(militaryTimeProp);
 

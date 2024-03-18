@@ -99,7 +99,6 @@ const AddRooms = (props) => {
     axios
       .post(`https://classscheeduling.pythonanywhere.com/add_room/${selectedCollege}/`, formData)
       .then((response) => {
-        console.log(response.data.message); // You can show this message to the user if needed
         props.setShowAddRooms(false); // Close the add room form
         window.location.reload();
       })

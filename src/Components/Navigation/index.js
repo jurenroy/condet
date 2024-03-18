@@ -21,12 +21,10 @@ function Navbar() {
 
   const handleCancelClick = () => {
     setShowUpdate(prevShow => !prevShow);
-    console.log('agay')
   }
 
   const handleCancelBulk = () => {
     setShowBulkAdd(prevShow => !prevShow);
-    console.log('agay')
   }
 
   const handleNavigateToHome = () => {

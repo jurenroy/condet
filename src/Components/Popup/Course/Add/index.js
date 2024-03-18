@@ -19,7 +19,6 @@ const AddCourse = (props) => {
         try {
           const response = await axios.get('https://classscheeduling.pythonanywhere.com/get_college_json/');
           const selectedCollege = response.data.find(collegeItem => collegeItem.collegeID === parseInt(college));
-          console.log(selectedCollege.abbreviation)
           setCabbreviation(selectedCollege.abbreviation)
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -49,7 +48,6 @@ const AddCourse = (props) => {
           // Filter out courses from courselistData that are already in courselangNames
           const filteredCourses = courselistData.filter(courseItem => !courselangNames.includes(courseItem.coursename));
         
-          console.log(filteredCourses);
           setCourselist(filteredCourses);
         
         } catch (error) {
@@ -129,7 +127,6 @@ const AddCourse = (props) => {
       axios
         .post('https://classscheeduling.pythonanywhere.com/add_course/', formData)
         .then(response => {
-          console.log(response.data);
           // setSuccessMessage(response.data.message);
           // setErrorMessage('');
           window.location.reload();

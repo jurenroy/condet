@@ -108,7 +108,6 @@ const NotAvailableRoomslot = (props) => {
   const [instructorName, setInstructorName] = useState(null);
 
   useEffect(() => {
-    console.log(scheduleData);
   
     // Check if scheduleData is not null before proceeding
     if (!scheduleData) {
